@@ -1,9 +1,6 @@
 package bg.softuni.clothing_store.model;
 
-import bg.softuni.clothing_store.model.enums.Cart;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "cart_items")

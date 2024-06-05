@@ -1,6 +1,5 @@
 package bg.softuni.clothing_store.model;
 
-import bg.softuni.clothing_store.model.enums.Cart;
 import bg.softuni.clothing_store.model.enums.PaymentType;
 import bg.softuni.clothing_store.model.enums.Status;
 import jakarta.persistence.*;
