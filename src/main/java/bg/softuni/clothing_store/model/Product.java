@@ -3,6 +3,7 @@ package bg.softuni.clothing_store.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,12 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
+    private String size;
+
+    @Column(nullable = false)
+    private String color;
+
+    @Column(nullable = false)
     private Double price;
 
     @Column(nullable = false)
@@ -34,10 +41,13 @@ public class Product {
     @OneToMany(targetEntity = Picture.class, mappedBy = "product")
     private Set<Picture> pictures;
 
-    @ManyToOne
-    private Category category;
+//    @ManyToOne
+//    private Category category
+    @ManyToOne(targetEntity = SubCategory.class)
+    private SubCategory subCategory;
 
     //#######################################################
+
 
     public Long getId() {
         return id;
@@ -61,6 +71,22 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Double getPrice() {
@@ -103,11 +129,11 @@ public class Product {
         this.pictures = pictures;
     }
 
-    public Category getCategory() {
-        return category;
+    public SubCategory getSubCategory() {
+        return subCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setSubCategory(SubCategory subCategory) {
+        this.subCategory = subCategory;
     }
 }

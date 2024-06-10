@@ -28,8 +28,8 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
+//    @Column(name = "birth_date")
+//    private LocalDate birthDate;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -43,14 +43,14 @@ public class User {
     @Column
     private String country;
 
-    @Column(nullable = false)
-    private boolean isActive;
+//    @Column(name = "is_active", nullable = false)
+//    private boolean isActive;
 
-    @Column(nullable = false)
-    private LocalDate created;
-
-    @Column(nullable = false)
-    private LocalDate modified;
+//    @Column(nullable = false)
+//    private LocalDate created;
+//
+//    @Column(nullable = false)
+//    private LocalDate modified;
 
     @ManyToOne
     private Role role;
@@ -109,13 +109,13 @@ public class User {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
+//    public LocalDate getBirthDate() {
+//        return birthDate;
+//    }
+//
+//    public void setBirthDate(LocalDate birthDate) {
+//        this.birthDate = birthDate;
+//    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -149,29 +149,29 @@ public class User {
         this.country = country;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public LocalDate getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDate created) {
-        this.created = created;
-    }
-
-    public LocalDate getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDate modified) {
-        this.modified = modified;
-    }
+//    public boolean isActive() {
+//        return isActive;
+//    }
+//
+//    public void setActive(boolean active) {
+//        isActive = active;
+//    }
+//
+//    public LocalDate getCreated() {
+//        return created;
+//    }
+//
+//    public void setCreated(LocalDate created) {
+//        this.created = created;
+//    }
+//
+//    public LocalDate getModified() {
+//        return modified;
+//    }
+//
+//    public void setModified(LocalDate modified) {
+//        this.modified = modified;
+//    }
 
     public Role getRole() {
         return role;
