@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>yours clothing</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navigation">
+        <ul>
+          <li class="nav-item">
+            <a class="nav-link" href="">Men</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">Women</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">Children</a>
+          </li>
+        </ul>
+
+        <ul>
+          <th:block class="auth-items" th:unless="${@currentUser.isLoggedIn()}">
+            <li class="nav-item">
+              <a class="nav-link" href="">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">Register</a>
+            </li>
+          </th:block>
+
+          <th:block class="auth-items" th:if="${@currentUser.isLoggedIn()}">
+            <li class="nav-item">
+              <a class="nav-link" href="">Cart</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="">Profile</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="">Logout</a>
+            </li>
+          </th:block>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">Administration</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">About</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="add-product">
+        <form
+          action="/administration/add-product"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <h4>Add new product</h4>
+
+          <div>
+            <div class="form-group">
+              <label for="inputName">Name:</label>
+            </div>
+
+            <div class="form-group">
+              <input
+                name="name"
+                required
+                minlength="5"
+                maxlength="20"
+                type="text"
+                id="inputName"
+                class="form-data form-name"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <label for="inputDescription">Description:</label>
+            </div>
+
+            <div class="form-group">
+              <input
+                name="description"
+                required
+                minlength="5"
+                maxlength="20"
+                type="text"
+                id="inputDescription"
+                class="form-data form-description"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <label for="inputPrice">Price:</label>
+            </div>
+
+            <div class="form-group">
+              <input
+                name="price"
+                required
+                minlength="5"
+                maxlength="20"
+                type="number"
+                id="inputprice"
+                class="form-data form-price"
+              />
+            </div>
+          </div>
+
+
+          <div>
+            <div class="form-group">
+              <label for="inputQuantity">Quantity:</label>
+            </div>
+
+            <div class="form-group">
+              <input
+                name="quantity"
+                required
+                minlength="5"
+                maxlength="20"
+                type="number"
+                id="inputQuantity"
+                class="form-data form-quantity"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <label for="inputColor">Color:</label>
+            </div>
+
+            <div class="form-group">
+              <select
+                name="color"
+                required
+                minlength="3"
+                maxlength="20"
+                type="text"
+                id="color"
+                class="form-data form-color"
+              >
+                <option value="color">red</option>
+                <option value="color">green</option>
+                <option value="color">blue</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group">
+              <label for="inputSize">Size:</label>
+            </div>
+
+            <div class="form-group">
+              <select
+                name="size"
+                required
+                minlength="1"
+                maxlength="20"
+                type="text"
+                id="size"
+                class="form-data form-select"
+              >
+                <option value="size">s</option>
+                <option value="size">m</option>
+                <option value="size">l</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <div class="form-radio">
+            <div>
+              <input
+                name="categories"
+                required
+                minlength="5"
+                maxlength="20"
+                type="radio"
+                id="categoryMen"
+                class="form-data form-radio"
+                value="men"
+              />
+              <label for="man">Men</label>
+            </div>
+
+            <div>
+              <input
+                name="categories"
+                required
+                minlength="5"
+                maxlength="20"
+                type="radio"
+                id="categoryWomen"
+                class="form-data form-radio"
+                value="women"
+              />
+              <label for="women">Women</label>
+            </div>
+          </div>
+
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

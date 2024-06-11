@@ -17,6 +17,9 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Double price;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
@@ -25,9 +28,6 @@ public class Product {
 
     @Column(nullable = false)
     private String color;
-
-    @Column(nullable = false)
-    private Double price;
 
     @Column(nullable = false)
     private int quantity;
