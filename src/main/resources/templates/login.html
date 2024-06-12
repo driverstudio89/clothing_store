@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>yours clothing</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+
+
+
+    <section class="login">
+
+        <form 
+        th:action="@{/users/login}"
+        method="POST">
+
+        <h4>Login</h4>
+        <!-- <p th:if="${loginError}" class="error">Wrong user or password</p> -->
+
+            <label for="username">Username:</label>
+            <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            autofocus="autofocus" />
+
+            <label for="password">Password:</label>
+
+            <input type="password" 
+            id="password" 
+            name="password" />
+
+            <input class="btn btn-link" type="submit" value="Log in" />
+          </form>
+    </section>
+
+  </body>
+</html>

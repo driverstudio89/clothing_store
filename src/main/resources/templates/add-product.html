@@ -62,7 +62,7 @@
       <section class="add-product">
         <form
           action="/administration/add-product"
-          method="post"
+          method="POST"
           enctype="multipart/form-data"
         >
           <h4>Add new product</h4>
@@ -120,7 +120,6 @@
               />
             </div>
           </div>
-
 
           <div>
             <div class="form-group">
@@ -184,17 +183,17 @@
             </div>
           </div>
 
-
+          <div class="form-group">
+            <label for="category">Category</label>
+          </div>
 
           <div class="form-radio">
             <div>
               <input
                 name="categories"
                 required
-                minlength="5"
-                maxlength="20"
                 type="radio"
-                id="categoryMen"
+                id="categories"
                 class="form-data form-radio"
                 value="men"
               />
@@ -205,10 +204,8 @@
               <input
                 name="categories"
                 required
-                minlength="5"
-                maxlength="20"
                 type="radio"
-                id="categoryWomen"
+                id="categories"
                 class="form-data form-radio"
                 value="women"
               />
@@ -216,6 +213,61 @@
             </div>
           </div>
 
+
+
+          
+          <div class="form-group">
+            <label for="subCategory">Sub Category</label>
+          </div>
+
+          <div class="form-checkbox">
+            <div>
+              <input
+                name="subCategories"
+                required
+                type="checkbox"
+                id="subCategories"
+                class="form-data form-radio"
+                value="shirt"
+              />
+              <label for="shirt">Shirt</label>
+            </div>
+
+            <div>
+              <input
+                name="categories"
+                required
+                type="checkbox"
+                id="subCategories"
+                class="form-data form-radio"
+                value="hoodie"
+              />
+              <label for="hoodie">Hoodie</label>
+            </div>
+            <div>
+              <input
+                name="categories"
+                required
+                type="checkbox"
+                id="subCategories"
+                class="form-data form-radio"
+                value="shorts"
+              />
+              <label for="shorts">Shorts</label>
+            </div>
+
+            <div>
+              <input
+                name="categories"
+                required
+                type="checkbox"
+                id="subCategories"
+                class="form-data form-radio"
+                value="jeans"
+              />
+              <label for="jeans">Jeans</label>
+            </div>
+          </div>
         </form>
       </section>
     </main>
