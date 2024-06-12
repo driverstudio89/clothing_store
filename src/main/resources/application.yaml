@@ -1,4 +1,10 @@
 spring:
+  thymeleaf:
+    check-template-location: true
+    cache: false
+  cache:
+    type: none
+
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: "jdbc:mysql://localhost:3306/clothing_store?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
@@ -34,3 +40,7 @@ spring:
   #api-key:
   #api-secret:
   #cloud-name:
+  web:
+    resources:
+      static-locations: file:./src/main/resources/static/
+

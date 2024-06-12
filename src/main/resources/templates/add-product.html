@@ -1,65 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>yours clothing</title>
-    <link rel="stylesheet" href="/static/css/styles.css" />
-  </head>
+<head th:replace="/fragments/head"></head>
   <body>
-    <header>
-      <nav class="navigation">
-        <ul>
-          <li class="nav-item">
-            <a class="nav-link" href="">Men</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="">Women</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="">Children</a>
-          </li>
-        </ul>
-
-        <ul>
-          <th:block class="auth-items" th:unless="${@currentUser.isLoggedIn()}">
-            <li class="nav-item">
-              <a class="nav-link" href="">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">Register</a>
-            </li>
-          </th:block>
-
-          <th:block class="auth-items" th:if="${@currentUser.isLoggedIn()}">
-            <li class="nav-item">
-              <a class="nav-link" href="">Cart</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="">Profile</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="">Logout</a>
-            </li>
-          </th:block>
-
-          <li class="nav-item">
-            <a class="nav-link" href="">Administration</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="">About</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+  <header th:replace="/fragments/header"></header>
 
     <main>
-      <section class="add-product">
+      <section class="form-data">
         <form
           action="/administration/add-product"
           method="POST"

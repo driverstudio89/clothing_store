@@ -76,18 +76,18 @@ header nav ul .nav-item {
 }
 
 
-.add-product h4 {
+.form-data h4 {
     font-size: 24px;
 }
 
-.add-product {
+.form-data {
     margin: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.add-product form{
+.form-data form{
     background-color: #F2F2F2;
     border-radius: 10px;
     padding: 50px 20px;
