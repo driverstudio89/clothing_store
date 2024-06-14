@@ -1,9 +1,13 @@
 spring:
-  thymeleaf:
-    check-template-location: true
+  thymeleaf: # Thymeleaf
     cache: false
-  cache:
-    type: none
+    mode: HTML
+    encoding: UTF-8
+    prefix: file:src/main/resources/templates/
+  resources: # Static resources
+    static-locations: file:src/main/resources/static/
+    cache:
+      period: 0
 
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -40,7 +44,5 @@ spring:
   #api-key:
   #api-secret:
   #cloud-name:
-  web:
-    resources:
-      static-locations: file:./src/main/resources/static/
+
 

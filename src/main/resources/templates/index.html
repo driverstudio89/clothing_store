@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/head"></head>
+<head th:replace="/fragments/head"></head>
 
 <body>
 <header th:replace="/fragments/header"></header>
@@ -8,70 +8,69 @@
 <main>
     <section class="last-products">
         <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
 
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
+            <div class="container justify-content-evenly">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img class="img-fluid" src="images/shirt.jpg" alt="shirt image">
+                        <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
+                    </div>
+                </div>
+            </div>
 
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
-
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
-
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
-
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
-
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
-
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
-        </article>
-
-        <article class="show-item">
-          <span>
-            <img class="item-img" src="images/shirt.jpg" alt="shirt image">
-            <p class="item-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam alias magni assumenda </p>
-          </span>
         </article>
 
 
     </section>
 </main>
+<section th:replace="/fragments/scripts"></section>
 </body>
 </html>
