@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head th:replace="/fragments/head"></head>
+<head th:replace="~{fragments/head}"></head>
 <body>
-<header th:replace="/fragments/header"></header>
 
+<header th:replace="~{fragments/header}"></header>
 
 <form
         th:action="@{/administration/add-product}"
         method="POST">
 
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-4 col-sm-5 col-lg-4">
             <div class="card">
                 <header class="card-header">
                     <h4 class="card-title mt-2">Add product</h4>
@@ -19,71 +19,69 @@
                     <form>
 
                         <div class="form-group">
-                            <label for="inputName">Name:</label>
+                            <label for="name">Name:</label>
                             <input type="text"
                                    class="form-control"
                                    required
                                    placeholder=""
-                                   id="inputName"
+                                   id="name"
                                    name="name"
                                    autofocus>
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
-                            <label for="inputDescription">Description:</label>
+                            <label for="description">Description:</label>
                             <input type="text"
                                    class="form-control"
                                    required
                                    placeholder=""
-                                   id="inputDescription"
+                                   id="description"
                                    name="description">
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
-                            <label for="inputPrice">Price:</label>
+                            <label for="price">Price:</label>
                             <input type="number"
                                    class="form-control"
                                    required
                                    placeholder=""
-                                   id="inputPrice"
-                                   name="inputPrice">
+                                   id="price"
+                                   name="price">
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
-                            <label for="inputQuantity">Quantity:</label>
+                            <label for="quantity">Quantity:</label>
                             <input type="number"
                                    class="form-control"
                                    required
                                    placeholder=""
-                                   id="inputQuantity"
-                                   name="inputQuantity">
+                                   id="quantity"
+                                   name="quantity">
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
-                            <label for="inputColor">Color:</label>
+                            <label for="color">Color:</label>
                             <Select type="text"
                                     class="form-control"
                                     required
-                                    placeholder=""
-                                    id="inputColor"
-                                    name="inputColor">
-                                <option value="color">red</option>
-                                <option value="color">green</option>
-                                <option value="color">blue</option>
+                                    id="color"
+                                    name="color">
+                                <option value="red">red</option>
+                                <option value="green">green</option>
+                                <option value="blue">blue</option>
                             </Select>
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
-                            <label for="inputSize">Size:</label>
+                            <label for="size">Size:</label>
                             <Select type="text"
                                     class="form-control"
                                     required
-                                    placeholder=""
-                                    id="inputSize"
-                                    name="inputSize">
-                                <option value="size">S</option>
-                                <option value="size">M</option>
-                                <option value="size">L</option>
+                                    id="size"
+                                    name="size">
+                                <option value="s">S</option>
+                                <option value="m">M</option>
+                                <option value="l">L</option>
                             </Select>
                         </div> <!-- form-group end.// -->
 
@@ -93,7 +91,7 @@
                                 <input
                                         class="form-check-input"
                                         type="radio"
-                                        name="gender"
+                                        name="category"
                                         value="men">
                                 <span class="form-check-label"> Man </span>
                             </label>
@@ -102,7 +100,7 @@
                                 <input
                                         class="form-check-input"
                                         type="radio"
-                                        name="gender"
+                                        name="category"
                                         value="women">
                                 <span class="form-check-label"> Women</span>
                             </label>
@@ -112,7 +110,7 @@
                             <label class="form-check form-check-inline">
                                 <input
                                         class="form-check-input"
-                                        type="checkbox"
+                                        type="radio"
                                         name="subCategory"
                                         value="shirt">
                                 <span class="form-check-label"> Shirt </span>
@@ -121,7 +119,7 @@
                             <label class="form-check form-check-inline">
                                 <input
                                         class="form-check-input"
-                                        type="checkbox"
+                                        type="radio"
                                         name="subCategory"
                                         value="shirt">
                                 <span class="form-check-label"> Hoodie</span>
@@ -130,7 +128,7 @@
                             <label class="form-check form-check-inline">
                                 <input
                                         class="form-check-input"
-                                        type="checkbox"
+                                        type="radio"
                                         name="subCategory"
                                         value="shorts">
                                 <span class="form-check-label"> Shorts</span>
@@ -139,7 +137,7 @@
                             <label class="form-check form-check-inline">
                                 <input
                                         class="form-check-input"
-                                        type="checkbox"
+                                        type="radio"
                                         name="subCategory"
                                         value="Jeans">
                                 <span class="form-check-label"> Jeans</span>
@@ -150,7 +148,9 @@
 
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" value="Add-product"> Add Product
+                            <button type="submit"
+                                    class="btn btn-primary btn-block"
+                                    value="Add-product"> Add Product
                             </button>
                         </div> <!-- form-group// -->
                     </form>
@@ -164,214 +164,6 @@
     <!--container end.//-->
 </form>
 
-<!--        <form-->
-<!--          action="/administration/add-product"-->
-<!--          method="POST"-->
-<!--          enctype="multipart/form-data"-->
-<!--        >-->
-<!--          <h4>Add new product</h4>-->
-
-<!--          <div>-->
-<!--            <div class="form-group">-->
-<!--              <label for="inputName">Name:</label>-->
-<!--            </div>-->
-
-<!--            <div class="form-group">-->
-<!--              <input-->
-<!--                name="name"-->
-<!--                required-->
-<!--                minlength="5"-->
-<!--                maxlength="20"-->
-<!--                type="text"-->
-<!--                id="inputName"-->
-<!--                class="form-data form-name"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div>-->
-<!--            <div class="form-group">-->
-<!--              <label for="inputDescription">Description:</label>-->
-<!--            </div>-->
-
-<!--            <div class="form-group">-->
-<!--              <input-->
-<!--                name="description"-->
-<!--                required-->
-<!--                minlength="5"-->
-<!--                maxlength="20"-->
-<!--                type="text"-->
-<!--                id="inputDescription"-->
-<!--                class="form-data form-description"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div>-->
-<!--            <div class="form-group">-->
-<!--              <label for="inputPrice">Price:</label>-->
-<!--            </div>-->
-
-<!--            <div class="form-group">-->
-<!--              <input-->
-<!--                name="price"-->
-<!--                required-->
-<!--                minlength="5"-->
-<!--                maxlength="20"-->
-<!--                type="number"-->
-<!--                id="inputprice"-->
-<!--                class="form-data form-price"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div>-->
-<!--            <div class="form-group">-->
-<!--              <label for="inputQuantity">Quantity:</label>-->
-<!--            </div>-->
-
-<!--            <div class="form-group">-->
-<!--              <input-->
-<!--                name="quantity"-->
-<!--                required-->
-<!--                minlength="5"-->
-<!--                maxlength="20"-->
-<!--                type="number"-->
-<!--                id="inputQuantity"-->
-<!--                class="form-data form-quantity"-->
-<!--              />-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div>-->
-<!--            <div class="form-group">-->
-<!--              <label for="inputColor">Color:</label>-->
-<!--            </div>-->
-
-<!--            <div class="form-group">-->
-<!--              <select-->
-<!--                name="color"-->
-<!--                required-->
-<!--                minlength="3"-->
-<!--                maxlength="20"-->
-<!--                type="text"-->
-<!--                id="color"-->
-<!--                class="form-data form-color"-->
-<!--              >-->
-<!--                <option value="color">red</option>-->
-<!--                <option value="color">green</option>-->
-<!--                <option value="color">blue</option>-->
-<!--              </select>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div>-->
-<!--            <div class="form-group">-->
-<!--              <label for="inputSize">Size:</label>-->
-<!--            </div>-->
-
-<!--            <div class="form-group">-->
-<!--              <select-->
-<!--                name="size"-->
-<!--                required-->
-<!--                minlength="1"-->
-<!--                maxlength="20"-->
-<!--                type="text"-->
-<!--                id="size"-->
-<!--                class="form-data form-select"-->
-<!--              >-->
-<!--                <option value="size">s</option>-->
-<!--                <option value="size">m</option>-->
-<!--                <option value="size">l</option>-->
-<!--              </select>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div class="form-group">-->
-<!--            <label for="category">Category</label>-->
-<!--          </div>-->
-
-<!--          <div class="form-radio">-->
-<!--            <div>-->
-<!--              <input-->
-<!--                name="categories"-->
-<!--                required-->
-<!--                type="radio"-->
-<!--                id="categories"-->
-<!--                class="form-data form-radio"-->
-<!--                value="men"-->
-<!--              />-->
-<!--              <label for="man">Men</label>-->
-<!--            </div>-->
-
-<!--            <div>-->
-<!--              <input-->
-<!--                name="categories"-->
-<!--                required-->
-<!--                type="radio"-->
-<!--                id="categories"-->
-<!--                class="form-data form-radio"-->
-<!--                value="women"-->
-<!--              />-->
-<!--              <label for="women">Women</label>-->
-<!--            </div>-->
-<!--          </div>-->
-
-
-<!--          -->
-<!--          <div class="form-group">-->
-<!--            <label for="subCategory">Sub Category</label>-->
-<!--          </div>-->
-
-<!--          <div class="form-checkbox">-->
-<!--            <div>-->
-<!--              <input-->
-<!--                name="subCategories"-->
-<!--                required-->
-<!--                type="checkbox"-->
-<!--                id="subCategories"-->
-<!--                class="form-data form-radio"-->
-<!--                value="shirt"-->
-<!--              />-->
-<!--              <label for="shirt">Shirt</label>-->
-<!--            </div>-->
-
-<!--            <div>-->
-<!--              <input-->
-<!--                name="categories"-->
-<!--                required-->
-<!--                type="checkbox"-->
-<!--                id="subCategories"-->
-<!--                class="form-data form-radio"-->
-<!--                value="hoodie"-->
-<!--              />-->
-<!--              <label for="hoodie">Hoodie</label>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <input-->
-<!--                name="categories"-->
-<!--                required-->
-<!--                type="checkbox"-->
-<!--                id="subCategories"-->
-<!--                class="form-data form-radio"-->
-<!--                value="shorts"-->
-<!--              />-->
-<!--              <label for="shorts">Shorts</label>-->
-<!--            </div>-->
-
-<!--            <div>-->
-<!--              <input-->
-<!--                name="categories"-->
-<!--                required-->
-<!--                type="checkbox"-->
-<!--                id="subCategories"-->
-<!--                class="form-data form-radio"-->
-<!--                value="jeans"-->
-<!--              />-->
-<!--              <label for="jeans">Jeans</label>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </form>-->
-<section th:replace="fragments/scripts"></section>
+<section th:replace="~{fragments/scripts}"></section>
 </body>
 </html>

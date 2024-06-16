@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/head"></head>
+<head th:replace="~{fragments/head}"></head>
 <body>
+
+<header th:replace="~{fragments/header}"></header>
 
 <section class="form-data">
 
@@ -10,7 +12,7 @@
             method="POST">
 
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-4 col-sm-5 col-lg-4">
                 <div class="card">
                     <header class="card-header">
                         <h4 class="card-title mt-2">Log in</h4>
@@ -33,7 +35,9 @@
                                        name="password">
                             </div> <!-- form-group end.// -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block" value="Log in"> Log in</button>
+                                <button type="submit"
+                                        class="btn btn-primary btn-block"
+                                        value="Log in"> Log in</button>
                             </div> <!-- form-group// -->
                         </form>
                     </article> <!-- card-body end .// -->
@@ -72,6 +76,6 @@
     <!--            <input class="btn btn-link" type="submit" value="Log in" />-->
     <!--          </form>-->
 </section>
-<section th:replace="/fragments/scripts"></section>
+<section th:replace="~{/fragments/scripts}"></section>
 </body>
 </html>

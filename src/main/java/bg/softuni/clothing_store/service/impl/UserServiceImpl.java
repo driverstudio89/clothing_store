@@ -1,7 +1,7 @@
 package bg.softuni.clothing_store.service.impl;
 
+import bg.softuni.clothing_store.config.CurrentUser;
 import bg.softuni.clothing_store.data.UserRepository;
-import bg.softuni.clothing_store.model.Role;
 import bg.softuni.clothing_store.model.User;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.web.dto.UserLoginDto;

@@ -1,4 +1,4 @@
-package bg.softuni.clothing_store.service.impl;
+package bg.softuni.clothing_store.config;
 
 import bg.softuni.clothing_store.model.User;
 import org.springframework.stereotype.Component;

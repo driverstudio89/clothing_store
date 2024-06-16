@@ -41,8 +41,9 @@ public class Product {
     @OneToMany(targetEntity = Picture.class, mappedBy = "product")
     private Set<Picture> pictures;
 
-//    @ManyToOne
-//    private Category category
+    @ManyToOne
+    private Category category;
+
     @ManyToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
 
