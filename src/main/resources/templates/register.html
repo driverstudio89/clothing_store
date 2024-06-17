@@ -6,8 +6,9 @@
 <header th:replace="~{fragments/header}"></header>
 
 <form
+        th:method="POST"
         th:action="@{/users/register}"
-        method="POST">
+        th:object="${registerData}">
 
     <div class="row justify-content-center">
         <div class="col-md-4 col-sm-5 col-lg-4">
@@ -17,6 +18,7 @@
                 </header>
                 <article class="card-body">
                     <form>
+                        <div th:if="${registrationFailed}" class="text-danger">Username or Email already in use</div>
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text"
@@ -24,7 +26,10 @@
                                    placeholder=""
                                    id="username"
                                    name="username"
-                                   autofocus>
+                                   th:field="*{username}"
+                                   th:errorclass="is-invalid"
+                                   autofocus/>
+                            <small class="invalid-feedback text-danger">Username must be between 3 and 50 characters</small>
                         </div> <!-- form-group end.// -->
                         <div class="form-group">
                             <label>Email address</label>
@@ -32,47 +37,65 @@
                                    class="form-control"
                                    placeholder=""
                                    id="email"
-                                   name="email">
+                                   name="email"
+                                   th:field="*{email}"
+                                   th:errorclass="is-invalid">
+                            <small class="invalid-feedback text-danger">Invalid Email</small>
                         </div> <!-- form-group end.// -->
-                        <div class="form-row">
-                            <div class="col form-group">
+                        <div class="form-group">
+<!--                            <div class="col form-group">-->
                                 <label>First name</label>
                                 <input type="text"
                                        class="form-control"
                                        placeholder=""
                                        id="firstName"
-                                       name="firstName">
-                            </div> <!-- form-group end.// -->
-                            <div class="col form-group">
+                                       name="firstName"
+                                       th:field="*{firstName}"
+                                       th:errorclass="is-invalid">
+                                <small class="invalid-feedback text-danger">First name must be between 3 and 50 characters</small>
+<!--                            </div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
+                        </div> <!-- form-group end.// -->
+                        <div class="form-group">
+<!--                            <div class="col form-group">-->
                                 <label>Last name</label>
                                 <input type="text"
                                        class="form-control"
                                        placeholder=""
                                        id="lastName"
-                                       name="lastName">
-                            </div> <!-- form-group end.// -->
+                                       name="lastName"
+                                       th:field="*{lastName}"
+                                       th:errorclass="is-invalid">
+                                <small class="invalid-feedback text-danger">Last name must be between 3 and 50 characters</small>
+<!--                            </div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
                         </div> <!-- form-row end.// -->
+
                         <div class="form-group">
                             <label>Password</label>
                             <input class="form-control"
                                    type="password"
                                    id="password"
-                                   name="password">
+                                   name="password"
+                                   th:errorclass="is-invalid">
+                            <small class="invalid-feedback text-danger">Password must be between 4 and 50 characters</small>
                         </div> <!-- form-group end.// -->
                         <div class="form-group">
                             <label>Confirm Password</label>
                             <input class="form-control"
                                    type="password"
                                    id="confirmPassword"
-                                   name="confirmPassword">
+                                   name="confirmPassword"
+                                   th:errorclass="is-invalid">
+                            <div th:if="${passwordMismatch}" class="text-danger">Passwords doesn't match</div>
                         </div> <!-- form-group end.// -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" value="Register"> Register  </button>
+                            <button type="submit" class="btn btn-primary btn-block" value="Register"> Register</button>
                         </div> <!-- form-group// -->
-                        <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>
+                        <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br>
+                            Terms of use and Privacy Policy.</small>
                     </form>
                 </article> <!-- card-body end .// -->
-                <div class="border-top card-body text-center">Have an account? <a th:href="@{/users/login}">Log In</a></div>
+                <div class="border-top card-body text-center">Have an account? <a th:href="@{/users/login}">Log In</a>
+                </div>
             </div> <!-- card.// -->
         </div> <!-- col.//-->
 
@@ -81,6 +104,6 @@
     </div>
     <!--container end.//-->
 </form>
-    <section th:replace="~{/fragments/scripts}"></section>
+<section th:replace="~{/fragments/scripts}"></section>
 </body>
 </html>

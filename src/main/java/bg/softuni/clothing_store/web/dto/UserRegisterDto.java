@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 public class UserRegisterDto {
 
     @NotBlank
-    @Size(min = 5, max = 50)
+    @Size(min = 3, max = 50)
     private String username;
 
     @NotBlank
@@ -15,26 +15,26 @@ public class UserRegisterDto {
     private String email;
 
     @NotBlank
-    @Size(min = 5, max = 50)
+    @Size(min = 3, max = 50)
     private String firstName;
 
     @NotBlank
-    @Size(min = 5, max = 50)
+    @Size(min = 3, max = 50)
     private String lastName;
 
     @NotBlank
-    @Size(min = 5, max = 50)
+    @Size(min = 4, max = 50)
     private String password;
 
     @NotBlank
-    @Size(min = 5, max = 50)
+    @Size(min = 4, max = 50)
     private String confirmPassword;
 
-    public @NotBlank @Size(min = 5, max = 50) String getUsername() {
+    public @NotBlank @Size(min = 3, max = 50) String getUsername() {
         return username;
     }
 
-    public void setUsername(@NotBlank @Size(min = 5, max = 50) String username) {
+    public void setUsername(@NotBlank @Size(min = 3, max = 50) String username) {
         this.username = username;
     }
 
@@ -46,35 +46,35 @@ public class UserRegisterDto {
         this.email = email;
     }
 
-    public @NotBlank @Size(min = 5, max = 50) String getFirstName() {
+    public @NotBlank @Size(min = 3, max = 50) String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(@NotBlank @Size(min = 5, max = 50) String firstName) {
+    public void setFirstName(@NotBlank @Size(min = 3, max = 50) String firstName) {
         this.firstName = firstName;
     }
 
-    public @NotBlank @Size(min = 5, max = 50) String getLastName() {
+    public @NotBlank @Size(min = 3, max = 50) String getLastName() {
         return lastName;
     }
 
-    public void setLastName(@NotBlank @Size(min = 5, max = 50) String lastName) {
+    public void setLastName(@NotBlank @Size(min = 3, max = 50) String lastName) {
         this.lastName = lastName;
     }
 
-    public @NotBlank @Size(min = 5, max = 50) String getPassword() {
+    public @NotBlank @Size(min = 4, max = 50) String getPassword() {
         return password;
     }
 
-    public void setPassword(@NotBlank @Size(min = 5, max = 50) String password) {
+    public void setPassword(@NotBlank @Size(min = 4, max = 50) String password) {
         this.password = password;
     }
 
-    public @NotBlank @Size(min = 5, max = 50) String getConfirmPassword() {
+    public @NotBlank @Size(min = 4, max = 50) String getConfirmPassword() {
         return confirmPassword;
     }
 
-    public void setConfirmPassword(@NotBlank @Size(min = 5, max = 50) String confirmPassword) {
+    public void setConfirmPassword(@NotBlank @Size(min = 4, max = 50) String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
 }

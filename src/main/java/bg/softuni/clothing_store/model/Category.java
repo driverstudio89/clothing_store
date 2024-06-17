@@ -1,7 +1,6 @@
 package bg.softuni.clothing_store.model;
 
 import bg.softuni.clothing_store.model.enums.CategoryType;
-import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -20,8 +19,18 @@ public class Category {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(targetEntity = SubCategory.class, mappedBy = "category")
-    private Set<SubCategory> subCategories;
+    @OneToMany(targetEntity = Product.class, mappedBy = "category")
+    private Set<Product> products;
+
+    public Category(CategoryType categoryType, String description) {
+        this.category = categoryType;
+        this.description = description;
+    }
+
+    public Category() {
+
+    }
+
 
     //##########################################################
 
@@ -48,5 +57,13 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

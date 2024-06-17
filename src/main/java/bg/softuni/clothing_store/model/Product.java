@@ -41,7 +41,7 @@ public class Product {
     @OneToMany(targetEntity = Picture.class, mappedBy = "product")
     private Set<Picture> pictures;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Category.class)
     private Category category;
 
     @ManyToOne(targetEntity = SubCategory.class)
@@ -66,6 +66,14 @@ public class Product {
         this.name = name;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -88,14 +96,6 @@ public class Product {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public int getQuantity() {
@@ -128,6 +128,14 @@ public class Product {
 
     public void setPictures(Set<Picture> pictures) {
         this.pictures = pictures;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public SubCategory getSubCategory() {

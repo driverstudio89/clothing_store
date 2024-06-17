@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -26,22 +28,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(UserRegisterDto userRegisterDto) {
+    public boolean register(UserRegisterDto userRegisterDto) {
+        Optional<User> byUsername = userRepository.findByUsername(userRegisterDto.getUsername());
+        if (byUsername.isPresent()) {
+            return false;
+        }
+
+        Optional<User> byEmail = userRepository.findByEmail(userRegisterDto.getEmail());
+        if (byEmail.isPresent()) {
+            return false;
+        }
+
         User user = modelMapper.map(userRegisterDto, User.class);
 
         user.setPassword(this.passwordEncoder.encode(userRegisterDto.getPassword()));
 
         userRepository.saveAndFlush(user);
 
+        return true;
+
     }
 
     @Override
     public void login(UserLoginDto loginData) {
-        User user = userRepository.findByUsername(loginData.getUsername());
+        Optional<User> byUsername = userRepository.findByUsername(loginData.getUsername());
 
-        if (user == null) {
-            //TODO throw
+
+        if (byUsername.isEmpty()) {
+            //todo throw
         }
+        User user = byUsername.get();
         if (passwordEncoder.matches(loginData.getPassword(), user.getPassword()) && !currentUser.isLoggedIn()) {
             currentUser.setUser(user);
             System.out.println();

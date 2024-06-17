@@ -5,7 +5,7 @@ import bg.softuni.clothing_store.web.dto.UserRegisterDto;
 
 public interface UserService {
 
-    void register(UserRegisterDto userRegisterDto);
+    boolean register(UserRegisterDto userRegisterDto);
 
     void login(UserLoginDto loginData);
 

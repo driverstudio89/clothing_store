@@ -19,10 +19,46 @@ public class SubCategory {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne()
-    private Category category;
-
     @OneToMany(targetEntity = Product.class, mappedBy = "subCategory")
     private Set<Product> products;
 
+    public SubCategory(SubCategoryType subCategoryType, String description) {
+        this.subCategory = subCategoryType;
+        this.description = description;
+    }
+
+    public SubCategory() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public SubCategoryType getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(SubCategoryType subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 }

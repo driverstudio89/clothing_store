@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,9 +21,18 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ModelAttribute("registerData")
+    public UserRegisterDto userRegisterDto() {
+        return new UserRegisterDto();
+    }
+
+    @ModelAttribute("loginData")
+    public UserLoginDto userLoginDto() {
+        return new UserLoginDto();
+    }
+
     @GetMapping("users/register")
-    public String viewRegister(Model model) {
-        model.addAttribute("registerData", new UserRegisterDto());
+    public String viewRegister() {
         return "register";
     }
 
@@ -32,12 +42,23 @@ public class UserController {
                                   RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterDto", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
             redirectAttributes.addFlashAttribute("registerData", userRegisterDto);
             return "redirect:register";
         }
+        if (!userRegisterDto.getPassword().equals(userRegisterDto.getConfirmPassword())) {
+            redirectAttributes.addFlashAttribute("registerData", userRegisterDto);
+            redirectAttributes.addFlashAttribute("passwordMismatch", true);
+            return "redirect:register";
+        }
 
-        userService.register(userRegisterDto);
+        if (!userService.register(userRegisterDto)) {
+            redirectAttributes.addFlashAttribute("registerData", userRegisterDto);
+            redirectAttributes.addFlashAttribute("registrationFailed", true);
+            return "redirect:register";
+        }
+
+
         return "redirect:login";
     }
 
