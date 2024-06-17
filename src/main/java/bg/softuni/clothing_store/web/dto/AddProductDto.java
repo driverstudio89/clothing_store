@@ -3,7 +3,7 @@ package bg.softuni.clothing_store.web.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class addProductDto {
+public class AddProductDto {
 
     private String name;
 

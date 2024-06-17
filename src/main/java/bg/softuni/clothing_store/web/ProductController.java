@@ -1,7 +1,7 @@
 package bg.softuni.clothing_store.web;
 
 import bg.softuni.clothing_store.service.ProductService;
-import bg.softuni.clothing_store.web.dto.addProductDto;
+import bg.softuni.clothing_store.web.dto.AddProductDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,7 +18,7 @@ public class ProductController {
     }
 
     @PostMapping("/administration/add-product")
-    public String addProduct(@Valid addProductDto addProductDto,
+    public String addProduct(@Valid AddProductDto addProductDto,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
 
