@@ -63,14 +63,26 @@ public class UserController {
     }
 
     @GetMapping("users/login")
-    public String viewLogin(Model model) {
-        model.addAttribute("loginData", new UserLoginDto());
+    public String viewLogin() {
         return "login";
     }
 
     @PostMapping("/users/login")
-    public String login(UserLoginDto loginData) {
-        userService.login(loginData);
+    public String login(
+            @Valid UserLoginDto userLoginDto,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("loginData", userLoginDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
+            return "redirect:login";
+        }
+        if (!userService.login(userLoginDto)) {
+            redirectAttributes.addFlashAttribute("loginData", userLoginDto);
+            redirectAttributes.addFlashAttribute("wrongCredentials", true);
+            return "redirect:login";
+        }
 
         return "redirect:/";
     }

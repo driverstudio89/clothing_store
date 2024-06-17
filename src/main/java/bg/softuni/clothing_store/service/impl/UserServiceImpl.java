@@ -50,18 +50,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(UserLoginDto loginData) {
+    public boolean login(UserLoginDto loginData) {
         Optional<User> byUsername = userRepository.findByUsername(loginData.getUsername());
 
 
         if (byUsername.isEmpty()) {
-            //todo throw
+            return false;
         }
         User user = byUsername.get();
         if (passwordEncoder.matches(loginData.getPassword(), user.getPassword()) && !currentUser.isLoggedIn()) {
             currentUser.setUser(user);
-            System.out.println();
+            return true;
         }
+
+        return false;
 
     }
 

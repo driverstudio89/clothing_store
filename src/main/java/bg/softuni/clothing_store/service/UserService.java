@@ -7,7 +7,7 @@ public interface UserService {
 
     boolean register(UserRegisterDto userRegisterDto);
 
-    void login(UserLoginDto loginData);
+    boolean login(UserLoginDto loginData);
 
     void logout();
 

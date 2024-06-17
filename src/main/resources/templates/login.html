@@ -8,8 +8,9 @@
 <section class="form-data">
 
     <form
+            th:method="POST"
             th:action="@{/users/login}"
-            method="POST">
+            th:object="${loginData}">
 
         <div class="row justify-content-center">
             <div class="col-md-4 col-sm-5 col-lg-4">
@@ -19,25 +20,35 @@
                     </header>
                     <article class="card-body">
                         <form>
+                            <div th:if="${wrongCredentials}" class="text-danger">Incorrect username or password!</div>
                             <div class="form-group">
                                 <label>Username</label>
                                 <input type="text"
                                        class="form-control"
-                                       placeholder="" autofocus
                                        id="username"
-                                       name="username">
+                                       name="username"
+                                       th:field="*{username}"
+                                       th:errorclass="is-invalid"
+                                       autofocus>
+                                <small class="invalid-feedback text-danger">Username must be between 3 and 50 characters</small>
+
                             </div> <!-- form-group end.// -->
                             <div class="form-group">
                                 <label>Password</label>
                                 <input class="form-control"
                                        type="password"
                                        id="password"
-                                       name="password">
+                                       name="password"
+                                       th:errorclass="is-invalid"
+                                >
+                                <small class="invalid-feedback text-danger">Password must be between 4 and 50 characters</small>
+
                             </div> <!-- form-group end.// -->
                             <div class="form-group">
                                 <button type="submit"
                                         class="btn btn-primary btn-block"
-                                        value="Log in"> Log in</button>
+                                        value="Log in"> Log in
+                                </button>
                             </div> <!-- form-group// -->
                         </form>
                     </article> <!-- card-body end .// -->
