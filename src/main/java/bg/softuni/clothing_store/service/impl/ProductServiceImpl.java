@@ -9,11 +9,14 @@ import bg.softuni.clothing_store.model.SubCategory;
 import bg.softuni.clothing_store.model.enums.CategoryType;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import bg.softuni.clothing_store.web.dto.AddProductDto;
+import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements bg.softuni.clothing_store.service.ProductService {
@@ -48,5 +51,11 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
         productRepository.saveAndFlush(product);
 
 
+    }
+
+    @Override
+    public Set<ProductShortInfoDto> getLastProducts() {
+        return productRepository.findTop12OrderByCreatedAfter(LocalDate.now().minusWeeks(1))
+                .stream().map(ProductShortInfoDto::new).collect(Collectors.toSet());
     }
 }

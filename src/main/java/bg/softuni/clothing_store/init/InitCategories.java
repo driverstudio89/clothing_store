@@ -12,7 +12,7 @@ import java.util.Map;
 public class InitCategories implements CommandLineRunner {
 
     private final Map<CategoryType, String> categoriesDescription = Map.of(
-            CategoryType.MAN, "clothing for men",
+            CategoryType.MEN, "clothing for men",
             CategoryType.WOMEN, "clothing for women",
             CategoryType.CHILDREN, "clothing for children"
     );

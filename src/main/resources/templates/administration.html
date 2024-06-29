@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
-<head th:replace="/fragments/head"></head>
+<head th:replace="~{/fragments/head}"></head>
 
 <body>
-<header th:replace="/fragments/header"></header>
+<header th:replace="~{/fragments/head}"></header>
 
 <h5 th:if="${productAddedSuccessfully}"
        class="row justify-content-center text-danger mt-5">Product have been added successfully!</h5>
@@ -53,6 +53,6 @@
 </div>
 
 
-    <section th:replace="/fragments/scripts"></section>
+    <section th:replace="~{/fragments/head}"></section>
 </body>
 </html>

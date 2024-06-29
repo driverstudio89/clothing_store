@@ -1,57 +1,41 @@
-package bg.softuni.clothing_store.model;
+package bg.softuni.clothing_store.web.dto;
 
-import jakarta.persistence.*;
+import bg.softuni.clothing_store.model.Category;
+import bg.softuni.clothing_store.model.Product;
+import bg.softuni.clothing_store.model.SubCategory;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+public class ProductShortInfoDto {
 
-@Entity
-@Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private Double price;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false)
     private String size;
 
-    @Column(nullable = false)
     private String color;
 
-    @Column(nullable = false)
-    private int quantity;
-
-    @Column(nullable = false)
     private String imageUrl;
 
-    @Column(nullable = false)
-    private LocalDate created;
-
-    @Column(nullable = false)
-    private LocalDate modified;
-
-    @OneToMany(targetEntity = Picture.class, mappedBy = "product")
-    private Set<Picture> pictures;
-
-    @ManyToOne(targetEntity = Category.class)
     private Category category;
 
-    @ManyToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
 
-    //#######################################################
+    public ProductShortInfoDto(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.price = product.getPrice();
+        this.description = product.getDescription();
+        this.size = product.getSize();
+        this.color = product.getColor();
+        this.imageUrl = product.getImageUrl();
+        this.category = product.getCategory();
+        this.subCategory = product.getSubCategory();
 
+    }
 
     public Long getId() {
         return id;
@@ -101,44 +85,12 @@ public class Product {
         this.color = color;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public LocalDate getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDate created) {
-        this.created = created;
-    }
-
-    public LocalDate getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDate modified) {
-        this.modified = modified;
-    }
-
-    public Set<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(Set<Picture> pictures) {
-        this.pictures = pictures;
     }
 
     public Category getCategory() {

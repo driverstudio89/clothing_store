@@ -7,7 +7,9 @@
 
 <form
         th:action="@{/administration/add-product}"
-        method="POST">
+        th:method="POST"
+        th:object="${productData}"
+>
 
     <div class="row justify-content-center">
         <div class="col-md-4 col-sm-5 col-lg-4">
@@ -23,9 +25,9 @@
                             <input type="text"
                                    class="form-control"
                                    required
-                                   placeholder=""
                                    id="name"
                                    name="name"
+                                   th:field="*{name}"
                                    autofocus>
                         </div> <!-- form-group end.// -->
 
@@ -34,19 +36,23 @@
                             <input type="text"
                                    class="form-control"
                                    required
-                                   placeholder=""
                                    id="description"
-                                   name="description">
+                                   name="description"
+                                   th:field="*{description}"
+                            >
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
                             <label for="price">Price:</label>
                             <input type="number"
+                                   step="0.01"
                                    class="form-control"
                                    required
-                                   placeholder=""
                                    id="price"
-                                   name="price">
+                                   name="price"
+                                   th:field="*{price}"
+
+                            >
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
@@ -54,9 +60,21 @@
                             <input type="number"
                                    class="form-control"
                                    required
-                                   placeholder=""
                                    id="quantity"
-                                   name="quantity">
+                                   name="quantity"
+                                   th:field="*{quantity}"
+                            >
+                        </div> <!-- form-group end.// -->
+
+                        <div class="form-group">
+                            <label for="description">Image URL:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   required
+                                   id="imageUrl"
+                                   name="imageUrl"
+                                   th:field="*{imageUrl}"
+                            >
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
@@ -65,7 +83,9 @@
                                     class="form-control"
                                     required
                                     id="color"
-                                    name="color">
+                                    name="color"
+                                    th:field="*{color}"
+                            >
                                 <option value="red">red</option>
                                 <option value="green">green</option>
                                 <option value="blue">blue</option>
@@ -78,14 +98,30 @@
                                     class="form-control"
                                     required
                                     id="size"
-                                    name="size">
+                                    name="size"
+                                    th:field="*{size}"
+                            >
                                 <option value="S">S</option>
                                 <option value="M">M</option>
                                 <option value="L">L</option>
                             </Select>
                         </div> <!-- form-group end.// -->
 
+                        <div class="form-group">
+                            <label for="size">Type:</label>
+                            <Select type="text"
+                                    class="form-control"
+                                    required
+                                    id="subCategory"
+                                    name="subCategory"
+                                    th:field="*{subCategory}"
+                            >
+                                <option value="">Select type</option>
+                                <option th:each="type : ${subCategoryData}" th:value="${type}" th:text="${type.getValue()}"></option>
+                            </Select>
+                        </div>
 
+                        <label for="color">Category:</label>
                         <div class="form-group">
                             <label class="form-check form-check-inline">
                                 <input
@@ -113,109 +149,6 @@
                                         value="children">
                                 <span class="form-check-label"> Children</span>
                             </label>
-                        </div> <!-- form-group end.// -->
-
-                        <div class="form-group">
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="shirt">
-                                <span class="form-check-label"> Shirt </span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="hoodie">
-                                <span class="form-check-label"> Hoodie</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="shorts">
-                                <span class="form-check-label"> Shorts</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="jeans">
-                                <span class="form-check-label"> Jeans</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="suit">
-                                <span class="form-check-label"> Suit</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="sport">
-                                <span class="form-check-label"> Sport</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="top">
-                                <span class="form-check-label"> Top</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="dress">
-                                <span class="form-check-label"> Dress</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="skirt">
-                                <span class="form-check-label"> Skirt</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="blouse">
-                                <span class="form-check-label"> Blouse</span>
-                            </label>
-
-                            <label class="form-check form-check-inline">
-                                <input
-                                        class="form-check-input"
-                                        type="radio"
-                                        name="subCategory"
-                                        value="jacket">
-                                <span class="form-check-label"> Jacket</span>
-                            </label>
-
-
                         </div> <!-- form-group end.// -->
 
 

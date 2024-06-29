@@ -11,8 +11,4 @@ public class AdminController {
         return "administration";
     }
 
-    @GetMapping("/administration/add-product")
-    public String addProduct(Model model) {
-        return "add-product";
-    }
 }
