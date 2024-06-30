@@ -35,7 +35,7 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
 
     @Override
     @Transactional
-    public void addProduct(AddProductDto addProductDto) {
+    public void addProduct(AddProductDto addProductDto, String imageUrl ) {
         Product product = modelMapper.map(addProductDto, Product.class);
         product.setCreated(LocalDate.now());
         product.setModified(LocalDate.now());
@@ -43,6 +43,7 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
         Category byCategory = categoryRepository.findByCategory(CategoryType.valueOf(addProductDto.getCategory().toUpperCase()));
         SubCategory bySubCategory = subCategoryRepository.findBySubCategory(SubCategoryType.valueOf(addProductDto.getSubCategory().toUpperCase()));
 
+        product.setImageUrl(imageUrl);
         product.setCategory(byCategory);
         product.setSubCategory(bySubCategory);
 

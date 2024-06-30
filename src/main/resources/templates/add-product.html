@@ -9,10 +9,11 @@
         th:action="@{/administration/add-product}"
         th:method="POST"
         th:object="${productData}"
+        enctype="multipart/form-data"
 >
 
     <div class="row justify-content-center">
-        <div class="col-md-4 col-sm-5 col-lg-4">
+        <div class="col-md-6 col-sm-6 col-lg-4">
             <div class="card">
                 <header class="card-header">
                     <h4 class="card-title mt-2">Add product</h4>
@@ -24,22 +25,26 @@
                             <label for="name">Name:</label>
                             <input type="text"
                                    class="form-control"
-                                   required
+
                                    id="name"
                                    name="name"
                                    th:field="*{name}"
                                    autofocus>
+                            <small th:each="error: ${#fields.errors('name')}" th:text="${error}" class="text-info">Error messages</small>
+
+
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
                             <label for="description">Description:</label>
                             <input type="text"
                                    class="form-control"
-                                   required
+
                                    id="description"
                                    name="description"
-                                   th:field="*{description}"
-                            >
+                                   th:field="*{description}">
+                            <small th:each="error: ${#fields.errors('description')}" th:text="${error}" class="text-info">Error messages</small>
+
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
@@ -47,41 +52,80 @@
                             <input type="number"
                                    step="0.01"
                                    class="form-control"
-                                   required
+
                                    id="price"
                                    name="price"
-                                   th:field="*{price}"
+                                   th:field="*{price}">
+                            <small th:each="error: ${#fields.errors('price')}" th:text="${error}" class="text-info">Error messages</small>
 
-                            >
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
                             <label for="quantity">Quantity:</label>
                             <input type="number"
                                    class="form-control"
-                                   required
+
                                    id="quantity"
                                    name="quantity"
-                                   th:field="*{quantity}"
-                            >
+                                   th:field="*{quantity}">
+                            <small th:each="error: ${#fields.errors('quantity')}" th:text="${error}" class="text-info">Error messages</small>
+
                         </div> <!-- form-group end.// -->
 
-                        <div class="form-group">
-                            <label for="description">Image URL:</label>
-                            <input type="text"
-                                   class="form-control"
-                                   required
-                                   id="imageUrl"
-                                   name="imageUrl"
-                                   th:field="*{imageUrl}"
-                            >
-                        </div> <!-- form-group end.// -->
+                        <div class="form-control">
+                            <div class="form-group">
+                                <label for="firstImage">Picture 1:</label>
+                                <input type="file"
+
+                                       id="firstImage"
+                                       name="firstImage"
+                                       aria-describedby="firstImage"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secondImage">Picture 2:</label>
+                                <input type="file"
+                                       id="secondImage"
+                                       name="secondImage"
+                                       aria-describedby="secondImage"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="thirdImage">Picture 3:</label>
+                                <input type="file"
+                                       id="thirdImage"
+                                       name="thirdImage"
+                                       aria-describedby="thirdImage"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fourthImage">Picture 4:</label>
+                                <input type="file"
+                                       id="fourthImage"
+                                       name="fourthImage"
+                                       aria-describedby="fourthImage"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fifthImage">Picture 5:</label>
+                                <input type="file"
+                                       id="fifthImage"
+                                       name="fifthImage"
+                                       aria-describedby="fifthImage"
+                                >
+                            </div>
+                        </div>  <!-- form-group end.// -->
+
 
                         <div class="form-group">
                             <label for="color">Color:</label>
                             <Select type="text"
                                     class="form-control"
-                                    required
+
                                     id="color"
                                     name="color"
                                     th:field="*{color}"
@@ -90,13 +134,15 @@
                                 <option value="green">green</option>
                                 <option value="blue">blue</option>
                             </Select>
+                            <small th:each="error: ${#fields.errors('color')}" th:text="${error}" class="text-info">Error messages</small>
+
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
                             <label for="size">Size:</label>
                             <Select type="text"
                                     class="form-control"
-                                    required
+
                                     id="size"
                                     name="size"
                                     th:field="*{size}"
@@ -105,20 +151,22 @@
                                 <option value="M">M</option>
                                 <option value="L">L</option>
                             </Select>
+                            <small th:each="error: ${#fields.errors('size')}" th:text="${error}" class="text-info">Error messages</small>
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
                             <label for="size">Type:</label>
                             <Select type="text"
                                     class="form-control"
-                                    required
+
                                     id="subCategory"
                                     name="subCategory"
-                                    th:field="*{subCategory}"
                             >
                                 <option value="">Select type</option>
                                 <option th:each="type : ${subCategoryData}" th:value="${type}" th:text="${type.getValue()}"></option>
                             </Select>
+                            <small th:each="error: ${#fields.errors('subCategory')}" th:text="${error}" class="text-info">Error messages</small>
+
                         </div>
 
                         <label for="color">Category:</label>
@@ -149,6 +197,8 @@
                                         value="children">
                                 <span class="form-check-label"> Children</span>
                             </label>
+                            <small th:each="error: ${#fields.errors('category')}" th:text="${error}" class="text-info">Error messages</small>
+
                         </div> <!-- form-group end.// -->
 
 

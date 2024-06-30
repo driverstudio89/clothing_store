@@ -22,7 +22,7 @@ body{
     background-color: #eee;
 }
 .container{
-    width: 900px;
+    width: 1024px;
 }
 
 .productCard{
@@ -30,7 +30,7 @@ body{
     background-color: #fff;
     border:none;
     border-radius: 10px;
-    width: 190px;
+    width: 220px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
@@ -162,7 +162,7 @@ body{
     border: 2px solid #FFCA28;
 }
 .yellow:hover {
-    border-radius: 3px solid #FFCA28;
+    border-radius: 3px;
 }
 .yellow:focus {
     background-color: #FFCA28;

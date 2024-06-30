@@ -1,9 +1,11 @@
 package bg.softuni.clothing_store.web.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -17,29 +19,28 @@ public class AddProductDto {
     @Size(min = 3, max = 1000, message = "Description length must be between 3 and 1000 characters!")
     private String description;
 
-    @NotNull
+    @NotNull(message = "You must input price!")
     @Positive(message = "Price must be positive!")
     private Double price;
 
-    @NotNull
+    @NotNull(message = "You must input quantity!")
     @Positive(message = "Quantity must be positive!")
     private int quantity;
 
-    @NotNull
-    @Size(min = 3, max = 512, message = "Image url length must be between 3 and 512 characters!")
-    private String imageUrl;
-
-    @NotNull(message = "You must choice a color!")
+    @NotBlank(message = "You must choice a color!")
     private String color;
 
-    @NotNull(message = "You must choice a size!")
+    @NotBlank(message = "You must choice a size!")
     private String size;
 
-    @NotNull(message = "You must choice a category!")
+    @NotBlank(message = "You must choice a category!")
     private String category;
 
-    @NotNull(message = "You must choice a type!")
+    @NotBlank(message = "You must choice a type!")
     private String subCategory;
+
+    //#############################################################
+
 
     public @NotNull @Size(min = 3, max = 50, message = "Name length must be between 3 and 50 characters!") String getName() {
         return name;
@@ -73,14 +74,6 @@ public class AddProductDto {
 
     public void setQuantity(@NotNull @Positive(message = "Quantity must be positive!") int quantity) {
         this.quantity = quantity;
-    }
-
-    public @NotNull @Size(min = 3, max = 512, message = "Image url length must be between 3 and 512 characters!") String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(@NotNull @Size(min = 3, max = 512, message = "Image url length must be between 3 and 512 characters!") String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public @NotNull(message = "You must choice a color!") String getColor() {
