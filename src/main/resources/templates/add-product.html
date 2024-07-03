@@ -5,21 +5,20 @@
 
 <header th:replace="~{fragments/header}"></header>
 
-<form
-        th:action="@{/administration/add-product}"
-        th:method="POST"
-        th:object="${productData}"
-        enctype="multipart/form-data"
->
 
     <div class="row justify-content-center">
-        <div class="col-md-6 col-sm-6 col-lg-4">
+        <div class="mt-3">
             <div class="card">
                 <header class="card-header">
                     <h4 class="card-title mt-2">Add product</h4>
                 </header>
                 <article class="card-body">
-                    <form>
+                    <form
+                            th:action="@{/administration/add-product}"
+                            th:method="POST"
+                            th:object="${productData}"
+                            enctype="multipart/form-data"
+                    >
 
                         <div class="form-group">
                             <label for="name">Name:</label>
@@ -217,7 +216,7 @@
 
     </div>
     <!--container end.//-->
-</form>
+
 
 <section th:replace="~{fragments/scripts}"></section>
 </body>

@@ -13,9 +13,9 @@ import java.util.Map;
 @Configuration
 public class Config {
 
-    private final String CLOUD_NAME = "dpwynqscy";
-    private final String API_KEY = "689279492191562";
-    private final String API_SECRET = "Z7kiTjM_Z4IvYa2b8byUMBM9C98";
+    private final String CLOUD_NAME = System.getenv("CLOUDINARY_API_NAME");
+    private final String API_KEY = System.getenv("CLOUDINARY_KEY");
+    private final String API_SECRET = System.getenv("CLOUDINARY_API_SECRET");
 
     @Bean
     public PasswordEncoder passwordEncoder() {

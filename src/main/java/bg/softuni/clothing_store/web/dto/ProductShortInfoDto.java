@@ -18,11 +18,22 @@ public class ProductShortInfoDto {
 
     private String color;
 
-    private String imageUrl;
+    private String firstImage;
+
+    private String secondImage;
+
+    private String thirdImage;
+
+    private String fourthImage;
+
+    private String fifthImage;
 
     private Category category;
 
     private SubCategory subCategory;
+
+    public ProductShortInfoDto() {
+    }
 
     public ProductShortInfoDto(Product product) {
         this.id = product.getId();
@@ -31,11 +42,18 @@ public class ProductShortInfoDto {
         this.description = product.getDescription();
         this.size = product.getSize();
         this.color = product.getColor();
-        this.imageUrl = product.getImageUrl();
+        this.firstImage = product.getFirstImage();
+        this.secondImage = product.getSecondImage();
+        this.thirdImage = product.getThirdImage();
+        this.fourthImage = product.getFourthImage();
+        this.fifthImage = product.getFifthImage();
         this.category = product.getCategory();
         this.subCategory = product.getSubCategory();
 
     }
+
+    //#######################################################
+
 
     public Long getId() {
         return id;
@@ -85,12 +103,44 @@ public class ProductShortInfoDto {
         this.color = color;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getFirstImage() {
+        return firstImage;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setFirstImage(String firstImage) {
+        this.firstImage = firstImage;
+    }
+
+    public String getSecondImage() {
+        return secondImage;
+    }
+
+    public void setSecondImage(String secondImage) {
+        this.secondImage = secondImage;
+    }
+
+    public String getThirdImage() {
+        return thirdImage;
+    }
+
+    public void setThirdImage(String thirdImage) {
+        this.thirdImage = thirdImage;
+    }
+
+    public String getFourthImage() {
+        return fourthImage;
+    }
+
+    public void setFourthImage(String fourthImage) {
+        this.fourthImage = fourthImage;
+    }
+
+    public String getFifthImage() {
+        return fifthImage;
+    }
+
+    public void setFifthImage(String fifthImage) {
+        this.fifthImage = fifthImage;
     }
 
     public Category getCategory() {

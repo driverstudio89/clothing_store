@@ -1,5 +1,6 @@
 package bg.softuni.clothing_store.web;
 
+import bg.softuni.clothing_store.model.CartItem;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.web.dto.UserLoginDto;
 import bg.softuni.clothing_store.web.dto.UserRegisterDto;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -91,5 +94,13 @@ public class UserController {
     public String logout() {
         userService.logout();
         return "redirect:/";
+    }
+
+    @GetMapping("users/cart")
+    public String viewCart(Model model) {
+        Set<CartItem> cart = userService.getCart();
+        System.out.println();
+        model.addAttribute("cartItems", cart);
+        return "cart";
     }
 }

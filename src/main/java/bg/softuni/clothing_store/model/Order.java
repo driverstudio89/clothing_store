@@ -37,8 +37,6 @@ public class Order {
     @ManyToOne(targetEntity = User.class)
     private User user;
 
-    @OneToOne
-    private Cart cart;
 
     //#######################################
 

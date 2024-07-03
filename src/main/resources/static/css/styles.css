@@ -2,7 +2,7 @@
 
 body {
     font-family: "Saira", sans-serif;
-    background-image: url(/static/images/background.jpg);
+    /*background-image: url("/images/background.png") !important;*/
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
@@ -22,15 +22,16 @@ body{
     background-color: #eee;
 }
 .container{
-    width: 1024px;
+    width: 1600px;
 }
+/*HOME PAGE*/
 
 .productCard{
 
     background-color: #fff;
     border:none;
     border-radius: 10px;
-    width: 220px;
+    width: 250px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
@@ -78,11 +79,10 @@ body{
 
 
 .dress-name{
-    font-size: 13px;
+    /*font-size: 13px;*/
     font-weight: bold;
     width: 75%;
 }
-
 
 .new-price{
     font-size: 13px;
@@ -193,12 +193,39 @@ body{
 
 }
 .buy{
-    font-size: 12px;
+    text-decoration: none;
+    font-size: 16px;
     color: purple;
     font-weight: 500;
 }
 
+/*details page*/
 
+.icon-hover:hover {
+    border-color: #3b71ca !important;
+    background-color: white !important;
+    color: #3b71ca !important;
+}
 
+.icon-hover:hover i {
+    color: #3b71ca !important;
+}
 
+/*text truncating*/
 
+.crop-text-1 {
+    -webkit-line-clamp: 1;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.crop-text-2 {
+    -webkit-line-clamp: 2;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+/*shopping cart*/

@@ -2,6 +2,7 @@ package bg.softuni.clothing_store.service.impl;
 
 import bg.softuni.clothing_store.config.CurrentUser;
 import bg.softuni.clothing_store.data.UserRepository;
+import bg.softuni.clothing_store.model.CartItem;
 import bg.softuni.clothing_store.model.User;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.web.dto.UserLoginDto;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -70,5 +72,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void logout() {
         currentUser.setUser(null);
+    }
+
+    @Override
+    public Set<CartItem> getCart() {
+
+        User user = userRepository.findById(currentUser.getUser().getId()).get();
+        Set<CartItem> cartItems = user.getCartItems();
+        return cartItems;
+
     }
 }

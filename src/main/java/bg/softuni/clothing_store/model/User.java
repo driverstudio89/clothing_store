@@ -3,6 +3,7 @@ package bg.softuni.clothing_store.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,8 +29,8 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-//    @Column(name = "birth_date")
-//    private LocalDate birthDate;
+    @OneToMany(targetEntity = CartItem.class, fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<CartItem> cartItems;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -57,6 +58,11 @@ public class User {
 
     @OneToMany(targetEntity = Order.class, mappedBy = "user")
     private Set<Order> order;
+
+    public User() {
+        this.cartItems = new HashSet<>();
+        this.order = new HashSet<>();
+    }
 
     //#################################################################################
 
@@ -109,13 +115,13 @@ public class User {
         this.lastName = lastName;
     }
 
-//    public LocalDate getBirthDate() {
-//        return birthDate;
-//    }
-//
-//    public void setBirthDate(LocalDate birthDate) {
-//        this.birthDate = birthDate;
-//    }
+    public Set<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -149,35 +155,19 @@ public class User {
         this.country = country;
     }
 
-//    public boolean isActive() {
-//        return isActive;
-//    }
-//
-//    public void setActive(boolean active) {
-//        isActive = active;
-//    }
-//
-//    public LocalDate getCreated() {
-//        return created;
-//    }
-//
-//    public void setCreated(LocalDate created) {
-//        this.created = created;
-//    }
-//
-//    public LocalDate getModified() {
-//        return modified;
-//    }
-//
-//    public void setModified(LocalDate modified) {
-//        this.modified = modified;
-//    }
-
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(Set<Order> order) {
+        this.order = order;
     }
 }
