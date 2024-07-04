@@ -6,4 +6,5 @@ import bg.softuni.clothing_store.web.dto.AddToCartDto;
 public interface CartItemService {
     boolean addProduct(long id, AddToCartDto addToCartDto);
 
+    void removeFromCart(long id);
 }

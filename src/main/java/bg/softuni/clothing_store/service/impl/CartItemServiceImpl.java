@@ -12,6 +12,8 @@ import bg.softuni.clothing_store.web.dto.AddToCartDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
@@ -27,16 +29,24 @@ public class CartItemServiceImpl implements CartItemService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
     @Override
     public boolean addProduct(long id, AddToCartDto addToCartDto) {
-        Product product = productRepository.findById(id).get();
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new RuntimeException("Product with ID: " + id + "not found");
+        }
+        Product product = optionalProduct.get();
         User user = currentUser.getUser();
         CartItem cartItem = new CartItem(product, addToCartDto);
-        user.getCartItems().add(cartItem);
         cartItem.setUser(user);
-        cartItemRepository.save(cartItem);
-        userRepository.save(user);
+        cartItemRepository.saveAndFlush(cartItem);
         return true;
+    }
+
+    @Override
+    public void removeFromCart(long id) {
+        CartItem cartItem = cartItemRepository.findById(id).get();
+        cartItemRepository.deleteById(id);
+
     }
 }

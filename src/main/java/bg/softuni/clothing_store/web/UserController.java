@@ -90,17 +90,4 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("/users/logout")
-    public String logout() {
-        userService.logout();
-        return "redirect:/";
-    }
-
-    @GetMapping("users/cart")
-    public String viewCart(Model model) {
-        Set<CartItem> cart = userService.getCart();
-        System.out.println();
-        model.addAttribute("cartItems", cart);
-        return "cart";
-    }
 }
