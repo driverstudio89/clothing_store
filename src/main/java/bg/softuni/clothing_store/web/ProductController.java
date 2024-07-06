@@ -8,6 +8,7 @@ import bg.softuni.clothing_store.web.dto.AddProductDto;
 import bg.softuni.clothing_store.web.dto.AddToCartDto;
 import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,12 +42,14 @@ public class ProductController {
     }
 
     @GetMapping("/administration/add-product")
+    @PreAuthorize("hasRole('ADMIN')")
     public String viewAddProduct(Model model) {
         model.addAttribute("subCategoryData", SubCategoryType.values());
         return "add-product";
     }
 
     @PostMapping("/administration/add-product")
+    @PreAuthorize("hasRole('ADMIN')")
     public String doAddProduct(@Valid AddProductDto addProductDto,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
@@ -79,21 +82,6 @@ public class ProductController {
         ProductShortInfoDto productShortInfoDto = productService.getProductDetails(id);
         model.addAttribute("productDetails", productShortInfoDto);
         return "product-details";
-    }
-
-    @PostMapping("/products/add-to-cart/{id}")
-    public String AddToCart(@PathVariable long id,
-                            @Valid AddToCartDto addToCartDto,
-                            BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addToCartDto", addToCartDto);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addToCartDto", bindingResult);
-            return "redirect:/products/details/" + id;
-        }
-        boolean isAddedToCart = cartItemService.addProduct(id, addToCartDto);
-        System.out.println();
-        return "redirect:/";
     }
 
 }

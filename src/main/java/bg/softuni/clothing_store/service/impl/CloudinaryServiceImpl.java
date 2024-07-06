@@ -2,7 +2,6 @@ package bg.softuni.clothing_store.service.impl;
 
 import bg.softuni.clothing_store.service.CloudinaryService;
 import com.cloudinary.Cloudinary;
-import com.cloudinary.Transformation;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

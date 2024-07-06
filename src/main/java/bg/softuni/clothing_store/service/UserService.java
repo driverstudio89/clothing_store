@@ -10,9 +10,5 @@ public interface UserService {
 
     boolean register(UserRegisterDto userRegisterDto);
 
-    boolean login(UserLoginDto loginData);
-
-    void logout();
-
     Set<CartItem> getCart();
 }

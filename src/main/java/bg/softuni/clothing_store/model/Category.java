@@ -2,11 +2,17 @@ package bg.softuni.clothing_store.model;
 
 import bg.softuni.clothing_store.model.enums.CategoryType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "categories")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Category {
 
     @Id
@@ -27,43 +33,6 @@ public class Category {
         this.description = description;
     }
 
-    public Category() {
-
-    }
-
-
     //##########################################################
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public CategoryType getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryType category) {
-        this.category = category;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
 }

@@ -2,9 +2,15 @@ package bg.softuni.clothing_store.model;
 
 import bg.softuni.clothing_store.model.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -14,21 +20,10 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private UserRole name;
 
+    public Role(UserRole role) {
+        this.name = role;
+    }
+
     //###################################################################
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public UserRole getName() {
-        return name;
-    }
-
-    public void setName(UserRole name) {
-        this.name = name;
-    }
 }

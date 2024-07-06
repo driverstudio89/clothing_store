@@ -15,6 +15,9 @@ import bg.softuni.clothing_store.web.dto.AddProductDto;
 import bg.softuni.clothing_store.web.dto.AddToCartDto;
 import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
 import com.cloudinary.Cloudinary;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements bg.softuni.clothing_store.service.ProductService {
 
@@ -35,15 +39,6 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
     private final SubCategoryRepository subCategoryRepository;
     private final CloudinaryService cloudinaryService;
     private final CartItemService cartItemService;
-
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository, SubCategoryRepository subCategoryRepository, Cloudinary cloudinary, CloudinaryService cloudinaryService, CartItemRepository cartItemRepository, CartItemService cartItemService) {
-        this.productRepository = productRepository;
-        this.modelMapper = modelMapper;
-        this.categoryRepository = categoryRepository;
-        this.subCategoryRepository = subCategoryRepository;
-        this.cloudinaryService = cloudinaryService;
-        this.cartItemService = cartItemService;
-    }
 
     @Override
     @Transactional

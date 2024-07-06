@@ -34,15 +34,17 @@ spring:
         format_sql: true
         show_sql: true
     defer-datasource-initialization: true
-  #Cloudinary Properties
-  #cloudinary:
-  #api-key:
-  #api-secret:
-  #cloud-name:
+
   web:
     resources:
       cache:
         period: 0
       static-locations: file:src/main/resources/static/
+
+  #Cloudinary Properties
+cloudinary:
+  api-key: ${CLOUDINARY_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  cloud-name: ${CLOUDINARY_API_NAME}
 
 
