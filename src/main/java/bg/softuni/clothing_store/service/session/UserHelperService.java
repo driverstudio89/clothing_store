@@ -1,4 +1,4 @@
-package bg.softuni.clothing_store.service;
+package bg.softuni.clothing_store.service.session;
 
 import bg.softuni.clothing_store.data.UserRepository;
 import bg.softuni.clothing_store.model.User;

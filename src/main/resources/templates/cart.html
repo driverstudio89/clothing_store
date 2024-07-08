@@ -38,8 +38,16 @@
                                                     <i class="fa fa-minus"></i>
                                                 </button>
 
-                                                <input id="form1" min="0" name="quantity" value="1" type="number"
-                                                       class="form-control form-control-sm" />
+                                                <input
+                                                        class="form-control form-control-sm"
+                                                        id="quantity"
+                                                        min="0"
+                                                        max="20"
+                                                        name="quantity"
+                                                        value="1"
+                                                        type="number"
+
+                                                        />
 
                                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
                                                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
@@ -99,8 +107,8 @@
                                         <h5>$ <span th:text="${total}"></span></h5>
                                     </div>
 
-                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
-                                             data-mdb-ripple-color="dark">Register</button>
+                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block btn-lg"
+                                             data-mdb-ripple-color="dark">BUY</button>
 
                                 </div>
                             </div>

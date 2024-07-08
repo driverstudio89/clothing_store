@@ -120,36 +120,41 @@
                         </div>  <!-- form-group end.// -->
 
 
-                        <div class="form-group">
-                            <label for="color">Color:</label>
-                            <Select type="text"
-                                    class="form-control"
+                        <label for="color">Color:</label>
+                        <div class="form-group row col-8">
+                            <div th:each="color : ${colorData}">
+                                <label class="form-check form-check-inline">
+                                    <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            name="color"
+                                            id="color"
+                                            th:value="${color}"
+                                            th:field="*{color}"
+                                    >
+                                    <span class="form-check-label" th:text="${color.toString()}"></span>
+                                </label>
+                            </div>
 
-                                    id="color"
-                                    name="color"
-                                    th:field="*{color}"
-                            >
-                                <option value="red">red</option>
-                                <option value="green">green</option>
-                                <option value="blue">blue</option>
-                            </Select>
                             <small th:each="error: ${#fields.errors('color')}" th:text="${error}" class="text-info">Error messages</small>
 
                         </div> <!-- form-group end.// -->
 
-                        <div class="form-group">
-                            <label for="size">Size:</label>
-                            <Select type="text"
-                                    class="form-control"
-
-                                    id="size"
-                                    name="size"
-                                    th:field="*{size}"
-                            >
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                            </Select>
+                        <label for="color">Size:</label>
+                        <div class="form-group row">
+                            <div class="ml-3" th:each="size : ${sizeData}">
+                                <label class="form-check form-check-inline">
+                                    <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            name="size"
+                                            id="size"
+                                            th:value="${size}"
+                                            th:field="*{size}"
+                                    >
+                                    <span class="form-check-label" th:text="${size.toString()}"></span>
+                                </label>
+                            </div>
                             <small th:each="error: ${#fields.errors('size')}" th:text="${error}" class="text-info">Error messages</small>
                         </div> <!-- form-group end.// -->
 
@@ -160,9 +165,10 @@
 
                                     id="subCategory"
                                     name="subCategory"
+                                    th:field="*{subCategory}"
                             >
                                 <option value="">Select type</option>
-                                <option th:each="type : ${subCategoryData}" th:value="${type}" th:text="${type.getValue()}"></option>
+                                <option th:each="type : ${subCategoryData}" th:value="${type}" th:text="${type}"></option>
                             </Select>
                             <small th:each="error: ${#fields.errors('subCategory')}" th:text="${error}" class="text-info">Error messages</small>
 
@@ -175,7 +181,9 @@
                                         class="form-check-input"
                                         type="radio"
                                         name="category"
-                                        value="men">
+                                        value="men"
+                                        th:field="*{category}"
+                                >
                                 <span class="form-check-label"> Man </span>
                             </label>
 
@@ -184,7 +192,9 @@
                                         class="form-check-input"
                                         type="radio"
                                         name="category"
-                                        value="women">
+                                        value="women"
+                                        th:field="*{category}"
+                                >
                                 <span class="form-check-label"> Women</span>
                             </label>
 
@@ -193,7 +203,9 @@
                                         class="form-check-input"
                                         type="radio"
                                         name="category"
-                                        value="children">
+                                        value="children"
+                                        th:field="*{category}"
+                                >
                                 <span class="form-check-label"> Children</span>
                             </label>
                             <small th:each="error: ${#fields.errors('category')}" th:text="${error}" class="text-info">Error messages</small>

@@ -2,11 +2,11 @@ package bg.softuni.clothing_store.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +14,6 @@ import java.util.Set;
 @Table(name = "products")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Product {
 
     @Id
@@ -30,14 +29,14 @@ public class Product {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false)
-    private String size;
+    @ManyToMany(targetEntity = Size.class, fetch = FetchType.EAGER)
+    private Set<Size> size;
 
-    @Column(nullable = false)
-    private String color;
+    @ManyToMany(targetEntity = Color.class, fetch = FetchType.EAGER)
+    private Set<Color> color;
 
-    @Column(nullable = false)
-    private int quantity;
+//    @Column(nullable = false)
+//    private int quantity;
 
     @Column(nullable = false)
     private String firstImage;
@@ -61,6 +60,11 @@ public class Product {
 
     @ManyToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
+
+    public Product() {
+        this.size = new HashSet<>();
+        this.color = new HashSet<>();
+    }
 
     //#######################################################
 

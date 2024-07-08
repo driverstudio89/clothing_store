@@ -1,18 +1,17 @@
 package bg.softuni.clothing_store.service.impl;
 
 import bg.softuni.clothing_store.data.CartItemRepository;
+import bg.softuni.clothing_store.data.ColorRepository;
 import bg.softuni.clothing_store.data.ProductRepository;
-import bg.softuni.clothing_store.data.UserRepository;
-import bg.softuni.clothing_store.model.CartItem;
-import bg.softuni.clothing_store.model.Product;
-import bg.softuni.clothing_store.model.User;
+import bg.softuni.clothing_store.data.SizeRepository;
+import bg.softuni.clothing_store.model.*;
+import bg.softuni.clothing_store.model.enums.ColorName;
+import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.service.CartItemService;
-import bg.softuni.clothing_store.service.UserHelperService;
+import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.AddToCartDto;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,6 +22,8 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
     private final UserHelperService userHelperService;
+    private final SizeRepository sizeRepository;
+    private final ColorRepository colorRepository;
 
     @Override
     public boolean addProduct(long id, AddToCartDto addToCartDto) {
@@ -32,7 +33,23 @@ public class CartItemServiceImpl implements CartItemService {
         }
         Product product = optionalProduct.get();
         User user = userHelperService.getUser();
-        CartItem cartItem = new CartItem(product, addToCartDto);
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setUser(user);
+
+
+            Size size = sizeRepository.findBySizeName(addToCartDto.getSize());
+            cartItem.setSize(size);
+            sizeRepository.save(size);
+
+
+            Color color = colorRepository.findByColorName(addToCartDto.getColor());
+            cartItem.setColor(color);
+            colorRepository.save(color);
+
+            cartItem.setQuantity(addToCartDto.getQuantity());
+
+
         cartItem.setUser(user);
         cartItemRepository.saveAndFlush(cartItem);
         return true;

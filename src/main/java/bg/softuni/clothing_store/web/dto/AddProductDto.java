@@ -8,9 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
-@NoArgsConstructor
 public class AddProductDto {
 
     @NotNull
@@ -29,17 +33,22 @@ public class AddProductDto {
     @Positive(message = "Quantity must be positive!")
     private int quantity;
 
-    @NotBlank(message = "You must choice a color!")
-    private String color;
+    @NotNull(message = "You must choice a color!")
+    private Set<String> color;
 
-    @NotBlank(message = "You must choice a size!")
-    private String size;
+    @NotNull(message = "You must choice a size!")
+    private Set<String> size;
 
     @NotBlank(message = "You must choice a category!")
     private String category;
 
     @NotBlank(message = "You must choice a type!")
     private String subCategory;
+
+    public AddProductDto() {
+        this.color = new HashSet<>();
+        this.size = new HashSet<>();
+    }
 
     //#############################################################
 

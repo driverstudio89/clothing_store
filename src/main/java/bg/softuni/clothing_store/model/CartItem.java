@@ -21,16 +21,14 @@ public class CartItem {
     @Column(nullable = false)
     private int quantity;
 
+    @ManyToOne
+    private Size size;
+
+    @ManyToOne
+    private Color color;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
-
-    public CartItem() {
-    }
-
-    public CartItem(Product product, AddToCartDto addToCartDto) {
-        this.product = product;
-        this.quantity = 111;
-    }
 
 
 }

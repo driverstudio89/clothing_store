@@ -1,11 +1,12 @@
 package bg.softuni.clothing_store.web.dto;
 
-import bg.softuni.clothing_store.model.Category;
-import bg.softuni.clothing_store.model.Product;
-import bg.softuni.clothing_store.model.SubCategory;
+import bg.softuni.clothing_store.model.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,9 +21,11 @@ public class ProductShortInfoDto {
 
     private String description;
 
-    private String size;
+    private Integer quantity;
 
-    private String color;
+    private Set<Size> size;
+
+    private Set<Color> color;
 
     private String firstImage;
 

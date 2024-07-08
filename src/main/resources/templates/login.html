@@ -41,7 +41,7 @@
                                        name="password"
                                        th:errorclass="is-invalid"
                                 >
-                                <small class="invalid-feedback text-danger">Password must be between 4 and 50 characters</small>
+                                <small th:each="error: ${#fields.errors()}" th:text="${error}" class="text-info">Error messages</small>
 
                             </div> <!-- form-group end.// -->
                             <div class="form-group">

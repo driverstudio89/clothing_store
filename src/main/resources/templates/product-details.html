@@ -84,16 +84,52 @@
                                 class="container-fluid"
                         >
 
-                            <div class="row mb-4">
+                            <div class="row mb-1 align-items-center">
+
+                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <label for="quantity">Quantity</label>
+                                </div>
+                                <div class="d-flex">
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+
+                                    <input
+                                            class="form-control form-control-sm"
+                                            id="quantity"
+                                            min="0"
+                                            max="20"
+                                            name="quantity"
+                                            value="1"
+                                            type="number"
+                                            />
+                                    <small class="invalid-feedback text-danger">Last name must be between 3 and 50 characters</small>
+
+
+
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <hr />
+
+
+
+                            <div class="row">
+
                                 <div class="col-md-4 col-6">
                                     <label class="mb-4">Size</label>
                                     <select class="form-select border border-secondary " style="height: 35px;"
                                             id="size"
                                             name="size"
                                     >
-                                        <option value="small">Small</option>
-                                        <option value="medium">Medium</option>
-                                        <option value="large">Large</option>
+                                        <option value="S">Small</option>
+                                        <option value="M">Medium</option>
+                                        <option value="L">Large</option>
                                     </select>
                                 </div>
 
@@ -103,14 +139,15 @@
                                             id="color"
                                             name="color"
                                     >
-                                        <option value="red">Red</option>
-                                        <option value="green">Green</option>
-                                        <option value="blue">Blue</option>
+                                        <option value="RED">Red</option>
+                                        <option value="GREEN">Green</option>
+                                        <option value="BLUE">Blue</option>
                                     </select>
                                 </div>
 
                             </div>
 
+                            <hr />
 
                             <div class="row mb-4">
                                 <div class="col-md-4 col-6">

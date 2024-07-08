@@ -1,5 +1,8 @@
 package bg.softuni.clothing_store.web;
 
+import bg.softuni.clothing_store.model.Size;
+import bg.softuni.clothing_store.model.enums.ColorName;
+import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.CloudinaryService;
@@ -45,6 +48,10 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     public String viewAddProduct(Model model) {
         model.addAttribute("subCategoryData", SubCategoryType.values());
+        SizeName[] sizeValues = SizeName.values();
+        ColorName[] colorValues = ColorName.values();
+        model.addAttribute("sizeData", sizeValues);
+        model.addAttribute("colorData", colorValues);
         return "add-product";
     }
 
@@ -83,5 +90,6 @@ public class ProductController {
         model.addAttribute("productDetails", productShortInfoDto);
         return "product-details";
     }
+
 
 }
