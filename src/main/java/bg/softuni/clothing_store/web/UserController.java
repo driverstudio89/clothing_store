@@ -31,7 +31,7 @@ public class UserController {
         return new UserLoginDto();
     }
 
-    @GetMapping("users/register")
+    @GetMapping("/users/register")
     public String viewRegister() {
         return "register";
     }
@@ -62,12 +62,12 @@ public class UserController {
         return "redirect:login";
     }
 
-    @GetMapping("users/login")
+    @GetMapping("/users/login")
     public String viewLogin() {
         return "login";
     }
 
-    @GetMapping("users/login-error")
+    @GetMapping("/users/login-error")
     public String viewLoginError(Model model) {
         model.addAttribute("wrongCredentials", true);
 

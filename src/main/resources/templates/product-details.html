@@ -9,6 +9,8 @@
 <!-- content -->
 <section class="py-5">
     <div class="container">
+
+
         <div class="row gx-5">
             <aside class="col-lg-6">
                 <div class="border rounded-4 mb-3 d-flex justify-content-center">
@@ -149,7 +151,9 @@
 
                             <hr />
 
+                            <div th:if="${productAlreadyInCart}" class="text-danger mb-2">Product is already in cart!</div>
                             <div class="row mb-4">
+
                                 <div class="col-md-4 col-6">
                                 <button type="submit"
                                         class="btn btn-primary btn-lg shadow-0 me-1 fa fa-shopping-basket">

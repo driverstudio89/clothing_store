@@ -91,5 +91,24 @@ public class ProductController {
         return "product-details";
     }
 
+    @PostMapping("/products/add-to-cart/{id}")
+    public String AddToCart(@PathVariable long id,
+                            @Valid AddToCartDto addToCartDto,
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("addToCartData", addToCartDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addToCartDto", bindingResult);
+            return "redirect:/products/details/" + id;
+        }
+
+        if (!cartItemService.addProduct(id, addToCartDto)) {
+            redirectAttributes.addFlashAttribute("productAlreadyInCart", true);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addToCartDto", bindingResult);
+            return "redirect:/products/details/" + id;
+        }
+
+        return "redirect:/";
+    }
 
 }

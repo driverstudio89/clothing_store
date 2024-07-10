@@ -32,22 +32,24 @@ public class CartItemServiceImpl implements CartItemService {
             throw new RuntimeException("Product with ID: " + id + "not found");
         }
         Product product = optionalProduct.get();
+        if (cartItemRepository.findByProductId(id).isPresent()) {
+            return false;
+        }
+
         User user = userHelperService.getUser();
         CartItem cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setUser(user);
 
 
-            Size size = sizeRepository.findBySizeName(addToCartDto.getSize());
-            cartItem.setSize(size);
-            sizeRepository.save(size);
+        Size size = sizeRepository.findBySizeName(addToCartDto.getSize());
+        cartItem.getSizes().add(size);
 
 
-            Color color = colorRepository.findByColorName(addToCartDto.getColor());
-            cartItem.setColor(color);
-            colorRepository.save(color);
+        Color color = colorRepository.findByColorName(addToCartDto.getColor());
+        cartItem.getColors().add(color);
 
-            cartItem.setQuantity(addToCartDto.getQuantity());
+        cartItem.setQuantity(addToCartDto.getQuantity());
 
 
         cartItem.setUser(user);

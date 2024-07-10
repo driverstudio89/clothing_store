@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "cart_items")
 @Getter
@@ -21,14 +24,17 @@ public class CartItem {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne
-    private Size size;
+    @ManyToMany
+    private List<Size> sizes;
 
-    @ManyToOne
-    private Color color;
+    @ManyToMany
+    private List<Color> colors;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-
+    public CartItem() {
+        this.sizes = new ArrayList<>();
+        this.colors = new ArrayList<>();
+    }
 }
