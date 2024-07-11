@@ -35,8 +35,8 @@ public class Product {
     @ManyToMany(targetEntity = Color.class, fetch = FetchType.EAGER)
     private Set<Color> color;
 
-//    @Column(nullable = false)
-//    private int quantity;
+    @Column(nullable = false)
+    private int quantity;
 
     @Column(nullable = false)
     private String firstImage;

@@ -49,6 +49,7 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
         product.setName(addProductDto.getName());
         product.setDescription(addProductDto.getDescription());
         product.setPrice(addProductDto.getPrice());
+        product.setQuantity((addProductDto.getQuantity()));
 
         product.setCreated(LocalDate.now());
         product.setModified(LocalDate.now());
@@ -119,6 +120,29 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
     public ProductShortInfoDto getProductDetails(long id) {
         ProductShortInfoDto productShortInfoDto = productRepository.findById(id).map(p -> modelMapper.map(p, ProductShortInfoDto.class)).orElse(null);
         return productShortInfoDto;
+    }
+
+    @Override
+    public void addInitialProduct(String name, String description, double price,
+                                  int quantity, String imageUrl, String color,
+                                  String size, String subCategory, String category) {
+
+        Product product = new Product();
+
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+
+        product.setCreated(LocalDate.now());
+        product.setModified(LocalDate.now());
+
+        product.setQuantity(quantity);
+        product.setFirstImage(imageUrl);
+        product.getColor().add((colorRepository.findByColorName(ColorName.valueOf(color.toUpperCase()))));
+        product.getSize().add(sizeRepository.findBySizeName(SizeName.valueOf(size.toUpperCase())));
+        product.setSubCategory(subCategoryRepository.findBySubCategory(SubCategoryType.valueOf(subCategory.toUpperCase())));
+        product.setCategory(categoryRepository.findByCategory(CategoryType.valueOf(category.toUpperCase())));
+        productRepository.save(product);
     }
 
 }

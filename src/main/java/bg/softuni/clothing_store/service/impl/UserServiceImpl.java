@@ -102,4 +102,30 @@ public class UserServiceImpl implements UserService {
         }
         return total;
     }
+
+    @Override
+    public void initAdmin() {
+        User admin = new User();
+        Role adminRole = roleRepository.findByName(UserRole.ADMIN);
+        admin.setUsername("admin");
+        admin.setPassword(this.passwordEncoder.encode("123456"));
+        admin.setEmail("admin@mail.bg");
+        admin.setFirstName("Admin");
+        admin.setLastName("Adminov");
+        admin.getRoles().add(adminRole);
+        userRepository.save(admin);
+    }
+
+    @Override
+    public void initUser() {
+        User user = new User();
+        Role userRole = roleRepository.findByName(UserRole.USER);
+        user.setUsername("username");
+        user.setPassword(this.passwordEncoder.encode("123456"));
+        user.setEmail("mail@mail.bg");
+        user.setFirstName("Petar");
+        user.setLastName("Petrov");
+        user.getRoles().add(userRole);
+        userRepository.save(user);
+    }
 }

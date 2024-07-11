@@ -17,4 +17,7 @@ public interface ProductService {
 
     ProductShortInfoDto getProductDetails(long id);
 
+    void addInitialProduct(String name, String description,
+                           double price, int quantity, String imageUrl,
+                           String color, String size, String subCategory, String category);
 }

@@ -17,4 +17,8 @@ public interface UserService {
     ClientInfoDto getClientInfo();
 
     Double getCartTotal();
+
+    void initAdmin();
+
+    void initUser();
 }
