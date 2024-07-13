@@ -7,6 +7,7 @@ import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ public interface ProductService {
     ProductShortInfoDto getProductDetails(long id);
 
     void addInitialProduct(String name, String description,
-                           double price, int quantity, String imageUrl,
+                           BigDecimal price, int quantity, String imageUrl,
                            String color, String size, String subCategory, String category);
+
+    void outOfStock(long id);
 }

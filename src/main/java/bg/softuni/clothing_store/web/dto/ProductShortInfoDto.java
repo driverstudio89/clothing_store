@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -17,11 +18,13 @@ public class ProductShortInfoDto {
 
     private String name;
 
-    private Double price;
+    private BigDecimal price;
 
     private String description;
 
     private Integer quantity;
+
+    private boolean isInStock;
 
     private Set<Size> size;
 
@@ -47,6 +50,8 @@ public class ProductShortInfoDto {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
+        this.quantity = product.getQuantity();
+        this.isInStock = product.isInStock();
         this.description = product.getDescription();
         this.size = product.getSize();
         this.color = product.getColor();

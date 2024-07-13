@@ -27,7 +27,7 @@ public class ClientInfoDto {
     @Email(message = "Please enter valid email!")
     private String email;
 
-    @NotBlank(message = "Phone number must between 8 and 12 digits!")
+    @NotNull(message = "Phone number must between 8 and 12 digits!")
     @Size(min = 8, max = 12, message = "Phone number must between 8 and 12 digits!")
     private String phoneNumber;
 
@@ -42,4 +42,10 @@ public class ClientInfoDto {
 
     @NotBlank(message = "Need to enter zip")
     private String zip;
+
+    @NotBlank
+    private String deliveryOptions;
+
+    @NotBlank
+    private String paymentOptions;
 }

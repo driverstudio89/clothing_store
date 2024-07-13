@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,7 @@ public class AddProductDto {
 
     @NotNull(message = "You must input price!")
     @Positive(message = "Price must be positive!")
-    private Double price;
+    private BigDecimal price;
 
     @NotNull(message = "You must input quantity!")
     @Positive(message = "Quantity must be positive!")

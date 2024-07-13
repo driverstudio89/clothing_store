@@ -1,14 +1,15 @@
 package bg.softuni.clothing_store.model.enums;
 
-public enum PaymentType {
-    ON_DELIVERY ("On Delivery"),
-    CARD ("Card"),
-    PAYPAL("PayPal");
+public enum DeliveryType {
+
+    SPEEDY ("Speedy"),
+    ECONT ("Econt"),
+    SAME_DAY ("Same day");
 
     private final String value;
 
 
-    PaymentType(String value) {
+    DeliveryType(String value) {
         this.value = value;
     }
 

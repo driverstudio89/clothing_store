@@ -49,6 +49,8 @@ public class User {
 
     @Column
     private String country;
+    @Column
+    private String zip;
 
 //    @Column(name = "is_active", nullable = false)
 //    private boolean isActive;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
@@ -60,6 +61,9 @@ public class Product {
 
     @ManyToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
+
+    @Column(nullable = false)
+    private boolean inStock = false;
 
     public Product() {
         this.size = new HashSet<>();

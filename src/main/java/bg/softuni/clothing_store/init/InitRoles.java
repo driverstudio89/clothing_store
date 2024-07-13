@@ -4,16 +4,14 @@ import bg.softuni.clothing_store.data.RoleRepository;
 import bg.softuni.clothing_store.model.Role;
 import bg.softuni.clothing_store.model.enums.UserRole;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class InitRoles implements CommandLineRunner {
+public class InitRoles{
 
     private final RoleRepository roleRepository;
 
-    @Override
     public void run(String... args) throws Exception {
         if (roleRepository.count() > 0) {
             return;

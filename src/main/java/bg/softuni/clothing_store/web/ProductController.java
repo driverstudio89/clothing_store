@@ -1,6 +1,5 @@
 package bg.softuni.clothing_store.web;
 
-import bg.softuni.clothing_store.model.Size;
 import bg.softuni.clothing_store.model.enums.ColorName;
 import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
@@ -92,7 +91,7 @@ public class ProductController {
     }
 
     @PostMapping("/products/add-to-cart/{id}")
-    public String AddToCart(@PathVariable long id,
+    public String addToCart(@PathVariable long id,
                             @Valid AddToCartDto addToCartDto,
                             BindingResult bindingResult,
                             RedirectAttributes redirectAttributes) {
@@ -109,6 +108,14 @@ public class ProductController {
         }
 
         return "redirect:/";
+    }
+
+    @PostMapping("/products/remove/{id}")
+    public String outOfStock(@PathVariable long id) {
+
+        productService.outOfStock(id);
+
+        return "redirect:/administration";
     }
 
 }

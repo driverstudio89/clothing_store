@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class InitSubCategories implements CommandLineRunner {
+public class InitSubCategories {
 
     private final SubCategoryRepository subCategoryRepository;
 
@@ -32,7 +32,6 @@ public class InitSubCategories implements CommandLineRunner {
         this.subCategoryRepository = subCategoryRepository;
     }
 
-    @Override
     public void run(String... args) throws Exception {
         long count = this.subCategoryRepository.count();
 

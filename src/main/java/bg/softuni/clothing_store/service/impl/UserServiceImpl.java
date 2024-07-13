@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Optional;
@@ -54,35 +55,23 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
     @Transactional
     @Override
     public Set<CartItemInfoDto> getCart() {
 
         User user = getUser();
 
-//        Set<CartItemInfoDto> cart = new LinkedHashSet<>();
-//        user.getCartItems().forEach(cartItem -> {
-//            CartItemInfoDto cartItemInfoDto = new CartItemInfoDto();
-//            modelMapper.map(cartItem, CartItemInfoDto.class);
-//            cart.add(cartItemInfoDto);
-//        });
-
-
         Set<CartItemInfoDto> cart = new LinkedHashSet<>();
-        for (CartItem cartItem : user.getCartItems()) {
-            CartItemInfoDto cartItemInfoDto = new CartItemInfoDto();
-            cartItemInfoDto.setId(cartItem.getId());
-            cartItemInfoDto.setProduct(cartItem.getProduct());
-            cartItemInfoDto.setQuantity(cartItem.getQuantity());
-            cartItemInfoDto.setColor(cartItem.getColors().getFirst());
-            cartItemInfoDto.setSize(cartItem.getSizes().getFirst());
+        user.getCartItems().forEach(cartItem -> {
+            CartItemInfoDto cartItemInfoDto = modelMapper.map(cartItem, CartItemInfoDto.class);
             cart.add(cartItemInfoDto);
-        }
+        });
+
         return cart;
     }
 
-    private User getUser() {
+    @Override
+    public User getUser() {
         return userRepository.findById(userHelperService.getUser().getId()).get();
     }
 
@@ -94,12 +83,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Double getCartTotal() {
-        Double total = 0.0;
+    public BigDecimal getCartTotal() {
+        BigDecimal total = new BigDecimal(0);
         for (CartItem cartItem : getUser().getCartItems()) {
-            Double price = cartItem.getProduct().getPrice();
-            total += price;
+            int quantity = cartItem.getQuantity();
+            BigDecimal price = cartItem.getProduct().getPrice();
+            total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
         }
+        System.out.println();
         return total;
     }
 
@@ -126,6 +117,17 @@ public class UserServiceImpl implements UserService {
         user.setFirstName("Petar");
         user.setLastName("Petrov");
         user.getRoles().add(userRole);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void addUserData(ClientInfoDto clientInfoDto) {
+        User user = getUser();
+        user.setPhoneNumber(clientInfoDto.getPhoneNumber());
+        user.setAddress(clientInfoDto.getAddress());
+        user.setCountry(clientInfoDto.getCountry());
+        user.setCity(clientInfoDto.getCity());
+        user.setZip(clientInfoDto.getZip());
         userRepository.save(user);
     }
 }

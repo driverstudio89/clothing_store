@@ -9,11 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class InitSize  implements CommandLineRunner {
+public class InitSize  {
 
     private final SizeRepository sizeRepository;
 
-    @Override
     public void run(String... args) throws Exception {
         if (sizeRepository.count() > 0) {
             return;

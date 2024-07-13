@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class InitCategories implements CommandLineRunner {
+public class InitCategories {
 
     private final Map<CategoryType, String> categoriesDescription = Map.of(
             CategoryType.MEN, "clothing for men",
@@ -23,7 +23,6 @@ public class InitCategories implements CommandLineRunner {
         this.categoryRepository = categoryRepository;
     }
 
-    @Override
     public void run(String... args) throws Exception {
         long count = this.categoryRepository.count();
 

@@ -1,47 +1,58 @@
 package bg.softuni.clothing_store.model;
 
+import bg.softuni.clothing_store.model.enums.DeliveryType;
 import bg.softuni.clothing_store.model.enums.PaymentType;
-import bg.softuni.clothing_store.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int quantity;
+    @OneToMany(targetEntity = CartItem.class)
+    private Set<CartItem> cartItem;
 
-    private Double subtotal;
+    @Column(nullable = false)
+    private BigDecimal total;
 
-    private Double total;
+    @Column(nullable = false)
+    private String Address;
 
-    private String billingAddress;
-
-    private String shippingAddress;
-
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(targetEntity = Status.class)
     private Status status;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DeliveryType deliveryType;
+
+    @Column(nullable = false)
     private LocalDate created;
 
+    @Column(nullable = false)
     private LocalDate modified;
 
     @ManyToOne(targetEntity = User.class)
     private User user;
+
+    public Order() {
+        this.cartItem = new HashSet<>();
+    }
 
     //#######################################
 

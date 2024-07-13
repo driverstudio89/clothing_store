@@ -6,22 +6,18 @@ import bg.softuni.clothing_store.model.enums.CategoryType;
 import bg.softuni.clothing_store.model.enums.ColorName;
 import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
-import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.CloudinaryService;
+import bg.softuni.clothing_store.service.ProductService;
 import bg.softuni.clothing_store.web.dto.AddProductDto;
-import bg.softuni.clothing_store.web.dto.AddToCartDto;
 import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
-import com.cloudinary.Cloudinary;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class ProductServiceImpl implements bg.softuni.clothing_store.service.ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
@@ -50,6 +46,9 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
         product.setDescription(addProductDto.getDescription());
         product.setPrice(addProductDto.getPrice());
         product.setQuantity((addProductDto.getQuantity()));
+        if (addProductDto.getQuantity() > 0) {
+            product.setInStock(true);
+        }
 
         product.setCreated(LocalDate.now());
         product.setModified(LocalDate.now());
@@ -113,7 +112,8 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
     @Override
     public Set<ProductShortInfoDto> getLastProducts() {
         return productRepository.findTop12OrderByCreatedAfter(LocalDate.now().minusWeeks(1))
-                .stream().map(ProductShortInfoDto::new).collect(Collectors.toSet());
+                .stream().filter(Product::isInStock)
+                .map(ProductShortInfoDto::new).collect(Collectors.toSet());
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
     }
 
     @Override
-    public void addInitialProduct(String name, String description, double price,
+    public void addInitialProduct(String name, String description, BigDecimal price,
                                   int quantity, String imageUrl, String color,
                                   String size, String subCategory, String category) {
 
@@ -137,12 +137,23 @@ public class ProductServiceImpl implements bg.softuni.clothing_store.service.Pro
         product.setModified(LocalDate.now());
 
         product.setQuantity(quantity);
+        if (quantity > 0) {
+            product.setInStock(true);
+        }
         product.setFirstImage(imageUrl);
         product.getColor().add((colorRepository.findByColorName(ColorName.valueOf(color.toUpperCase()))));
         product.getSize().add(sizeRepository.findBySizeName(SizeName.valueOf(size.toUpperCase())));
         product.setSubCategory(subCategoryRepository.findBySubCategory(SubCategoryType.valueOf(subCategory.toUpperCase())));
         product.setCategory(categoryRepository.findByCategory(CategoryType.valueOf(category.toUpperCase())));
         productRepository.save(product);
+    }
+
+    @Override
+    public void outOfStock(long id) {
+        Product product = productRepository.findById(id).get();
+        product.setInStock(false);
+        productRepository.save(product);
+        System.out.println();
     }
 
 }

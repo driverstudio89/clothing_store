@@ -5,16 +5,13 @@ import bg.softuni.clothing_store.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 @Component
 @RequiredArgsConstructor
-public class InitUsers implements CommandLineRunner {
+public class InitUsers {
 
     private final UserService userService;
     private final UserRepository userRepository;
 
-
-    @Override
     public void run(String... args) throws Exception {
         if (userRepository.count() > 0) {
             return;
