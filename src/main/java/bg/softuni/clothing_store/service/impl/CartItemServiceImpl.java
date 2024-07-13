@@ -39,7 +39,7 @@ public class CartItemServiceImpl implements CartItemService {
         User user = userHelperService.getUser();
         CartItem cartItem = new CartItem();
         cartItem.setProduct(product);
-        cartItem.setUser(user);
+//        cartItem.setUser(user);
 
 
         Size size = sizeRepository.findBySizeName(addToCartDto.getSize());

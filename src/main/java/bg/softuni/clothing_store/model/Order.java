@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,8 +23,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(targetEntity = CartItem.class)
-    private Set<CartItem> cartItem;
+    @OneToMany(targetEntity = OrderItem.class)
+    private List<OrderItem> orderItems;
 
     @Column(nullable = false)
     private BigDecimal total;
@@ -51,7 +53,7 @@ public class Order {
     private User user;
 
     public Order() {
-        this.cartItem = new HashSet<>();
+        this.orderItems = new ArrayList<>();
     }
 
     //#######################################

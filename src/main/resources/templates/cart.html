@@ -42,11 +42,10 @@
 
                                                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
 
-                                                    <span class="h5" th:unless="${productDetails.isInStock()}">Out of stock</span>
 
-                                                    <h6 class="mb-0" th:if="${productDetails.isInStock()}">$ <span
+                                                    <h6 class="mb-0" th:if="${item.getProduct().inStock}">$ <span
                                                             th:text="*{item.getProduct().price}"></span></h6>
-                                                    <span class="h5" th:unless="${productDetails.isInStock()}">Out of stock</span>
+                                                    <span class="h5 text-danger" th:unless="${item.getProduct().inStock}">Out of stock</span>
 
                                                 </div>
                                                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
@@ -93,7 +92,10 @@
                                             <h5>$ <span th:text="${total}"></span></h5>
                                         </div>
 
-                                        <a class="text-decoration-none" th:href="@{/users/cart/checkout}">
+                                        <span class="text-danger" th:unless="${isInStock}"> Item in cart is out of stock, please remove it before proceed!</span>
+
+                                        <a th:if="${isInStock}"
+                                                class="text-decoration-none" th:href="@{/users/cart/checkout}">
                                             <button type="button"
                                                     class="btn btn-primary rounded-2 btn-lg mb-5"
                                                     data-mdb-button-init data-mdb-ripple-init

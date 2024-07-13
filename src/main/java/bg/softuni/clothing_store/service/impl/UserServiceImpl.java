@@ -94,6 +94,8 @@ public class UserServiceImpl implements UserService {
         return total;
     }
 
+
+
     @Override
     public void initAdmin() {
         User admin = new User();
@@ -129,5 +131,16 @@ public class UserServiceImpl implements UserService {
         user.setCity(clientInfoDto.getCity());
         user.setZip(clientInfoDto.getZip());
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean itemInCartOutOfStock() {
+        boolean isInStock = true;
+        for (CartItem cartItem : getUser().getCartItems()) {
+            if (!cartItem.getProduct().isInStock()) {
+                isInStock = false;
+            }
+        }
+        return isInStock;
     }
 }

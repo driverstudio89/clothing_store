@@ -17,6 +17,10 @@ public class CartItemInfoDto {
     private long id;
     @NotNull
     private Product product;
+
+    @NotNull
+    private boolean isInStock;
+
     @NotNull
     @Positive(message = "Quantity must be positive number!")
     private int quantity;

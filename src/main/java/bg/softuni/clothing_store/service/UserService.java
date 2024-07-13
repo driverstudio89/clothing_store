@@ -27,4 +27,6 @@ public interface UserService {
     void initUser();
 
     void addUserData(ClientInfoDto clientInfoDto);
+
+    boolean itemInCartOutOfStock();
 }

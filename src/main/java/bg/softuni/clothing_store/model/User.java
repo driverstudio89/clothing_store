@@ -49,17 +49,9 @@ public class User {
 
     @Column
     private String country;
+
     @Column
     private String zip;
-
-//    @Column(name = "is_active", nullable = false)
-//    private boolean isActive;
-
-//    @Column(nullable = false)
-//    private LocalDate created;
-//
-//    @Column(nullable = false)
-//    private LocalDate modified;
 
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     private List<Role> roles;

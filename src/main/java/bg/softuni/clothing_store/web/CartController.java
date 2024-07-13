@@ -50,11 +50,14 @@ public class CartController {
     public String viewCart(Model model) {
         Set<CartItemInfoDto> cart = userService.getCart();
         BigDecimal total = userService.getCartTotal();
+        boolean isInStock = userService.itemInCartOutOfStock();
+
 
         System.out.println();
         model.addAttribute("cartItems", cart);
         model.addAttribute("total", total);
         model.addAttribute("quantity", cartItemInfoDto().getQuantity());
+        model.addAttribute("isInStock", isInStock);
 
         return "cart";
     }

@@ -1,7 +1,10 @@
 package bg.softuni.clothing_store.config;
 
+import bg.softuni.clothing_store.model.CartItem;
+import bg.softuni.clothing_store.model.OrderItem;
 import com.cloudinary.Cloudinary;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +27,11 @@ public class Config {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        TypeMap<CartItem, OrderItem> typeMap = modelMapper.createTypeMap(CartItem.class, OrderItem.class);
+        typeMap.addMappings(mapper -> mapper.skip(OrderItem::setId));
+
+        return modelMapper;
     }
 
     @Bean

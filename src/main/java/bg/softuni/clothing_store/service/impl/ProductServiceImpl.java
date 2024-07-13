@@ -152,6 +152,7 @@ public class ProductServiceImpl implements ProductService {
     public void outOfStock(long id) {
         Product product = productRepository.findById(id).get();
         product.setInStock(false);
+        product.setPrice(BigDecimal.valueOf(0));
         productRepository.save(product);
         System.out.println();
     }
