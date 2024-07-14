@@ -17,10 +17,10 @@
                 <li th:each="item : ${cartItems}"
                     class="list-group-item d-flex justify-content-between lh-condensed">
 
-                        <h6 class="my-0" th:text="*{item.getProduct().getName()}">Product name</h6>
+                    <h6 class="my-0" th:text="*{item.getProduct().getName()}">Product name</h6>
 
-                        <span> <span><span th:text="*{item.quantity}"></span> x </span> $ <span
-                                th:text="*{item.getProduct().getPrice()}"></span></span>
+                    <span> <span><span th:text="*{item.quantity}"></span> x </span> $ <span
+                            th:text="*{item.getProduct().getPrice()}"></span></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total:</span>
@@ -167,7 +167,7 @@
 
                     </div>
 
-                    <div class="col-md-3 mb-3 flex-box">
+                    <div class="col-md-6 mb-3">
                         <label for="deliveryOptions">Delivery options</label>
                         <select data-mdb-select-init
                                 class="form-control"
@@ -179,9 +179,12 @@
                             <option th:each="type : ${deliveryOptions}" th:value="${type}"
                                     th:text="${type.value}"></option>
                         </select>
+                        <small th:each="error: ${#fields.errors('deliveryOptions')}" th:text="${error}"
+                               class="text-info">Error
+                            messages</small>
                     </div>
 
-                    <div class="col-md-3 mb-3 flex-box">
+                    <div class="col-md-6 mb-3">
                         <label for="paymentOptions">Payment</label>
                         <select data-mdb-select-init
                                 class="form-control"
@@ -193,6 +196,9 @@
                             <option th:each="type : ${paymentOptions}" th:value="${type}"
                                     th:text="${type.value}"></option>
                         </select>
+                        <small th:each="error: ${#fields.errors('paymentOptions')}" th:text="${error}"
+                               class="text-info">Error
+                            messages</small>
                     </div>
 
                 </div>

@@ -43,9 +43,9 @@ public class ClientInfoDto {
     @NotBlank(message = "Need to enter zip")
     private String zip;
 
-    @NotBlank
+    @NotBlank(message = "Need to select delivery method")
     private String deliveryOptions;
 
-    @NotBlank
+    @NotBlank(message = "Need to select payment method")
     private String paymentOptions;
 }

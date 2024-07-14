@@ -1,5 +1,7 @@
 package bg.softuni.clothing_store.web;
 
+import bg.softuni.clothing_store.model.SubCategory;
+import bg.softuni.clothing_store.model.enums.CategoryType;
 import bg.softuni.clothing_store.model.enums.ColorName;
 import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
@@ -19,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
@@ -73,10 +77,10 @@ public class ProductController {
 
         Map<String, MultipartFile> toUploadMap = Map.of
                 ("firstImage", firstImage,
-                "secondImage", secondImage,
-                "thirdImage", thirdImage,
-                "fourthImage", fourthImage,
-                "fifthImage", fifthImage);
+                        "secondImage", secondImage,
+                        "thirdImage", thirdImage,
+                        "fourthImage", fourthImage,
+                        "fifthImage", fifthImage);
 
         productService.addProduct(addProductDto, toUploadMap);
         redirectAttributes.addFlashAttribute("productAddedSuccessfully", true);
@@ -117,5 +121,35 @@ public class ProductController {
 
         return "redirect:/administration";
     }
+
+    @GetMapping("/products/{category}")
+    public String viewProductsMen(
+            @PathVariable String category,
+            @RequestParam(required = false, name = "vars") SubCategoryType subCategoryType,
+            Model model) {
+
+        List<SubCategoryType> subCategory = null;
+
+        if (!category.equalsIgnoreCase("MEN")) {
+            subCategory = Arrays.stream(SubCategoryType.values()).toList();
+        }else {
+            subCategory = productService.getSubcategoryMen();
+        }
+
+        model.addAttribute("category", category);
+
+        if (subCategoryType != null) {
+            Set<ProductShortInfoDto> products = productService.getProducts(CategoryType.valueOf(category.toUpperCase()), subCategoryType);
+            model.addAttribute("products", products);
+            model.addAttribute("subCategoryType", subCategory);
+            return "products";
+        }
+
+        Set<ProductShortInfoDto> products = productService.getProducts(CategoryType.valueOf(category.toUpperCase()));
+        model.addAttribute("products", products);
+        model.addAttribute("subCategoryType", subCategory);
+        return "products";
+    }
+
 
 }

@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -111,15 +113,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Set<ProductShortInfoDto> getLastProducts() {
-        return productRepository.findTop12OrderByCreatedAfter(LocalDate.now().minusWeeks(1))
-                .stream().filter(Product::isInStock)
+        Set<Product> products = productRepository.findTop12OrderByCreatedAfter(LocalDate.now().minusWeeks(1));
+        return mapProductsToDto(products);
+    }
+
+    private static Set<ProductShortInfoDto> mapProductsToDto(Set<Product> products) {
+        return products.stream().filter(Product::isInStock)
                 .map(ProductShortInfoDto::new).collect(Collectors.toSet());
     }
 
     @Override
     public ProductShortInfoDto getProductDetails(long id) {
-        ProductShortInfoDto productShortInfoDto = productRepository.findById(id).map(p -> modelMapper.map(p, ProductShortInfoDto.class)).orElse(null);
-        return productShortInfoDto;
+        return productRepository.findById(id).map(p -> modelMapper.map(p, ProductShortInfoDto.class)).orElse(null);
     }
 
     @Override
@@ -156,5 +161,34 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
         System.out.println();
     }
+
+    @Override
+    public Set<ProductShortInfoDto> getProducts(CategoryType categoryType) {
+        Category category = categoryRepository.findByCategory(categoryType);
+        Set<Product> allByCategory = productRepository.findAllByCategory(category);
+        return mapProductsToDto(allByCategory);
+    }
+
+    @Override
+    @Transactional
+    public Set<ProductShortInfoDto> getProducts(CategoryType categoryType, SubCategoryType subCategoryType) {
+        Category category = categoryRepository.findByCategory(categoryType);
+        SubCategory subCategory = subCategoryRepository.findBySubCategory(subCategoryType);
+
+        Set<Product> allByCategory = productRepository.findAllByCategoryAndSubCategory(category, subCategory);
+        return mapProductsToDto(allByCategory);
+    }
+
+    @Override
+    public List<SubCategoryType> getSubcategoryMen() {
+        List<SubCategoryType> subCategoryType = new ArrayList<>();
+        for (SubCategoryType s : SubCategoryType.values()) {
+            if (!s.equals(SubCategoryType.DRESS) && !s.equals(SubCategoryType.TOP) && !s.equals(SubCategoryType.SKIRT) && !s.equals(SubCategoryType.BLOUSE)) {
+                subCategoryType.add(s);
+            }
+        }
+        return subCategoryType;
+    }
+
 
 }

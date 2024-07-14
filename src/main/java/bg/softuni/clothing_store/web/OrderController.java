@@ -82,7 +82,7 @@ public class OrderController {
     @GetMapping("/administration/orders/all-orders")
     @PreAuthorize("hasRole('ADMIN')")
     public String allOrders(
-            @RequestParam(required = false) LocalDate created,
+            @RequestParam(required = false)LocalDate created,
             @RequestParam(required = false) StatusType statusType,
             Model model) {
 
