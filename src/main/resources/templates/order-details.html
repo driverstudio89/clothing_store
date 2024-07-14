@@ -10,10 +10,21 @@
 
     <div class="container">
         <!-- Title -->
-        <div class="d-flex justify-content-between align-items-center py-3">
-            <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order # <span th:text="${orderDetails.id}"></span>
-            </h2>
+        <div class="justify-content-between align-items-middle ">
+
+            <div>
+                <a th:href="@{/administration/orders/all-orders}">
+                    <p class="nav-link"><-- All orders</p>
+                </a>
+            </div>
+            <div>
+                <div class="h5 mb-0"><a href="#" class="text-muted"></a> Order # <span th:text="${orderDetails.id}"></span></div>
+            </div>
+
+
+
         </div>
+
 
         <!-- Main content -->
         <div class="row">
@@ -32,13 +43,13 @@
                                 <a th:href="@{/administration/orders/processing{id}(id = *{orderDetails.id})}">
                                     <button th:if="${newOrder}"
                                             type="button"
-                                            class="btn btn-primary btn-sm rounded-2">Processing
+                                            class="btn btn-warning btn-sm rounded-2">Processing
                                     </button>
                                 </a>
                                 <a th:href="@{/administration/orders/complete{id}(id = *{orderDetails.id})}">
                                     <button th:if="${processingOrder}"
                                             type="button"
-                                            class="btn btn-primary btn-sm rounded-2">Complete
+                                            class="btn btn-success btn-sm rounded-2">Complete
                                     </button>
                                 </a>
                             </div>
@@ -105,7 +116,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <h3 class="h6">Delivery address:</h3>
-                                <address>
+                                <div>
                                     <div>
                                         <span>Name: </span>
                                         <strong th:text="|*{orderDetails.user.firstName} *{orderDetails.user.lastName}|"></strong>
@@ -113,6 +124,11 @@
                                     <div>
                                         <span>Phone number: </span>
                                         <span th:text="*{orderDetails.user.phoneNumber}"></span>
+                                    </div>
+
+                                    <div>
+                                        <span>Phone number: </span>
+                                        <span th:text="*{orderDetails.user.email}"></span>
                                     </div>
 
                                     <div>
@@ -134,37 +150,12 @@
                                         <span>Zip code: </span>
                                         <span th:text="${orderDetails.user.zip}"></span>
                                     </div>
-                                </address>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--            <div class="col-lg-4">-->
-            <!--                &lt;!&ndash; Customer Notes &ndash;&gt;-->
-            <!--                <div class="card mb-4">-->
-            <!--                    <div class="card-body">-->
-            <!--                        <h3 class="h6">Customer Notes</h3>-->
-            <!--                        <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="card mb-4">-->
-            <!--                    &lt;!&ndash; Shipping information &ndash;&gt;-->
-            <!--                    <div class="card-body">-->
-            <!--                        <h3 class="h6">Shipping Information</h3>-->
-            <!--                        <strong>FedEx</strong>-->
-            <!--                        <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>-->
-            <!--                        <hr>-->
-            <!--                        <h3 class="h6">Address</h3>-->
-            <!--                        <address>-->
-            <!--                            <strong>John Doe</strong><br>-->
-            <!--                            1355 Market St, Suite 900<br>-->
-            <!--                            San Francisco, CA 94103<br>-->
-            <!--                            <abbr title="Phone">P:</abbr> (123) 456-7890-->
-            <!--                        </address>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </div>
     </div>
 </div>

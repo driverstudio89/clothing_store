@@ -14,13 +14,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -82,11 +81,37 @@ public class OrderController {
 
     @GetMapping("/administration/orders/all-orders")
     @PreAuthorize("hasRole('ADMIN')")
-    public String allOrders(Model model) {
+    public String allOrders(
+            @RequestParam(required = false) LocalDate created,
+            @RequestParam(required = false) StatusType statusType,
+            Model model) {
+
+        if (created != null && statusType != null) {
+            LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders(created, statusType);
+            model.addAttribute("allOrders", allOrders);
+            model.addAttribute("statusTypes", StatusType.values());
+            return "all-orders";
+        }
+        if (created != null) {
+            LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders(created);
+            model.addAttribute("allOrders", allOrders);
+            model.addAttribute("statusTypes", StatusType.values());
+            return "all-orders";
+        }
+
+        if (statusType != null) {
+            LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders(statusType);
+            model.addAttribute("allOrders", allOrders);
+            model.addAttribute("statusTypes", StatusType.values());
+            return "all-orders";
+        }
 
         LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders();
-        model.addAttribute("allOrders", allOrders);
 
+
+        model.addAttribute("allOrders", allOrders);
+        model.addAttribute("statusTypes", StatusType.values());
+        System.out.println();
         return "all-orders";
     }
 
@@ -125,8 +150,5 @@ public class OrderController {
 
         return "redirect:/administration/orders/all-orders";
     }
-
-
-
 
 }

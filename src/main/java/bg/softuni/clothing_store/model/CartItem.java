@@ -18,16 +18,16 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(targetEntity = Product.class)
     private Product product;
 
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Size.class)
     private Size sizes;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Color.class)
     private Color colors;
 
     @ManyToOne(fetch = FetchType.EAGER)

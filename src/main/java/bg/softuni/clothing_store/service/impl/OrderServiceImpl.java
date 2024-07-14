@@ -17,7 +17,6 @@ import bg.softuni.clothing_store.web.dto.ClientInfoDto;
 import bg.softuni.clothing_store.web.dto.OrderInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,10 +76,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public LinkedHashSet<OrderInfoDto> getAllOrders() {
-        LinkedHashSet<OrderInfoDto> allOrders = orderRepository.findAllByOrderByCreatedDesc()
-                .stream().map(o -> {
-                    return modelMapper.map(o, OrderInfoDto.class);
-                }).collect(Collectors.toCollection(LinkedHashSet::new));
+        LinkedHashSet<OrderInfoDto> allOrders = mapOrdersToDto(orderRepository.findAllByOrderByCreatedDesc());
         System.out.println();
         return allOrders;
 
@@ -109,6 +105,34 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void changeStatus(long id, StatusType statusType) {
         orderRepository.findById(id).get().setStatus(statusRepository.findByName(statusType));
+    }
+
+    @Override
+    @Transactional
+    public LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created) {
+        return mapOrdersToDto(orderRepository.findAllByCreated(created));
+    }
+
+    @Override
+    @Transactional
+    public LinkedHashSet<OrderInfoDto> getAllOrders(StatusType statusType) {
+        Status status = statusRepository.findByName(statusType);
+        List<Order> orders = orderRepository.findAllByStatus(status);
+        return mapOrdersToDto(orders);
+    }
+
+    @Override
+    @Transactional
+    public LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType) {
+        Status status = statusRepository.findByName(statusType);
+        List<Order> orders = orderRepository.findAllByStatusAndCreated(status, created);
+        return mapOrdersToDto(orders);
+    }
+
+    private LinkedHashSet<OrderInfoDto> mapOrdersToDto(List<Order> orders) {
+        return orders.stream().map(o -> {
+            return modelMapper.map(o, OrderInfoDto.class);
+        }).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
 

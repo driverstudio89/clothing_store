@@ -17,45 +17,38 @@
             </div>
             <div class="table-filter">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <div class="show-entries">
-                            <span>Show</span>
-                            <select class="form-control">
-                                <option>5</option>
-                                <option>10</option>
-                                <option>15</option>
-                                <option>20</option>
-                            </select>
-                            <span>entries</span>
-                        </div>
-                    </div>
                     <div class="col-sm-9">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                        <div class="filter-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control">
+                        <form th:action="@{/administration/orders/all-orders}">
+
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+
+                            <div class="filter-group">
+
+                                <label>Status</label>
+                                <select
+                                        type="text"
+                                        class="form-control"
+                                        id="statusType"
+                                        th:name="statusType"
+                                >
+                                    <option value="">Any</option>
+                                    <option th:each="type : ${statusTypes}" th:value="${type}"
+                                            th:text="${type}"></option>
+                                </select>
                         </div>
+
                         <div class="filter-group">
-                            <label>Location</label>
-                            <select class="form-control">
-                                <option>All</option>
-                                <option>Berlin</option>
-                                <option>London</option>
-                                <option>Madrid</option>
-                                <option>New York</option>
-                                <option>Paris</option>
-                            </select>
+                            <label for="created">Order date:</label>
+                            <input
+                                    type="date"
+                                    class="form-control"
+                                    id="created"
+                                    th:name="created"
+                            >
                         </div>
-                        <div class="filter-group">
-                            <label>Status</label>
-                            <select class="form-control">
-                                <option>Any</option>
-                                <option>Delivered</option>
-                                <option>Shipped</option>
-                                <option>Pending</option>
-                                <option>Cancelled</option>
-                            </select>
-                        </div>
+                        </form>
+
+
                         <span class="filter-icon"><i class="fa fa-filter"></i></span>
                     </div>
                 </div>
@@ -83,7 +76,8 @@
                     <td>
                         <a th:href="@{/administration/orders/order-{id}(id = *{order.id})}">
                             <button type="button"
-                                    class="btn btn-primary rounded-2">Details</button>
+                                    class="btn btn-primary rounded-2">Details
+                            </button>
                         </a>
 
                     </td>
