@@ -43,11 +43,11 @@ public class CartItemServiceImpl implements CartItemService {
 
 
         Size size = sizeRepository.findBySizeName(addToCartDto.getSize());
-        cartItem.getSizes().add(size);
+        cartItem.setSizes(size);
 
 
         Color color = colorRepository.findByColorName(addToCartDto.getColor());
-        cartItem.getColors().add(color);
+        cartItem.setColors(color);
 
         cartItem.setQuantity(addToCartDto.getQuantity());
 

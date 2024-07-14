@@ -23,18 +23,16 @@ public class OrderItem {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToMany
-    private List<Size> sizes;
+    @ManyToOne
+    private Size sizes;
 
-    @ManyToMany
-    private List<Color> colors;
+    @ManyToOne
+    private Color colors;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     public OrderItem() {
-        this.sizes = new ArrayList<>();
-        this.colors = new ArrayList<>();
     }
 
 

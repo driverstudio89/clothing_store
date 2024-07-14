@@ -69,7 +69,7 @@
                     <th>Order Date</th>
                     <th>Status</th>
                     <th>Total</th>
-                    <th>Change status</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,12 +81,9 @@
                     <td th:text="*{order.getStatus().getName()}"></td>
                     <td>$ <span th:text="*{order.getTotal()}"></span></td>
                     <td>
-                        <a>
-                            <button
-                                    type="button"
-                                    class="btn btn-primary rounded-2"
-                                    th:href="@{/administration/all-orders/{id}(id = *{order.id})}">Details
-                            </button>
+                        <a th:href="@{/administration/orders/order-{id}(id = *{order.id})}">
+                            <button type="button"
+                                    class="btn btn-primary rounded-2">Details</button>
                         </a>
 
                     </td>

@@ -2,6 +2,7 @@ package bg.softuni.clothing_store.web;
 
 import bg.softuni.clothing_store.model.enums.DeliveryType;
 import bg.softuni.clothing_store.model.enums.PaymentType;
+import bg.softuni.clothing_store.model.enums.StatusType;
 import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.web.dto.CartItemInfoDto;
@@ -79,7 +80,7 @@ public class OrderController {
         return "redirect:/";
     }
 
-    @GetMapping("/administration/all-orders")
+    @GetMapping("/administration/orders/all-orders")
     @PreAuthorize("hasRole('ADMIN')")
     public String allOrders(Model model) {
 
@@ -88,6 +89,44 @@ public class OrderController {
 
         return "all-orders";
     }
+
+    @GetMapping("/administration/orders/order-{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String orderDetail(@PathVariable long id, Model model) {
+
+        OrderInfoDto orderDetails = orderService.getOrderDetails(id);
+        BigDecimal orderTotal = orderService.getOrderTotal(id);
+        boolean newOrder = orderDetails.getStatus().getName().equals(StatusType.NEW);
+        boolean processingOrder = orderDetails.getStatus().getName().equals(StatusType.PROCESSING);
+
+        model.addAttribute("orderDetails", orderDetails);
+        model.addAttribute("orderTotal", orderTotal);
+        model.addAttribute("newOrder", newOrder);
+        model.addAttribute("processingOrder", processingOrder);
+
+
+        System.out.println();
+
+        return "order-details";
+    }
+
+    @GetMapping("/administration/orders/processing{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String changeStatusProcessing(@PathVariable long id) {
+        orderService.changeStatus(id, StatusType.PROCESSING);
+
+        return "redirect:/administration/orders/all-orders";
+    }
+
+    @GetMapping("/administration/orders/complete{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String changeStatusCompleted(@PathVariable long id) {
+        orderService.changeStatus(id, StatusType.COMPLETED);
+
+        return "redirect:/administration/orders/all-orders";
+    }
+
+
 
 
 }

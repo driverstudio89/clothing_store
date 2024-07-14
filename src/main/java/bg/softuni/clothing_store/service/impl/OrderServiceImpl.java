@@ -21,11 +21,9 @@ import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,4 +85,31 @@ public class OrderServiceImpl implements OrderService {
         return allOrders;
 
     }
+
+    @Override
+    @Transactional
+    public OrderInfoDto getOrderDetails(long id) {
+        return modelMapper.map(orderRepository.findById(id), OrderInfoDto.class);
+    }
+
+    @Override
+    @Transactional
+    public BigDecimal getOrderTotal(long id) {
+        BigDecimal total = new BigDecimal(0);
+        for (OrderItem orderItem : orderRepository.findById(id).get().getOrderItems()) {
+            int quantity = orderItem.getQuantity();
+            BigDecimal price = orderItem.getProduct().getPrice();
+            total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
+        }
+        System.out.println();
+        return total;
+    }
+
+    @Override
+    @Transactional
+    public void changeStatus(long id, StatusType statusType) {
+        orderRepository.findById(id).get().setStatus(statusRepository.findByName(statusType));
+    }
+
+
 }

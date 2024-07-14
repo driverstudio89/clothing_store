@@ -1,6 +1,7 @@
 package bg.softuni.clothing_store.web.dto;
 
 import bg.softuni.clothing_store.model.CartItem;
+import bg.softuni.clothing_store.model.OrderItem;
 import bg.softuni.clothing_store.model.Status;
 import bg.softuni.clothing_store.model.User;
 import bg.softuni.clothing_store.model.enums.DeliveryType;
@@ -21,7 +22,7 @@ public class OrderInfoDto {
 
     private Long id;
 
-    private Set<CartItem> cartItems;
+    private Set<OrderItem> orderItems;
 
     private BigDecimal total;
 

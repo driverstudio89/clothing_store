@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/head}"></head>
+<body>
+
+<header th:replace="~{fragments/header}"></header>
+
+
+<div class="container-fluid">
+
+    <div class="container">
+        <!-- Title -->
+        <div class="d-flex justify-content-between align-items-center py-3">
+            <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order # <span th:text="${orderDetails.id}"></span>
+            </h2>
+        </div>
+
+        <!-- Main content -->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Details -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <span class="me-3" th:text="${orderDetails.modified}"></span>
+                                <span class="me-3 ml-5 text-success">Status:  <span
+                                        th:text="${orderDetails.status.getName()}"></span></span>
+                            </div>
+                            <div class="d-flex">
+                                <span class="mr-3">Change status to: </span>
+                                <a th:href="@{/administration/orders/processing{id}(id = *{orderDetails.id})}">
+                                    <button th:if="${newOrder}"
+                                            type="button"
+                                            class="btn btn-primary btn-sm rounded-2">Processing
+                                    </button>
+                                </a>
+                                <a th:href="@{/administration/orders/complete{id}(id = *{orderDetails.id})}">
+                                    <button th:if="${processingOrder}"
+                                            type="button"
+                                            class="btn btn-primary btn-sm rounded-2">Complete
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                        <table class="table table-borderless">
+                            <tbody>
+                            <tr th:each="item : ${orderDetails.getOrderItems()}">
+                                <td>
+                                    <div class="d-flex mb-2">
+                                        <div class="flex-shrink-0 mr-3">
+                                            <img th:src="${item.getProduct().getFirstImage()}" width="35"
+                                                 class="img-fluid">
+                                        </div>
+                                        <div class="flex-lg-grow-1 ms-3">
+                                            <h6 class="small mb-0 ml-2">
+                                                <a th:href="@{/products/details/{id}(id = *{item.getProduct().id})}"
+                                                   class="text-reset" th:text="*{item.getProduct().getName()}"></a></h6>
+                                            <span class="small ml-2">Color: <span
+                                                    th:text="*{item.product.color[0].colorName}"></span></span>
+                                            <span class="small ml-2">Size: <span
+                                                    th:text="*{item.product.size[0].sizeName}"></span></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-end">quantity: <span th:text="*{item.quantity}"></span></td>
+                                <td class="text-end">$ <span th:text="*{item.product.price}"></span></td>
+                            </tr>
+
+                            </tbody>
+                            <tfoot>
+                            <!--                            <tr>-->
+                            <!--                                <td colspan="2">Subtotal</td>-->
+                            <!--                                <td class="text-end">$159,98</td>-->
+                            <!--                            </tr>-->
+                            <!--                            <tr>-->
+                            <!--                                <td colspan="2">Shipping</td>-->
+                            <!--                                <td class="text-end">$20.00</td>-->
+                            <!--                            </tr>-->
+                            <!--                            <tr>-->
+                            <!--                                <td colspan="2">Discount (Code: NEWYEAR)</td>-->
+                            <!--                                <td class="text-danger text-end">-$10.00</td>-->
+                            <!--                            </tr>-->
+                            <tr class="fw-bold">
+                                <td colspan="2">TOTAL</td>
+                                <td class="text-end">$ <span th:text="${orderTotal}"></span></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <!-- Payment -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <h3 class="h6">Payment Method:</h3>
+                                <span class="badge bg-success rounded-pill"
+                                      th:text="${orderDetails.paymentType.value}"></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <h3 class="h6">Delivery Method:</h3>
+                                <span class="badge bg-success rounded-pill"
+                                      th:text="${orderDetails.deliveryType.value}"></span>
+                            </div>
+                            <div class="col-lg-6">
+                                <h3 class="h6">Delivery address:</h3>
+                                <address>
+                                    <div>
+                                        <span>Name: </span>
+                                        <strong th:text="|*{orderDetails.user.firstName} *{orderDetails.user.lastName}|"></strong>
+                                    </div>
+                                    <div>
+                                        <span>Phone number: </span>
+                                        <span th:text="*{orderDetails.user.phoneNumber}"></span>
+                                    </div>
+
+                                    <div>
+                                        <span>Country: </span>
+                                        <span th:text="${orderDetails.user.country}"></span>
+                                    </div>
+
+                                    <div>
+                                        <span>City: </span>
+                                        <span th:text="${orderDetails.user.city}"></span>
+                                    </div>
+
+                                    <div>
+                                        <span>Address: </span>
+                                        <span th:text="${orderDetails.user.address}"></span>
+                                    </div>
+
+                                    <div>
+                                        <span>Zip code: </span>
+                                        <span th:text="${orderDetails.user.zip}"></span>
+                                    </div>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            <div class="col-lg-4">-->
+            <!--                &lt;!&ndash; Customer Notes &ndash;&gt;-->
+            <!--                <div class="card mb-4">-->
+            <!--                    <div class="card-body">-->
+            <!--                        <h3 class="h6">Customer Notes</h3>-->
+            <!--                        <p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="card mb-4">-->
+            <!--                    &lt;!&ndash; Shipping information &ndash;&gt;-->
+            <!--                    <div class="card-body">-->
+            <!--                        <h3 class="h6">Shipping Information</h3>-->
+            <!--                        <strong>FedEx</strong>-->
+            <!--                        <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>-->
+            <!--                        <hr>-->
+            <!--                        <h3 class="h6">Address</h3>-->
+            <!--                        <address>-->
+            <!--                            <strong>John Doe</strong><br>-->
+            <!--                            1355 Market St, Suite 900<br>-->
+            <!--                            San Francisco, CA 94103<br>-->
+            <!--                            <abbr title="Phone">P:</abbr> (123) 456-7890-->
+            <!--                        </address>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<section th:replace="~{fragments/scripts}"></section>
+
+</body>
+</html>
