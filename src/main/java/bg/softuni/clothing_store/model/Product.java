@@ -62,6 +62,9 @@ public class Product {
     @ManyToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
 
+//    @ManyToMany(targetEntity = Review.class)
+//    private Set<Review> review;
+
     @Column(nullable = false)
     private boolean inStock = false;
 
