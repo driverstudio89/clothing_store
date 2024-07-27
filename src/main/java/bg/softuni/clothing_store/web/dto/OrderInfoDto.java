@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -34,9 +35,9 @@ public class OrderInfoDto {
 
     private DeliveryType deliveryType;
 
-    private LocalDate created;
+    private LocalDateTime created;
 
-    private LocalDate modified;
+    private LocalDateTime modified;
 
     private User user;
 

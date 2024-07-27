@@ -26,13 +26,14 @@ public class CartItemServiceImpl implements CartItemService {
     private final ColorRepository colorRepository;
 
     @Override
-    public boolean addProduct(long id, AddToCartDto addToCartDto) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
+    public boolean addProduct(long productId, AddToCartDto addToCartDto) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isEmpty()) {
-            throw new RuntimeException("Product with ID: " + id + "not found");
+            throw new RuntimeException("Product with ID: " + productId + "not found");
         }
+        Long userId = userHelperService.getUser().getId();
         Product product = optionalProduct.get();
-        if (cartItemRepository.findByProductId(id).isPresent()) {
+        if (cartItemRepository.findByProductIdAndUserId(productId, userId).isPresent()) {
             return false;
         }
 

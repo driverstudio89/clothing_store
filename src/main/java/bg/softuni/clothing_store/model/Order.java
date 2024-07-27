@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,10 +45,10 @@ public class Order {
     private DeliveryType deliveryType;
 
     @Column(nullable = false)
-    private LocalDate created;
+    private LocalDateTime created;
 
     @Column(nullable = false)
-    private LocalDate modified;
+    private LocalDateTime modified;
 
     @ManyToOne(targetEntity = User.class)
     private User user;

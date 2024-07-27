@@ -76,7 +76,7 @@ public class OrderController {
 
         orderService.createOrder(clientInfoDto);
 
-        return "redirect:/";
+        return "redirect:/users/orders";
     }
 
     @GetMapping("/administration/orders/all-orders")

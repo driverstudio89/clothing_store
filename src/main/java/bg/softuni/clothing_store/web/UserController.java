@@ -1,9 +1,13 @@
 package bg.softuni.clothing_store.web;
 
+import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
+import bg.softuni.clothing_store.web.dto.OrderInfoDto;
 import bg.softuni.clothing_store.web.dto.UserLoginDto;
+import bg.softuni.clothing_store.web.dto.UserProfileDto;
 import bg.softuni.clothing_store.web.dto.UserRegisterDto;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,14 +16,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.List;
+
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final OrderService orderService;
 
     @ModelAttribute("registerData")
     public UserRegisterDto userRegisterDto() {
@@ -29,6 +35,16 @@ public class UserController {
     @ModelAttribute("loginData")
     public UserLoginDto userLoginDto() {
         return new UserLoginDto();
+    }
+
+    @ModelAttribute("profileData")
+    public UserProfileDto userProfileDto() {
+        return new UserProfileDto();
+    }
+
+    @ModelAttribute("orderDetails")
+    public OrderInfoDto orderInfoDto() {
+        return new OrderInfoDto();
     }
 
     @GetMapping("/users/register")
@@ -74,24 +90,21 @@ public class UserController {
         return "login";
     }
 
-//    @PostMapping("/users/login")
-//    public String doLogin(
-//            @Valid UserLoginDto userLoginDto,
-//            BindingResult bindingResult,
-//            RedirectAttributes redirectAttributes) {
-//
-//        if (bindingResult.hasErrors()) {
-//            redirectAttributes.addFlashAttribute("loginData", userLoginDto);
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
-//            return "redirect:login";
-//        }
-//        if (!userService.login(userLoginDto)) {
-//            redirectAttributes.addFlashAttribute("loginData", userLoginDto);
-//            redirectAttributes.addFlashAttribute("wrongCredentials", true);
-//            return "redirect:login";
-//        }
-//
-//        return "redirect:/";
-//    }
+    @GetMapping("/users/profile")
+    public String viewProfile(Model model) {
+        UserProfileDto userProfileDto = userService.getUserProfile();
+        model.addAttribute("profileData", userProfileDto);
+        return "profile";
+    }
+
+    @GetMapping("/users/orders")
+    public String viewUserOrders(Model model) {
+
+        List<OrderInfoDto> allOrders = orderService.allUserOrders();
+
+        model.addAttribute("allOrders", allOrders);
+        return "user-orders";
+    }
+
 
 }

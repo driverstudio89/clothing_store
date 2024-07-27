@@ -70,7 +70,7 @@
                     <td th:text="*{order.getId()}"></td>
                     <td th:text="|*{order.getUser().getFirstName()} *{order.getUser().getLastName()}|"></td>
                     <td th:text="*{order.getUser().getPhoneNumber()}"></td>
-                    <td th:text="*{order.getCreated()}"></td>
+                    <td th:text="${#temporals.format(order.created, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="*{order.getStatus().getName()}"></td>
                     <td>$ <span th:text="*{order.getTotal()}"></span></td>
                     <td>

@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <div class="mb-3 d-flex justify-content-between">
                             <div>
-                                <span class="me-3" th:text="${orderDetails.modified}"></span>
+                                <span class="me-3" th:text="${#temporals.format(orderDetails.modified, 'dd-MM-yyyy HH:mm')}"></span>
                                 <span class="me-3 ml-5 text-success">Status:  <span
                                         th:text="${orderDetails.status.getName()}"></span></span>
                             </div>

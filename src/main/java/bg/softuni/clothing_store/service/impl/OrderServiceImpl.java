@@ -3,16 +3,14 @@ package bg.softuni.clothing_store.service.impl;
 import bg.softuni.clothing_store.data.OrderItemRepository;
 import bg.softuni.clothing_store.data.OrderRepository;
 import bg.softuni.clothing_store.data.StatusRepository;
-import bg.softuni.clothing_store.model.CartItem;
-import bg.softuni.clothing_store.model.Order;
-import bg.softuni.clothing_store.model.OrderItem;
-import bg.softuni.clothing_store.model.Status;
+import bg.softuni.clothing_store.model.*;
 import bg.softuni.clothing_store.model.enums.DeliveryType;
 import bg.softuni.clothing_store.model.enums.PaymentType;
 import bg.softuni.clothing_store.model.enums.StatusType;
 import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
+import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.ClientInfoDto;
 import bg.softuni.clothing_store.web.dto.OrderInfoDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final StatusRepository statusRepository;
     private final OrderItemRepository orderItemRepository;
     private final CartItemService cartItemService;
-
+    private final UserHelperService userHelperService;
 
 
     @Override
@@ -61,8 +60,8 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentType(PaymentType.valueOf(clientInfoDto.getPaymentOptions()));
         order.setDeliveryType(DeliveryType.valueOf(clientInfoDto.getDeliveryOptions()));
         order.setStatus(status);
-        order.setCreated(LocalDate.now());
-        order.setModified(LocalDate.now());
+        order.setCreated(LocalDateTime.now());
+        order.setModified(LocalDateTime.now());
         order.setUser(userService.getUser());
         orderRepository.save(order);
         for (CartItem cartItem : userService.getUser().getCartItems()) {
@@ -127,6 +126,16 @@ public class OrderServiceImpl implements OrderService {
         Status status = statusRepository.findByName(statusType);
         List<Order> orders = orderRepository.findAllByStatusAndCreated(status, created);
         return mapOrdersToDto(orders);
+    }
+
+    @Override
+    @Transactional
+    public List<OrderInfoDto> allUserOrders() {
+        User user = userHelperService.getUser();
+        List<Order> orders = orderRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
+        return orders.stream().map(o -> {
+            return modelMapper.map(o, OrderInfoDto.class);
+        }).toList();
     }
 
     private LinkedHashSet<OrderInfoDto> mapOrdersToDto(List<Order> orders) {

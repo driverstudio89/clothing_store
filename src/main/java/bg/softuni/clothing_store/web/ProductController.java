@@ -9,10 +9,7 @@ import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.ProductService;
 import bg.softuni.clothing_store.service.ReviewService;
 import bg.softuni.clothing_store.service.session.UserHelperService;
-import bg.softuni.clothing_store.web.dto.AddProductDto;
-import bg.softuni.clothing_store.web.dto.AddToCartDto;
-import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
-import bg.softuni.clothing_store.web.dto.ReviewInfoDto;
+import bg.softuni.clothing_store.web.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,6 +49,11 @@ public class ProductController {
     @ModelAttribute("reviewInfoDto")
     public ReviewInfoDto reviewInfoDto() {
         return new ReviewInfoDto();
+    }
+
+    @ModelAttribute("reviewData")
+    public AddReviewDto addReviewDto() {
+        return new AddReviewDto();
     }
 
     @GetMapping("/administration/add-product")
@@ -143,7 +145,7 @@ public class ProductController {
 
         if (!category.equalsIgnoreCase("MEN")) {
             subCategory = Arrays.stream(SubCategoryType.values()).toList();
-        }else {
+        } else {
             subCategory = productService.getSubcategoryMen();
         }
 
@@ -160,6 +162,36 @@ public class ProductController {
         model.addAttribute("products", products);
         model.addAttribute("subCategoryType", subCategory);
         return "products";
+    }
+
+    @GetMapping("/products/add-review/{id}")
+    public String viewAddReview(@PathVariable long id, Model model) {
+        String productImage = productService.getProductImage(id);
+
+        model.addAttribute("productImage", productImage);
+        model.addAttribute("productId", id);
+
+        return "add-review";
+    }
+
+    @PostMapping("/products/add-review/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String addReview(@PathVariable long id,
+                            @Valid AddReviewDto addReviewDto,
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("reviewData", addReviewDto());
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.reviewData", bindingResult);
+            return "redirect:/products/add-review/" + id;
+        }
+
+        if (!reviewService.addReview(addReviewDto, id)) {
+            return "redirect:/products/add-review/" + id;
+        }
+
+        return "redirect:/users/orders";
     }
 
 

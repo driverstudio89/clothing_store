@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 public interface OrderService {
@@ -26,4 +27,6 @@ public interface OrderService {
     LinkedHashSet<OrderInfoDto> getAllOrders(StatusType statusType);
 
     LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType);
+
+    List<OrderInfoDto> allUserOrders();
 }

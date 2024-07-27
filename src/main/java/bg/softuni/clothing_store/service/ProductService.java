@@ -31,4 +31,6 @@ public interface ProductService {
     Set<ProductShortInfoDto> getProducts(CategoryType categoryType, SubCategoryType subCategoryType);
 
     List<SubCategoryType> getSubcategoryMen();
+
+    String getProductImage(long id);
 }

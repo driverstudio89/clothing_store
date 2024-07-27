@@ -190,5 +190,10 @@ public class ProductServiceImpl implements ProductService {
         return subCategoryType;
     }
 
+    @Override
+    public String getProductImage(long id) {
+        return productRepository.findById(id).get().getFirstImage();
+    }
+
 
 }

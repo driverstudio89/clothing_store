@@ -13,6 +13,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     void deleteById(long id);
 
-    Optional<CartItem> findByProductId(long id);
+    Optional<CartItem> findByProductIdAndUserId(long productId, long userId);
 
 }

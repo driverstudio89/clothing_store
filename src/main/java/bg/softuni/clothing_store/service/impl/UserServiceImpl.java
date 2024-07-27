@@ -10,6 +10,7 @@ import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.web.dto.CartItemInfoDto;
 import bg.softuni.clothing_store.web.dto.ClientInfoDto;
+import bg.softuni.clothing_store.web.dto.UserProfileDto;
 import bg.softuni.clothing_store.web.dto.UserRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -142,5 +143,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return isInStock;
+    }
+
+    @Override
+    public UserProfileDto getUserProfile() {
+        User user = userHelperService.getUser();
+        return modelMapper.map(user, UserProfileDto.class);
     }
 }

@@ -2,10 +2,7 @@ package bg.softuni.clothing_store.service;
 
 import bg.softuni.clothing_store.model.CartItem;
 import bg.softuni.clothing_store.model.User;
-import bg.softuni.clothing_store.web.dto.CartItemInfoDto;
-import bg.softuni.clothing_store.web.dto.ClientInfoDto;
-import bg.softuni.clothing_store.web.dto.UserLoginDto;
-import bg.softuni.clothing_store.web.dto.UserRegisterDto;
+import bg.softuni.clothing_store.web.dto.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -29,4 +26,6 @@ public interface UserService {
     void addUserData(ClientInfoDto clientInfoDto);
 
     boolean itemInCartOutOfStock();
+
+    UserProfileDto getUserProfile();
 }
