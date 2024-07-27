@@ -1,28 +1,25 @@
 package bg.softuni.clothing_store.service.impl;
 
+import bg.softuni.clothing_store.data.OrderRepository;
 import bg.softuni.clothing_store.data.RoleRepository;
 import bg.softuni.clothing_store.data.UserRepository;
 import bg.softuni.clothing_store.model.CartItem;
+import bg.softuni.clothing_store.model.Order;
 import bg.softuni.clothing_store.model.Role;
 import bg.softuni.clothing_store.model.User;
 import bg.softuni.clothing_store.model.enums.UserRole;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.service.UserService;
-import bg.softuni.clothing_store.web.dto.CartItemInfoDto;
-import bg.softuni.clothing_store.web.dto.ClientInfoDto;
-import bg.softuni.clothing_store.web.dto.UserProfileDto;
-import bg.softuni.clothing_store.web.dto.UserRegisterDto;
+import bg.softuni.clothing_store.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -34,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final RoleRepository roleRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     public boolean register(UserRegisterDto userRegisterDto) {
@@ -149,5 +147,30 @@ public class UserServiceImpl implements UserService {
     public UserProfileDto getUserProfile() {
         User user = userHelperService.getUser();
         return modelMapper.map(user, UserProfileDto.class);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrderFromUser(long orderId) {
+        Long userId = userHelperService.getUser().getId();
+        User user = userRepository.findById(userId).get();
+        Order order = orderRepository.findById(orderId).get();
+        List<Order> orders = user.getOrders();
+        orders.remove(order);
+        user.setOrders(orders);
+        orderRepository.delete(order);
+        orderRepository.flush();
+        userRepository.save(user);
+
+    }
+
+    @Override
+    @Transactional
+    public List<OrderInfoDto> getOrders() {
+        User user = userHelperService.getUser();
+        List<Order> orders = user.getOrders();
+        return orders.stream().map(o -> {
+            return modelMapper.map(o, OrderInfoDto.class);
+        }).toList();
     }
 }

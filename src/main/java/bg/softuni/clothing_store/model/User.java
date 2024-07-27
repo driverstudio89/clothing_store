@@ -57,11 +57,11 @@ public class User {
     private List<Role> roles;
 
     @OneToMany(targetEntity = Order.class, mappedBy = "user")
-    private Set<Order> order;
+    private List<Order> orders;
 
     public User() {
         this.cartItems = new HashSet<>();
-        this.order = new HashSet<>();
+        this.orders = new ArrayList<>();
         this.roles = new ArrayList<>();
     }
 

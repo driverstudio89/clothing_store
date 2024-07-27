@@ -9,11 +9,10 @@ import bg.softuni.clothing_store.web.dto.UserRegisterDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -100,10 +99,17 @@ public class UserController {
     @GetMapping("/users/orders")
     public String viewUserOrders(Model model) {
 
-        List<OrderInfoDto> allOrders = orderService.allUserOrders();
+        List<OrderInfoDto> allOrders = userService.getOrders();
 
         model.addAttribute("allOrders", allOrders);
         return "user-orders";
+    }
+
+    @Transactional
+    @DeleteMapping("/users/orders/delete/{id}")
+    public String deleteUserOrder(@PathVariable long id) {
+        userService.deleteOrderFromUser(id);
+        return "redirect:/users/orders";
     }
 
 

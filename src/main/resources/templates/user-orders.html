@@ -17,8 +17,6 @@
                             <div>
                                 <span class="me-3"
                                       th:text="${#temporals.format(order.created, 'dd-MM-yyyy HH:mm')}"></span>
-                                <span class="me-3 ml-5 text-success">Status:  <span
-                                        th:text="*{order.status.getName()}"></span></span>
                             </div>
 
 
@@ -45,9 +43,22 @@
                                     </td>
                                     <td class="text-end">quantity: <span th:text="*{item.quantity}"></span></td>
                                     <td class="text-end">$ <span th:text="*{item.product.price}"></span></td>
+
                                     <td class="text-end"><a class="btn btn-warning text-black btn-sm px-4"
                                                             th:href="@{/products/add-review/{id}(id = *{item.product.id})}">Review</a>
-                                        </span></td>
+                                    </td>
+
+<!--                                    <td class="text-end">-->
+<!--                                        <form-->
+<!--                                                th:method="DELETE"-->
+<!--                                                th:action="@{/users/orders/delete/{id}(id = *{order.id})}" >-->
+<!--                                            <button-->
+<!--                                                    type="submit"-->
+<!--                                                    class="btn btn-danger shadow-0 me-1 mb-2 float-right">-->
+<!--                                                <i class="fa fa-times"> </i>-->
+<!--                                            </button>-->
+<!--                                        </form>-->
+<!--                                    </td>-->
                                 </tr>
 
                                 </tbody>

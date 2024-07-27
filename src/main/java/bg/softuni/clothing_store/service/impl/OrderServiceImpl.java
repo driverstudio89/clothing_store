@@ -3,6 +3,7 @@ package bg.softuni.clothing_store.service.impl;
 import bg.softuni.clothing_store.data.OrderItemRepository;
 import bg.softuni.clothing_store.data.OrderRepository;
 import bg.softuni.clothing_store.data.StatusRepository;
+import bg.softuni.clothing_store.data.UserRepository;
 import bg.softuni.clothing_store.model.*;
 import bg.softuni.clothing_store.model.enums.DeliveryType;
 import bg.softuni.clothing_store.model.enums.PaymentType;
@@ -35,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemRepository orderItemRepository;
     private final CartItemService cartItemService;
     private final UserHelperService userHelperService;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -53,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         Status status = statusRepository.findByName(StatusType.NEW);
+        User user = userHelperService.getUser();
 
         order.getOrderItems().addAll(new HashSet<>(cart));
         order.setTotal(userService.getCartTotal());
@@ -64,6 +67,8 @@ public class OrderServiceImpl implements OrderService {
         order.setModified(LocalDateTime.now());
         order.setUser(userService.getUser());
         orderRepository.save(order);
+//        user.getOrders().add(order);
+//        userRepository.save(user);
         for (CartItem cartItem : userService.getUser().getCartItems()) {
             cartItemService.removeFromCart(cartItem.getId());
         }
