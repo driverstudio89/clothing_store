@@ -33,4 +33,6 @@ public interface ProductService {
     List<SubCategoryType> getSubcategoryMen();
 
     String getProductImage(long id);
+
+    double getRating(long id);
 }

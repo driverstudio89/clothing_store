@@ -68,9 +68,21 @@ public class Product {
     @Column(nullable = false)
     private boolean inStock = false;
 
+    @Column
+    private double rating;
+
+    @Column
+    private long stars;
+
+    @Column
+    private long voted;
+
     public Product() {
         this.size = new HashSet<>();
         this.color = new HashSet<>();
+        this.rating = 0.0;
+        this.stars = 0;
+        this.voted = 0;
     }
 
     //#######################################################

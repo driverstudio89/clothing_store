@@ -10,9 +10,11 @@ import bg.softuni.clothing_store.service.ProductService;
 import bg.softuni.clothing_store.service.ReviewService;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.*;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -100,10 +102,12 @@ public class ProductController {
     public String viewProductDetails(@PathVariable long id, Model model) {
         ProductShortInfoDto productShortInfoDto = productService.getProductDetails(id);
         Set<ReviewInfoDto> reviewInfoDto = reviewService.getAllReviewsByProduct(id);
+        double rating = productService.getRating(id);
         User user = userHelperService.getUser();
         model.addAttribute("productDetails", productShortInfoDto);
         model.addAttribute("reviewInfoDto", reviewInfoDto);
         model.addAttribute("currentUser", user);
+        model.addAttribute("rating", rating);
         return "product-details";
     }
 
@@ -128,6 +132,7 @@ public class ProductController {
     }
 
     @PostMapping("/products/remove/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String outOfStock(@PathVariable long id) {
 
         productService.outOfStock(id);
@@ -175,7 +180,6 @@ public class ProductController {
     }
 
     @PostMapping("/products/add-review/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public String addReview(@PathVariable long id,
                             @Valid AddReviewDto addReviewDto,
                             BindingResult bindingResult,
@@ -194,5 +198,13 @@ public class ProductController {
         return "redirect:/users/orders";
     }
 
+    @DeleteMapping("/products/removeReview/{id}")
+    public String removeReview(@PathVariable long id, HttpServletRequest request) {
+
+        reviewService.removeReview(id);
+
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
+    }
 
 }

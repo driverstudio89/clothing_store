@@ -188,22 +188,81 @@
                         <div class="col-sm-6">
                             <div class="rating-block">
                                 <h4>Average user rating</h4>
-                                <h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i>
-                                </button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i>
-                                </button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i>
-                                </button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i>
-                                </button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i>
-                                </button>
+                                <h2 class="bold padding-bottom-7"><span th:text="${rating}"></span> <small>/ 5</small></h2>
+                                <div th:switch="${rating}">
+                                    <div th:case="1">
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                    </div>
+
+                                    <div th:case="2" class="review-block-rate">
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                    </div>
+
+                                    <div th:case="3" class="review-block-rate">
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                    </div>
+
+                                    <div th:case="4" class="review-block-rate">
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-default btn-grey btn-sm"
+                                                aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                    </div>
+
+                                    <div th:case="5" class="review-block-rate">
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                            <i class="fa fa-star"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 

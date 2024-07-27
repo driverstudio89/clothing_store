@@ -195,5 +195,10 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).get().getFirstImage();
     }
 
+    @Override
+    public double getRating(long id) {
+        return productRepository.findById(id).get().getRating();
+    }
+
 
 }

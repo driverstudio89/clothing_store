@@ -48,7 +48,29 @@ public class ReviewServiceImpl implements ReviewService {
         review.setProduct(product);
         review.setAuthor(user);
         review.setCreated(LocalDate.now());
+
+        long stars = product.getStars();
+        long voted = product.getVoted();
+
+        stars += review.getRating();
+        voted += 1;
+
+        double rating = product.getRating();
+
+        rating = ((double) stars /voted * 1.0);
+
+        product.setRating(rating);
+        product.setStars(stars);
+        product.setVoted(voted);
+
+        productRepository.save(product);
         reviewRepository.save(review);
+        return true;
+    }
+
+    @Override
+    public boolean removeReview(long id) {
+        reviewRepository.deleteById(id);
         return true;
     }
 }

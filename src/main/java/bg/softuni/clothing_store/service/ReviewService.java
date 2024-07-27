@@ -11,4 +11,6 @@ public interface ReviewService {
     Set<ReviewInfoDto> getAllReviewsByProduct(long id);
 
     boolean addReview(AddReviewDto addReviewDto, long productId);
+
+    boolean removeReview(long id);
 }
