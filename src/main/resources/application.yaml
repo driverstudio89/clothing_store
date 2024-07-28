@@ -32,7 +32,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
+        show_sql: false
     defer-datasource-initialization: true
 
   web:
@@ -46,5 +46,9 @@ cloudinary:
   api-key: ${CLOUDINARY_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
   cloud-name: ${CLOUDINARY_API_NAME}
+
+orders:
+  api:
+    baseUrl: "http://localhost:8081"
 
 

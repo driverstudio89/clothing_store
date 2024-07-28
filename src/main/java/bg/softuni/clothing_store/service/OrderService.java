@@ -14,7 +14,6 @@ import java.util.Set;
 public interface OrderService {
     boolean createOrder(ClientInfoDto clientInfoDto);
 
-    LinkedHashSet<OrderInfoDto> getAllOrders();
 
     OrderInfoDto getOrderDetails(long id);
 
@@ -22,11 +21,13 @@ public interface OrderService {
 
     void changeStatus(long id, StatusType statusType);
 
-    LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created);
+    List<OrderInfoDto> getAllOrders();
 
-    LinkedHashSet<OrderInfoDto> getAllOrders(StatusType statusType);
-
-    LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType);
+//    List<OrderInfoDto> getAllOrders(LocalDate created);
+//
+//    List<OrderInfoDto> getAllOrders(StatusType statusType);
+//
+//    List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType);
 
     List<OrderInfoDto> allUserOrders();
 }

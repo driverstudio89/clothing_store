@@ -13,6 +13,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,7 +24,7 @@ public class OrderInfoDto {
 
     private Long id;
 
-    private Set<OrderItem> orderItems;
+    private List<OrderItem> orderItems;
 
     private BigDecimal total;
 

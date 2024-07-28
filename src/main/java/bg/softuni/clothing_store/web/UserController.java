@@ -99,7 +99,7 @@ public class UserController {
     @GetMapping("/users/orders")
     public String viewUserOrders(Model model) {
 
-        List<OrderInfoDto> allOrders = userService.getOrders();
+        List<OrderInfoDto> allOrders = orderService.allUserOrders();
 
         model.addAttribute("allOrders", allOrders);
         return "user-orders";

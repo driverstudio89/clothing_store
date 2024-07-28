@@ -19,8 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -75,7 +75,7 @@ public class OrderController {
         }
 
         orderService.createOrder(clientInfoDto);
-
+        System.out.println();
         return "redirect:/users/orders";
     }
 
@@ -86,27 +86,27 @@ public class OrderController {
             @RequestParam(required = false) StatusType statusType,
             Model model) {
 
-        if (created != null && statusType != null) {
-            LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders(created, statusType);
-            model.addAttribute("allOrders", allOrders);
-            model.addAttribute("statusTypes", StatusType.values());
-            return "all-orders";
-        }
-        if (created != null) {
-            LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders(created);
-            model.addAttribute("allOrders", allOrders);
-            model.addAttribute("statusTypes", StatusType.values());
-            return "all-orders";
-        }
+//        if (created != null && statusType != null) {
+//            List<OrderInfoDto> allOrders = orderService.getAllOrders(created, statusType);
+//            model.addAttribute("allOrders", allOrders);
+//            model.addAttribute("statusTypes", StatusType.values());
+//            return "all-orders";
+//        }
+//        if (created != null) {
+//            List<OrderInfoDto> allOrders = orderService.getAllOrders(created);
+//            model.addAttribute("allOrders", allOrders);
+//            model.addAttribute("statusTypes", StatusType.values());
+//            return "all-orders";
+//        }
+//
+//        if (statusType != null) {
+//            List<OrderInfoDto> allOrders = orderService.getAllOrders(statusType);
+//            model.addAttribute("allOrders", allOrders);
+//            model.addAttribute("statusTypes", StatusType.values());
+//            return "all-orders";
+//        }
 
-        if (statusType != null) {
-            LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders(statusType);
-            model.addAttribute("allOrders", allOrders);
-            model.addAttribute("statusTypes", StatusType.values());
-            return "all-orders";
-        }
-
-        LinkedHashSet<OrderInfoDto> allOrders = orderService.getAllOrders();
+        List<OrderInfoDto> allOrders = orderService.getAllOrders();
 
 
         model.addAttribute("allOrders", allOrders);
@@ -120,12 +120,12 @@ public class OrderController {
     public String orderDetail(@PathVariable long id, Model model) {
 
         OrderInfoDto orderDetails = orderService.getOrderDetails(id);
-        BigDecimal orderTotal = orderService.getOrderTotal(id);
+
         boolean newOrder = orderDetails.getStatus().getName().equals(StatusType.NEW);
         boolean processingOrder = orderDetails.getStatus().getName().equals(StatusType.PROCESSING);
 
         model.addAttribute("orderDetails", orderDetails);
-        model.addAttribute("orderTotal", orderTotal);
+        model.addAttribute("orderTotal", orderDetails.getTotal());
         model.addAttribute("newOrder", newOrder);
         model.addAttribute("processingOrder", processingOrder);
 

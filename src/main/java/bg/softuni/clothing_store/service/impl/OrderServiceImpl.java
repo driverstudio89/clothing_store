@@ -1,9 +1,6 @@
 package bg.softuni.clothing_store.service.impl;
 
-import bg.softuni.clothing_store.data.OrderItemRepository;
-import bg.softuni.clothing_store.data.OrderRepository;
-import bg.softuni.clothing_store.data.StatusRepository;
-import bg.softuni.clothing_store.data.UserRepository;
+import bg.softuni.clothing_store.data.*;
 import bg.softuni.clothing_store.model.*;
 import bg.softuni.clothing_store.model.enums.DeliveryType;
 import bg.softuni.clothing_store.model.enums.PaymentType;
@@ -12,16 +9,19 @@ import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.service.session.UserHelperService;
-import bg.softuni.clothing_store.web.dto.ClientInfoDto;
-import bg.softuni.clothing_store.web.dto.OrderInfoDto;
+import bg.softuni.clothing_store.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +29,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private final ProductRepository productRepository;
+    private final SizeRepository sizeRepository;
+    private final ColorRepository colorRepository;
+    private Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
+
+    private final RestClient ordersRestClient;
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
@@ -42,33 +48,35 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public boolean createOrder(ClientInfoDto clientInfoDto) {
-        userService.addUserData(clientInfoDto);
 
-        Set<OrderItem> cart = userService.getUser().getCartItems()
+        OrderRestDto orderRestDto = new OrderRestDto();
+        modelMapper.map(clientInfoDto, orderRestDto);
+
+        List<OrderItemDto> cart = userService.getUser().getCartItems()
                 .stream().map(c -> {
-                            OrderItem orderItem = modelMapper.map(c, OrderItem.class);
-                            orderItemRepository.save(orderItem);
-                            return orderItem;
+                            OrderItemDto orderItemDto = modelMapper.map(c, OrderItemDto.class);
+                            orderItemDto.setProductId(c.getProduct().getId());
+                            orderItemDto.setSizes(c.getSizes().getSizeName());
+                            orderItemDto.setColors(c.getColors().getColorName());
+                            return orderItemDto;
                         }
-                        ).collect(Collectors.toSet());
+                ).toList();
 
+        orderRestDto.setOrderItemsRest(cart);
+        orderRestDto.setUser(userHelperService.getUser().getId());
+        orderRestDto.setTotal(userService.getCartTotal());
+        orderRestDto.setPaymentType(PaymentType.valueOf(clientInfoDto.getPaymentOptions()));
+        orderRestDto.setDeliveryType(DeliveryType.valueOf(clientInfoDto.getDeliveryOptions()));
 
-        Order order = new Order();
-        Status status = statusRepository.findByName(StatusType.NEW);
-        User user = userHelperService.getUser();
+        System.out.println();
 
-        order.getOrderItems().addAll(new HashSet<>(cart));
-        order.setTotal(userService.getCartTotal());
-        order.setAddress(clientInfoDto.getAddress());
-        order.setPaymentType(PaymentType.valueOf(clientInfoDto.getPaymentOptions()));
-        order.setDeliveryType(DeliveryType.valueOf(clientInfoDto.getDeliveryOptions()));
-        order.setStatus(status);
-        order.setCreated(LocalDateTime.now());
-        order.setModified(LocalDateTime.now());
-        order.setUser(userService.getUser());
-        orderRepository.save(order);
-//        user.getOrders().add(order);
-//        userRepository.save(user);
+        LOGGER.info("Creating new order...");
+        ordersRestClient
+                .post()
+                .uri("/administration/orders/add-order")
+                .body(orderRestDto)
+                .retrieve();
+
         for (CartItem cartItem : userService.getUser().getCartItems()) {
             cartItemService.removeFromCart(cartItem.getId());
         }
@@ -77,20 +85,23 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Override
-    @Transactional
-    public LinkedHashSet<OrderInfoDto> getAllOrders() {
-        LinkedHashSet<OrderInfoDto> allOrders = mapOrdersToDto(orderRepository.findAllByOrderByCreatedDesc());
-        System.out.println();
-        return allOrders;
-
-    }
 
     @Override
     @Transactional
     public OrderInfoDto getOrderDetails(long id) {
-        return modelMapper.map(orderRepository.findById(id), OrderInfoDto.class);
+
+        OrderInfoRestDto orderInfoRestDtos = ordersRestClient
+                .get()
+                .uri("/administration/orders/order-" + id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+        OrderInfoDto order = mapRestDtoToOrderInfoDto(orderInfoRestDtos);
+        System.out.println();
+        return order;
     }
+
 
     @Override
     @Transactional
@@ -108,45 +119,145 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void changeStatus(long id, StatusType statusType) {
-        orderRepository.findById(id).get().setStatus(statusRepository.findByName(statusType));
+        ChangeStatusDto changeStatusDto = new ChangeStatusDto();
+        changeStatusDto.setStatus(statusType);
+
+        ordersRestClient
+                .post()
+                .uri("/administration/orders/" + id)
+                .body(changeStatusDto)
+                .retrieve();
+
     }
 
     @Override
     @Transactional
-    public LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created) {
-        return mapOrdersToDto(orderRepository.findAllByCreated(created));
+    public List<OrderInfoDto> getAllOrders() {
+        LOGGER.info("Get all orders...");
+
+        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
+                .get()
+                .uri("/administration/orders/all-orders")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+
+        List<OrderInfoDto> orders = new ArrayList<>();
+
+        for (OrderInfoRestDto order : orderInfoRestDtos) {
+            orders.add(mapRestDtoToOrderInfoDto(order));
+        }
+
+        System.out.println();
+        return orders;
+
     }
 
-    @Override
-    @Transactional
-    public LinkedHashSet<OrderInfoDto> getAllOrders(StatusType statusType) {
-        Status status = statusRepository.findByName(statusType);
-        List<Order> orders = orderRepository.findAllByStatus(status);
-        return mapOrdersToDto(orders);
-    }
 
-    @Override
-    @Transactional
-    public LinkedHashSet<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType) {
-        Status status = statusRepository.findByName(statusType);
-        List<Order> orders = orderRepository.findAllByStatusAndCreated(status, created);
-        return mapOrdersToDto(orders);
-    }
+//    @Override
+//    @Transactional
+//    public List<OrderInfoDto> getAllOrders(LocalDate created) {
+//
+//        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
+//                .get()
+//                .uri("/administration/orders/all-orders")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .retrieve()
+//                .body(new ParameterizedTypeReference<>() {
+//                });
+//
+//
+//        List<OrderInfoDto> orders = new ArrayList<>();
+//
+//        for (OrderInfoRestDto order : orderInfoRestDtos) {
+//            orders.add(mapRestDtoToOrderInfoDto(order));
+//        }
+//
+//        System.out.println();
+//        return orders;
+//    }
+//
+//    @Override
+//    @Transactional
+//    public List<OrderInfoDto> getAllOrders(StatusType statusType) {
+//        Status status = statusRepository.findByName(statusType);
+//        List<Order> orders = orderRepository.findAllByStatus(status);
+//        return mapOrdersToDto(orders);
+//    }
+//
+//    @Override
+//    @Transactional
+//    public List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType) {
+//        Status status = statusRepository.findByName(statusType);
+//        List<Order> orders = orderRepository.findAllByStatusAndCreated(status, created);
+//        return mapOrdersToDto(orders);
+//    }
 
     @Override
     @Transactional
     public List<OrderInfoDto> allUserOrders() {
-        User user = userHelperService.getUser();
-        List<Order> orders = orderRepository.findAllByUserIdOrderByCreatedDesc(user.getId());
+
+        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
+                .get()
+                .uri(uriBuilder ->
+                    uriBuilder
+                            .path("/users/orders")
+                            .queryParam("userId", userService.getUser().getId())
+                            .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+
+        List<OrderInfoDto> orders = new ArrayList<>();
+
+        for (OrderInfoRestDto order : orderInfoRestDtos) {
+            orders.add(mapRestDtoToOrderInfoDto(order));
+        }
+
+        System.out.println();
+        return orders;
+
+
+    }
+
+
+
+    private List<OrderInfoDto> mapOrdersToDto(List<Order> orders) {
         return orders.stream().map(o -> {
             return modelMapper.map(o, OrderInfoDto.class);
         }).toList();
     }
 
-    private LinkedHashSet<OrderInfoDto> mapOrdersToDto(List<Order> orders) {
-        return orders.stream().map(o -> {
-            return modelMapper.map(o, OrderInfoDto.class);
-        }).collect(Collectors.toCollection(LinkedHashSet::new));
+    private OrderInfoDto mapRestDtoToOrderInfoDto(OrderInfoRestDto orderInfoRestDtos) {
+
+        OrderInfoDto orderInfoDto = modelMapper.map(orderInfoRestDtos, OrderInfoDto.class);
+        User user = userRepository.findById(orderInfoRestDtos.getUser()).get();
+
+        List<OrderItemRestDto> orderItemsRest = orderInfoRestDtos.getOrderItemsRest();
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (OrderItemRestDto orderItemRest : orderItemsRest) {
+            OrderItem orderItem = new OrderItem();
+            Product product = productRepository.findById(orderItemRest.getProductId()).get();
+            orderItem.setProduct(product);
+            orderItem.setId(orderItemRest.getId());
+            orderItem.setQuantity(orderItemRest.getQuantity());
+            Size size = sizeRepository.findBySizeName(orderItemRest.getSizes());
+            orderItem.setSizes(size);
+            Color color = colorRepository.findByColorName(orderItemRest.getColors());
+            orderItem.setColors(color);
+            orderItem.setUser(user);
+            orderItems.add(orderItem);
+
+        }
+
+        orderInfoDto.setStatus(statusRepository.findByName(orderInfoRestDtos.getStatus()));
+        orderInfoDto.setUser(user);
+        orderInfoDto.setOrderItems(orderItems);
+
+        return orderInfoDto;
+
     }
 
 
