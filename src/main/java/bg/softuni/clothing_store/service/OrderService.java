@@ -30,4 +30,6 @@ public interface OrderService {
 //    List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType);
 
     List<OrderInfoDto> allUserOrders();
+
+    void deleteOrderFromUser(long id);
 }

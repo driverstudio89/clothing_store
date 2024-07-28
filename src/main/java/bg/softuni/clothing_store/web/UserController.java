@@ -108,7 +108,7 @@ public class UserController {
     @Transactional
     @DeleteMapping("/users/orders/delete/{id}")
     public String deleteUserOrder(@PathVariable long id) {
-        userService.deleteOrderFromUser(id);
+        orderService.deleteOrderFromUser(id);
         return "redirect:/users/orders";
     }
 

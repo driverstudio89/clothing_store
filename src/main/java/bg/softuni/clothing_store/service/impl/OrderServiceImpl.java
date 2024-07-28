@@ -222,6 +222,13 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public void deleteOrderFromUser(long id) {
+        ordersRestClient
+                .delete()
+                .uri("/users/orders/delete/" + id)
+                .retrieve();
+    }
 
 
     private List<OrderInfoDto> mapOrdersToDto(List<Order> orders) {
@@ -232,7 +239,18 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderInfoDto mapRestDtoToOrderInfoDto(OrderInfoRestDto orderInfoRestDtos) {
 
-        OrderInfoDto orderInfoDto = modelMapper.map(orderInfoRestDtos, OrderInfoDto.class);
+//        OrderInfoDto orderInfoDto = modelMapper.map(orderInfoRestDtos, OrderInfoDto.class);
+        OrderInfoDto orderInfoDto = new OrderInfoDto();
+
+        orderInfoDto.setId(orderInfoRestDtos.getId());
+        orderInfoDto.setTotal(orderInfoRestDtos.getTotal());
+        orderInfoDto.setAddress(orderInfoRestDtos.getAddress());
+        orderInfoDto.setPaymentType(orderInfoRestDtos.getPaymentType());
+        orderInfoDto.setDeliveryType(orderInfoRestDtos.getDeliveryType());
+        orderInfoDto.setCreated(orderInfoRestDtos.getCreated());
+        orderInfoDto.setModified(orderInfoRestDtos.getModified());
+
+
         User user = userRepository.findById(orderInfoRestDtos.getUser()).get();
 
         List<OrderItemRestDto> orderItemsRest = orderInfoRestDtos.getOrderItemsRest();

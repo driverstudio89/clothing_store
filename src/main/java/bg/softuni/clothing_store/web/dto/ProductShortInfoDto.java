@@ -44,6 +44,8 @@ public class ProductShortInfoDto {
 
     private SubCategory subCategory;
 
+    private double rating;
+
 
 
     public ProductShortInfoDto(Product product) {
@@ -62,6 +64,7 @@ public class ProductShortInfoDto {
         this.fifthImage = product.getFifthImage();
         this.category = product.getCategory();
         this.subCategory = product.getSubCategory();
+        this.rating = product.getRating();
 
     }
 

@@ -22,7 +22,7 @@ public class AddReviewDto {
     private String content;
 
     @NotNull(message = "You need to select rating!")
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "You need to select rating!")
+    @Max(value = 5, message = "You need to select rating!")
     private int rating;
 }

@@ -12,11 +12,22 @@
             <div th:each="order : ${allOrders}">
                 <div class="card m-3 col-sm-12">
                     <div class="card-body">
-                        <div class="mb-3 justify-content-between">
+                        <div class="mb-3 justify-content-between row">
 
                             <div>
                                 <span class="me-3"
                                       th:text="${#temporals.format(order.created, 'dd-MM-yyyy HH:mm')}"></span>
+                            </div>
+                            <div>
+                                <form
+                                        th:method="DELETE"
+                                        th:action="@{/users/orders/delete/{id}(id = *{order.id})}" >
+                                    <button
+                                            type="submit"
+                                            class="btn btn-danger shadow-0 me-1 mb-2 float-right">
+                                        <i class="fa fa-times"> </i>
+                                    </button>
+                                </form>
                             </div>
 
 
@@ -48,17 +59,7 @@
                                                             th:href="@{/products/add-review/{id}(id = *{item.product.id})}">Review</a>
                                     </td>
 
-<!--                                    <td class="text-end">-->
-<!--                                        <form-->
-<!--                                                th:method="DELETE"-->
-<!--                                                th:action="@{/users/orders/delete/{id}(id = *{order.id})}" >-->
-<!--                                            <button-->
-<!--                                                    type="submit"-->
-<!--                                                    class="btn btn-danger shadow-0 me-1 mb-2 float-right">-->
-<!--                                                <i class="fa fa-times"> </i>-->
-<!--                                            </button>-->
-<!--                                        </form>-->
-<!--                                    </td>-->
+
                                 </tr>
 
                                 </tbody>
