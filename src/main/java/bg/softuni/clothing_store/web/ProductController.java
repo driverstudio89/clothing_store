@@ -8,11 +8,13 @@ import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.ProductService;
 import bg.softuni.clothing_store.service.ReviewService;
+import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
@@ -96,6 +99,12 @@ public class ProductController {
         productService.addProduct(addProductDto, toUploadMap);
         redirectAttributes.addFlashAttribute("productAddedSuccessfully", true);
         return "redirect:/administration";
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ModelAndView handleException(ObjectNotFoundException onfe) {
+        return new ModelAndView("/error/product-not-found");
     }
 
     @GetMapping("/products/details/{id}")

@@ -8,6 +8,7 @@ import bg.softuni.clothing_store.model.enums.StatusType;
 import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
+import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -62,11 +63,18 @@ public class OrderServiceImpl implements OrderService {
                         }
                 ).toList();
 
+        User user = userHelperService.getUser();
         orderRestDto.setOrderItemsRest(cart);
-        orderRestDto.setUser(userHelperService.getUser().getId());
+        orderRestDto.setUser(user.getId());
         orderRestDto.setTotal(userService.getCartTotal());
         orderRestDto.setPaymentType(PaymentType.valueOf(clientInfoDto.getPaymentOptions()));
         orderRestDto.setDeliveryType(DeliveryType.valueOf(clientInfoDto.getDeliveryOptions()));
+
+        user.setAddress(clientInfoDto.getAddress());
+        user.setPhoneNumber(clientInfoDto.getPhoneNumber());
+        user.setCountry(clientInfoDto.getCountry());
+        user.setCity(clientInfoDto.getCity());
+        user.setZip(clientInfoDto.getZip());
 
         System.out.println();
 
@@ -97,6 +105,9 @@ public class OrderServiceImpl implements OrderService {
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
                 });
+        if (orderInfoRestDtos == null) {
+            throw new ObjectNotFoundException("Order not found!", id);
+        }
         OrderInfoDto order = mapRestDtoToOrderInfoDto(orderInfoRestDtos);
         System.out.println();
         return order;
@@ -242,16 +253,17 @@ public class OrderServiceImpl implements OrderService {
 //        OrderInfoDto orderInfoDto = modelMapper.map(orderInfoRestDtos, OrderInfoDto.class);
         OrderInfoDto orderInfoDto = new OrderInfoDto();
 
+        User user = userRepository.findById(orderInfoRestDtos.getUser()).get();
+
+        orderInfoDto.setUser(user);
+
         orderInfoDto.setId(orderInfoRestDtos.getId());
         orderInfoDto.setTotal(orderInfoRestDtos.getTotal());
-        orderInfoDto.setAddress(orderInfoRestDtos.getAddress());
         orderInfoDto.setPaymentType(orderInfoRestDtos.getPaymentType());
         orderInfoDto.setDeliveryType(orderInfoRestDtos.getDeliveryType());
         orderInfoDto.setCreated(orderInfoRestDtos.getCreated());
         orderInfoDto.setModified(orderInfoRestDtos.getModified());
 
-
-        User user = userRepository.findById(orderInfoRestDtos.getUser()).get();
 
         List<OrderItemRestDto> orderItemsRest = orderInfoRestDtos.getOrderItemsRest();
         List<OrderItem> orderItems = new ArrayList<>();

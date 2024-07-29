@@ -24,8 +24,6 @@ public class OrderInfoRestDto {
 
     private BigDecimal total;
 
-    private String Address;
-
     private StatusType status;
 
     private PaymentType paymentType;
@@ -35,6 +33,22 @@ public class OrderInfoRestDto {
     private LocalDateTime created;
 
     private LocalDateTime modified;
+
+//    private String firstName;
+//
+//    private String lastName;
+//
+//    private String email;
+//
+//    private String address;
+//
+//    private String phoneNumber;
+//
+//    private String country;
+//
+//    private String city;
+//
+//    private String zip;
 
     public OrderInfoRestDto() {
         this.orderItemsRest = new ArrayList<>();

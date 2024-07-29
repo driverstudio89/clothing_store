@@ -28,8 +28,6 @@ public class OrderInfoDto {
 
     private BigDecimal total;
 
-    private String Address;
-
     private Status status;
 
     private PaymentType paymentType;
@@ -42,18 +40,20 @@ public class OrderInfoDto {
 
     private User user;
 
-//    private String firstName;
-//
-//    private String lastName;
-//
-//    private String email;
-//
-//    private String phoneNumber;
-//
-//    private String country;
-//
-//    private String city;
-//
-//    private String zip;
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String address;
+
+    private String phoneNumber;
+
+    private String country;
+
+    private String city;
+
+    private String zip;
 
 }

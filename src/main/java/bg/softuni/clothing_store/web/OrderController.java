@@ -5,16 +5,19 @@ import bg.softuni.clothing_store.model.enums.PaymentType;
 import bg.softuni.clothing_store.model.enums.StatusType;
 import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
+import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.web.dto.CartItemInfoDto;
 import bg.softuni.clothing_store.web.dto.ClientInfoDto;
 import bg.softuni.clothing_store.web.dto.OrderInfoDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -42,6 +45,7 @@ public class OrderController {
 
 
     private boolean isSubmitted;
+
     @GetMapping("/users/cart/checkout")
     public String viewCheckout(Model model) {
         Set<CartItemInfoDto> cart = userService.getCart();
@@ -71,7 +75,7 @@ public class OrderController {
             redirectAttributes.addFlashAttribute("clientData", clientInfoDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.clientData", bindingResult);
             isSubmitted = true;
-            return  "redirect:/users/cart/checkout";
+            return "redirect:/users/cart/checkout";
         }
 
         orderService.createOrder(clientInfoDto);
@@ -82,7 +86,7 @@ public class OrderController {
     @GetMapping("/administration/orders/all-orders")
     @PreAuthorize("hasRole('ADMIN')")
     public String allOrders(
-            @RequestParam(required = false)LocalDate created,
+            @RequestParam(required = false) LocalDate created,
             @RequestParam(required = false) StatusType statusType,
             Model model) {
 
@@ -113,6 +117,14 @@ public class OrderController {
         model.addAttribute("statusTypes", StatusType.values());
         System.out.println();
         return "all-orders";
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ModelAndView handleException(ObjectNotFoundException onfe) {
+        ModelAndView modelAndView = new ModelAndView("/error/order-not-found");
+        modelAndView.addObject("id", onfe.getId());
+        return modelAndView;
     }
 
     @GetMapping("/administration/orders/order-{id}")

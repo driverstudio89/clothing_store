@@ -8,6 +8,7 @@ import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import bg.softuni.clothing_store.service.CloudinaryService;
 import bg.softuni.clothing_store.service.ProductService;
+import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.web.dto.AddProductDto;
 import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -124,7 +122,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductShortInfoDto getProductDetails(long id) {
-        return productRepository.findById(id).map(p -> modelMapper.map(p, ProductShortInfoDto.class)).orElse(null);
+        Optional<ProductShortInfoDto> productShortInfoDto = productRepository.findById(id).map(p -> modelMapper.map(p, ProductShortInfoDto.class));
+        if (productShortInfoDto.isEmpty()) {
+            throw new ObjectNotFoundException("product not found", id);
+        }
+        return productShortInfoDto.get();
     }
 
     @Override

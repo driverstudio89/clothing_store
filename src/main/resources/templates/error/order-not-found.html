@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/head}"></head>
+<body>
+
+<div class="justify-content-center p-5">
+    <h5>Order with id <th:block th:text="${id}"></th:block> doesn't exist!
+        You can return to <a th:href="@{/administration/orders/all-orders}">all orders</a>
+    </h5>
+</div>
+
+</body>
+</html>
