@@ -160,7 +160,7 @@
 
                         <div class="form-group">
                             <label for="subCategory">Type:</label>
-                            <Select
+                            <select
                                     class="form-control"
                                     id="subCategory"
                                     name="subCategory"
@@ -168,7 +168,7 @@
                             >
                                 <option value="">Select type</option>
                                 <option th:each="type : ${subCategoryData}" th:value="${type}" th:text="${type}"></option>
-                            </Select>
+                            </select>
                             <small th:each="error: ${#fields.errors('subCategory')}" th:text="${error}" class="text-info">Error messages</small>
 
                         </div>

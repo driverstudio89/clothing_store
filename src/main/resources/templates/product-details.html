@@ -51,7 +51,7 @@
                     <button
                             type="submit"
                             class="btn btn-danger shadow-0 me-1 mb-2 float-right"
-                            sec:authorize="hasRole('ADMIN')">Remove item
+                            sec:authorize="hasRole('ADMIN')" th:text="#{product_detail_remove}">Remove item
                     </button>
 
                 </form>
@@ -98,7 +98,7 @@
                             <div class="row mb-1 align-items-center">
 
                                 <div class="col-md-3 col-lg-3 col-xl-3">
-                                    <label for="quantity">Quantity</label>
+                                    <label for="quantity" th:text="#{product_detail_quantity}">Quantity</label>
                                 </div>
                                 <div class="d-flex">
                                     <button type="button" data-mdb-button-init data-mdb-ripple-init
@@ -116,8 +116,7 @@
                                             value="1"
                                             type="number"
                                     />
-                                    <small class="invalid-feedback text-danger">Last name must be between 3 and 50
-                                        characters</small>
+                                    <small class="invalid-feedback text-danger">Quantity must be between 1 and 50</small>
 
 
                                     <button type="button" data-mdb-button-init data-mdb-ripple-init
@@ -133,27 +132,27 @@
 
                             <div class="row">
 
-                                <div class="col-md-4 col-6">
-                                    <label class="mb-4">Size</label>
+                                <div class="col-md-6 col-6">
+                                    <label class="mb-6" th:text="#{product_detail_size}">Size</label>
                                     <select class="form-select border border-secondary " style="height: 35px;"
                                             id="size"
                                             name="size"
                                     >
-                                        <option value="S">Small</option>
-                                        <option value="M">Medium</option>
-                                        <option value="L">Large</option>
+                                        <option value="S" th:text="#{product_detail_small}">Small</option>
+                                        <option value="M" th:text="#{product_detail_medium}">Medium</option>
+                                        <option value="L" th:text="#{product_detail_large}">Large</option>
                                     </select>
                                 </div>
 
-                                <div class="col-md-4 col-6">
-                                    <label class="mb-4">Color</label>
+                                <div class="col-md-6 col-6">
+                                    <label class="mb-6" th:text="#{product_detail_color}">Color</label>
                                     <select class="form-select border border-secondary" style="height: 35px;"
                                             id="color"
                                             name="color"
                                     >
-                                        <option value="RED">Red</option>
-                                        <option value="GREEN">Green</option>
-                                        <option value="BLUE">Blue</option>
+                                        <option value="RED" th:text="#{product_detail_red}">Red</option>
+                                        <option value="GREEN" th:text="#{product_detail_green}">Green</option>
+                                        <option value="BLUE" th:text="#{product_detail_blue}">Blue</option>
                                     </select>
                                 </div>
 
@@ -163,20 +162,22 @@
 
                             <div th:if="${productAlreadyInCart}" class="text-danger mb-2">Product is already in cart!
                             </div>
-                            <div class="row mb-4">
+                            <div class="row mb-6 ">
 
-                                <div class="col-md-4 col-6" th:if="${productDetails.isInStock()}">
+                                <div class="col-md-6 col-6" th:if="${productDetails.isInStock()}">
                                     <button type="submit"
-                                            class="btn btn-primary btn-lg shadow-0 me-1 fa fa-shopping-basket">
+                                            class="btn btn-primary btn-lg shadow-0 me-1 fa fa-shopping-basket"
+                                            th:text="#{product_detail_add_to_cart}">
                                         Add to cart
                                     </button>
                                 </div>
 
-                                <div class="col-md-4 col-6">
+                                <div class="col-md-6 col-6">
                                     <button
                                             type="submit"
                                             href="#"
-                                            class="btn btn-light btn-lg border border-secondary me-1 fa fa-heart fa-lg">
+                                            class="btn btn-light btn-lg border border-secondary me-1 fa fa-heart fa-lg"
+                                            th:text="#{product_detail_save}">
                                         Save
                                     </button>
                                 </div>
@@ -187,7 +188,7 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="rating-block">
-                                <h4>Average user rating</h4>
+                                <h4 th:text="#{product_detail_rating}">Average user rating</h4>
                                 <h2 class="bold padding-bottom-7"><span th:text="${rating}"></span> <small>/ 5</small></h2>
                                 <div th:switch="${rating}">
                                     <div th:case="1">
@@ -296,12 +297,14 @@
                                             type="submit"
                                             class="btn btn-danger shadow-0 me-1 mb-2 float-right"
                                             sec:authorize="hasRole('ADMIN')"
+                                            th:text="#{product_detail_remove_review}"
                                     >Remove item
                                     </button>
                                     <button
                                             type="submit"
                                             class="btn btn-danger shadow-0 me-1 mb-2 float-right"
                                             th:if="${currentUser.getUsername()} == *{review.getAuthor().getUsername()}"
+                                            th:text="#{product_detail_remove_review}"
                                     >Remove item
                                     </button>
 

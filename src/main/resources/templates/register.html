@@ -20,7 +20,7 @@
                     <form>
                         <div th:if="${registrationFailed}" class="text-danger">Username or Email already in use</div>
                         <div class="form-group">
-                            <label>Username</label>
+                            <label th:text="#{register_username}">Username</label>
                             <input type="text"
                                    class="form-control"
                                    placeholder=""
@@ -33,7 +33,7 @@
                         </div> <!-- form-group end.// -->
 
                         <div class="form-group">
-                            <label>Email address</label>
+                            <label th:text="#{register_email}">Email address</label>
                             <input type="email"
                                    class="form-control"
                                    placeholder=""
@@ -46,7 +46,7 @@
 
                         <div class="form-group">
 <!--                            <div class="col form-group">-->
-                                <label>First name</label>
+                                <label th:text="#{register_first_name}">First name</label>
                                 <input type="text"
                                        class="form-control"
                                        placeholder=""
@@ -60,7 +60,7 @@
 
                         <div class="form-group">
 <!--                            <div class="col form-group">-->
-                                <label>Last name</label>
+                                <label th:text="#{register_last_name}">Last name</label>
                                 <input type="text"
                                        class="form-control"
                                        placeholder=""
@@ -73,7 +73,7 @@
                         </div> <!-- form-row end.// -->
 
                         <div class="form-group">
-                            <label>Password</label>
+                            <label th:text="#{register_password}">Password</label>
                             <input class="form-control"
                                    type="password"
                                    id="password"
@@ -82,7 +82,7 @@
                             <small class="invalid-feedback text-danger">Password must be between 4 and 50 characters</small>
                         </div> <!-- form-group end.// -->
                         <div class="form-group">
-                            <label>Confirm Password</label>
+                            <label th:text="#{register_confirm_password}">Confirm Password</label>
                             <input class="form-control"
                                    type="password"
                                    id="confirmPassword"
@@ -91,7 +91,8 @@
                             <div th:if="${passwordMismatch}" class="text-danger">Passwords doesn't match</div>
                         </div> <!-- form-group end.// -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" value="Register"> Register</button>
+                            <button type="submit" class="btn btn-primary btn-block" value="Register"
+                                    th:text="#{register_register}"> Register</button>
                         </div> <!-- form-group// -->
                         <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br>
                             Terms of use and Privacy Policy.</small>

@@ -5,8 +5,10 @@ import bg.softuni.clothing_store.model.OrderItem;
 import com.cloudinary.Cloudinary;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
