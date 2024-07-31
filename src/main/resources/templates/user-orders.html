@@ -45,18 +45,21 @@
                                                     <a th:href="@{/products/details/{id}(id = *{item.getProduct().id})}"
                                                        class="text-reset" th:text="*{item.getProduct().getName()}"></a>
                                                 </h6>
-                                                <span class="small ml-2">Color: <span
-                                                        th:text="*{item.product.color[0].colorName}"></span></span>
-                                                <span class="small ml-2">Size: <span
-                                                        th:text="*{item.product.size[0].sizeName}"></span></span>
+                                                <span class="small ml-2"><span th:text="#{user_order_color}"></span>
+                                                    <span th:text="*{item.colors.colorName.toString()}"></span></span>
+
+                                                <span class="small ml-2"><span th:text="#{user_order_color}"></span>
+                                                    <span th:text="*{item.sizes.sizeName.toString()}"></span></span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-end">quantity: <span th:text="*{item.quantity}"></span></td>
+                                    <td class="text-end"> <span th:text="#{user_orders_quantity}"></span> <span th:text="*{item.getQuantity()}"></span></td>
                                     <td class="text-end">$ <span th:text="*{item.product.price}"></span></td>
 
                                     <td class="text-end"><a class="btn btn-warning text-black btn-sm px-4"
-                                                            th:href="@{/products/add-review/{id}(id = *{item.product.id})}">Review</a>
+                                                            th:href="@{/products/add-review/{id}(id = *{item.product.id})}"
+                                                            th:text="#{user_order_review}"
+                                    >Review</a>
                                     </td>
 
 
@@ -65,7 +68,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr class="fw-bold">
-                                    <td colspan="2">TOTAL</td>
+                                    <td colspan="2" th:text="#{user_order_total}">TOTAL</td>
                                     <td class="text-end">$ <span th:text="${order.total}"></span></td>
                                 </tr>
                                 </tfoot>

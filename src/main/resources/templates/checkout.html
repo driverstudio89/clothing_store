@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">Your cart</span>
+                <span class="text-muted" th:text="#{checkout_your_cart}">Your cart</span>
                 <span class="badge badge-secondary badge-pill"><span th:text="${cartItems.size()}"></span></span>
             </h4>
             <ul class="list-group mb-5">
@@ -23,7 +23,7 @@
                             th:text="*{item.getProduct().getPrice()}"></span></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
-                    <span>Total:</span>
+                    <span th:text="#{checkout_total}">Total:</span>
                     <strong>$ <span th:text="${total}"></span></strong>
                 </li>
             </ul>
@@ -39,14 +39,14 @@
             <!--            </form>-->
         </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">Billing address</h4>
+            <h4 class="mb-3" th:text="#{checkout_client_info}">Client information</h4>
             <form
                     th:method="POST"
                     th:action="@{/users/cart/checkout}"
                     th:object="${clientData}">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="firstName">First name</label>
+                        <label for="firstName" th:text="#{checkout_first_name}">First name</label>
                         <input
                                 type="text"
                                 class="form-control"
@@ -60,7 +60,7 @@
 
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="lastName">Last name</label>
+                        <label for="lastName" th:text="#{checkout_last_name}">Last name</label>
                         <input
                                 type="text"
                                 class="form-control"
@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="phoneNumber">Phone number</label>
+                    <label for="phoneNumber" th:text="#{checkout_phone_number}">Phone number</label>
                     <div class="input-group">
 
                         <input
@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="email">Email</label>
+                    <label for="email" th:text="#{checkout_email}">Email</label>
                     <input
                             type="email"
                             class="form-control"
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="address">Address</label>
+                    <label for="address" th:text="#{checkout_address}">Address</label>
                     <input
                             type="text"
                             class="form-control"
@@ -126,7 +126,7 @@
 
                 <div class="row">
                     <div class="col-md-5 mb-3">
-                        <label for="country">Country</label>
+                        <label for="country" th:text="#{checkout_country}">Country</label>
                         <input
                                 type="text"
                                 class="form-control"
@@ -140,7 +140,7 @@
 
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="city">City</label>
+                        <label for="city" th:text="#{checkout_city}">City</label>
                         <input
                                 type="text"
                                 class="form-control"
@@ -154,7 +154,7 @@
 
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="zip">Zip</label>
+                        <label for="zip" th:text="#{checkout_zip}">Zip</label>
                         <input
                                 type="text"
                                 class="form-control"
@@ -168,7 +168,7 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="deliveryOptions">Delivery options</label>
+                        <label for="deliveryOptions" th:text="#{checkout_delivery_options}">Delivery options</label>
                         <select data-mdb-select-init
                                 class="form-control"
                                 id="deliveryOptions"
@@ -185,7 +185,7 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="paymentOptions">Payment</label>
+                        <label for="paymentOptions" th:text="#{checkout_payment_options}">Payment options</label>
                         <select data-mdb-select-init
                                 class="form-control"
                                 id="paymentOptions"
@@ -276,6 +276,7 @@
                 <button type="submit"
                         class="btn btn-primary rounded-2 btn-lg mb-5"
                         data-mdb-button-init data-mdb-ripple-init
+                        th:text="#{checkout_order}"
                 >Order
                 </button>
 

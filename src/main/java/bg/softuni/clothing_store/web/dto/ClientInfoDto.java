@@ -15,37 +15,37 @@ public class ClientInfoDto {
 
     private long id;
 
-    @NotNull(message = "First name must be between 3 and 50 characters!")
-    @Size(min = 3, max = 50, message = "FirstName must be between 3 and 50 characters!")
+    @NotNull(message = "{checkout_error_first_name}")
+    @Size(min = 3, max = 50, message = "{checkout_error_first_name}")
     private String firstName;
 
-    @NotNull(message = "Last name must be between 3 and 50 characters!")
-    @Size(min = 3, max = 50, message = "Last name must be between 3 and 50 characters!")
+    @NotNull(message = "{checkout_error_last_name}")
+    @Size(min = 3, max = 50, message = "{checkout_error_last_name}")
     private String lastName;
 
-    @NotBlank(message = "Please enter valid email!")
-    @Email(message = "Please enter valid email!")
+    @NotBlank(message = "{checkout_error_email}")
+    @Email(message = "{checkout_error_email}")
     private String email;
 
-    @NotNull(message = "Phone number must between 8 and 12 digits!")
-    @Size(min = 8, max = 12, message = "Phone number must between 8 and 12 digits!")
+    @NotNull(message = "{checkout_error_phone_number}")
+    @Size(min = 8, max = 12, message = "{checkout_error_phone_number}")
     private String phoneNumber;
 
-    @NotBlank(message = "Need to enter address")
+    @NotBlank(message = "{checkout_error_phone_address}")
     private String address;
 
-    @NotBlank(message = "Need to enter country")
+    @NotBlank(message = "{checkout_error_phone_country}")
     private String country;
 
-    @NotBlank(message = "Need to enter city")
+    @NotBlank(message = "{checkout_error_city}")
     private String city;
 
-    @NotBlank(message = "Need to enter zip")
+    @NotBlank(message = "{checkout_error_zip}")
     private String zip;
 
-    @NotBlank(message = "Need to select delivery method")
+    @NotBlank(message = "{checkout_error_delivery_options}")
     private String deliveryOptions;
 
-    @NotBlank(message = "Need to select payment method")
+    @NotBlank(message = "{checkout_error_payment_options}")
     private String paymentOptions;
 }

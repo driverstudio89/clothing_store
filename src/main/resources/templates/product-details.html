@@ -160,7 +160,8 @@
 
                             <hr/>
 
-                            <div th:if="${productAlreadyInCart}" class="text-danger mb-2">Product is already in cart!
+                            <div th:if="${productAlreadyInCart}" class="text-danger mb-2"
+                                 th:text="#{product_detail_already_in_cart}">Product is already in cart!
                             </div>
                             <div class="row mb-6 ">
 
