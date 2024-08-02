@@ -93,9 +93,11 @@ public class UserController {
     }
 
     @GetMapping("/users/orders")
+    @Transactional
     public String viewUserOrders(Model model) {
 
         List<OrderInfoDto> allOrders = orderService.allUserOrders();
+
 
         model.addAttribute("allOrders", allOrders);
         System.out.println();

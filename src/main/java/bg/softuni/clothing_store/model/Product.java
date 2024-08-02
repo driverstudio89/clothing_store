@@ -39,16 +39,17 @@ public class Product {
     @Column(nullable = false)
     private int quantity;
 
-    @Column(nullable = false)
-    private String firstImage;
-
-    private String secondImage;
-
-    private String thirdImage;
-
-    private String fourthImage;
-
-    private String fifthImage;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> images;
+//    private String firstImage;
+//
+//    private String secondImage;
+//
+//    private String thirdImage;
+//
+//    private String fourthImage;
+//
+//    private String fifthImage;
 
     @Column(nullable = false)
     private LocalDate created;
@@ -62,14 +63,11 @@ public class Product {
     @ManyToOne(targetEntity = SubCategory.class)
     private SubCategory subCategory;
 
-//    @ManyToMany(targetEntity = Review.class)
-//    private Set<Review> review;
-
     @Column(nullable = false)
     private boolean inStock = false;
 
     @Column
-    private double rating;
+    private String rating;
 
     @Column
     private long stars;
@@ -80,7 +78,8 @@ public class Product {
     public Product() {
         this.size = new HashSet<>();
         this.color = new HashSet<>();
-        this.rating = 0.0;
+        this.images = new ArrayList<>();
+        this.rating = "0";
         this.stars = 0;
         this.voted = 0;
     }

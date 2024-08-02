@@ -75,27 +75,27 @@ public class ProductServiceImpl implements ProductService {
         System.out.println();
         if (!toUpload.get("firstImage").isEmpty()) {
             String firstImage = cloudinaryService.uploadFile(toUpload.get("firstImage"));
-            product.setFirstImage(firstImage);
+            product.getImages().add(firstImage);
         }
 
         if (!toUpload.get("secondImage").isEmpty()) {
             String secondImage = cloudinaryService.uploadFile(toUpload.get("secondImage"));
-            product.setSecondImage(secondImage);
+            product.getImages().add(secondImage);
         }
 
         if (!toUpload.get("thirdImage").isEmpty()) {
             String thirdImage = cloudinaryService.uploadFile(toUpload.get("thirdImage"));
-            product.setThirdImage(thirdImage);
+            product.getImages().add(thirdImage);
         }
 
         if (!toUpload.get("fourthImage").isEmpty()) {
             String fourthImage = cloudinaryService.uploadFile(toUpload.get("fourthImage"));
-            product.setFourthImage(fourthImage);
+            product.getImages().add(fourthImage);
         }
 
         if (!toUpload.get("fifthImage").isEmpty()) {
             String fifthImage = cloudinaryService.uploadFile(toUpload.get("fifthImage"));
-            product.setFifthImage(fifthImage);
+            product.getImages().add(fifthImage);
         }
 
 
@@ -113,7 +113,10 @@ public class ProductServiceImpl implements ProductService {
     public Set<ProductShortInfoDto> getLastProducts() {
         Set<Product> products = productRepository.findTop12OrderByCreatedAfter(LocalDate.now().minusWeeks(1));
         return mapProductsToDto(products);
+
+
     }
+
 
     private static Set<ProductShortInfoDto> mapProductsToDto(Set<Product> products) {
         return products.stream().filter(Product::isInStock)
@@ -130,9 +133,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void addInitialProduct(String name, String description, BigDecimal price,
-                                  int quantity, String imageUrl, String color,
-                                  String size, String subCategory, String category) {
+    public void addInitialProduct(String name, String description, BigDecimal price, int quantity,
+                                  String firstImage, String secondImage,
+                                  String color, String size, String subCategory, String category) {
 
         Product product = new Product();
 
@@ -147,7 +150,8 @@ public class ProductServiceImpl implements ProductService {
         if (quantity > 0) {
             product.setInStock(true);
         }
-        product.setFirstImage(imageUrl);
+        product.getImages().add(firstImage);
+        product.getImages().add(secondImage);
         product.getColor().add((colorRepository.findByColorName(ColorName.valueOf(color.toUpperCase()))));
         product.getSize().add(sizeRepository.findBySizeName(SizeName.valueOf(size.toUpperCase())));
         product.setSubCategory(subCategoryRepository.findBySubCategory(SubCategoryType.valueOf(subCategory.toUpperCase())));
@@ -194,11 +198,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String getProductImage(long id) {
-        return productRepository.findById(id).get().getFirstImage();
+        return productRepository.findById(id).get().getImages().getFirst();
     }
 
     @Override
-    public double getRating(long id) {
+    public String getRating(long id) {
         return productRepository.findById(id).get().getRating();
     }
 

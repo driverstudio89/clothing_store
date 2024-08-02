@@ -278,6 +278,9 @@ public class OrderServiceImpl implements OrderService {
             Color color = colorRepository.findByColorName(orderItemRest.getColors());
             orderItem.setColors(color);
             orderItem.setUser(user);
+            if (user.getReviewedProducts().contains(product)) {
+                orderItem.setReviewed(true);
+            }
             orderItems.add(orderItem);
 
         }

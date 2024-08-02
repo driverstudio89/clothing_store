@@ -15,28 +15,34 @@
             <aside class="col-lg-6">
                 <div class="border rounded-4 mb-3 d-flex justify-content-center">
                     <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image"
-                       th:href="${productDetails.firstImage}">
+                       th:href="${productDetails.images.getFirst()}">
                         <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
-                             th:src="${productDetails.firstImage}"/>
+                             th:src="${productDetails.images.getFirst()}"/>
                     </a>
                 </div>
                 <div class="d-flex justify-content-center mb-3">
-                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"
-                       data-type="image" th:href="${productDetails.secondImage}">
-                        <img width="60" height="60" class="rounded-2" th:src="${productDetails.secondImage}"/>
-                    </a>
-                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"
-                       data-type="image" th:href="${productDetails.thirdImage}">
-                        <img width="60" height="60" class="rounded-2" th:src="${productDetails.thirdImage}"/>
-                    </a>
-                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"
-                       data-type="image" th:href="${productDetails.fourthImage}">
-                        <img width="60" height="60" class="rounded-2" th:src="${productDetails.fourthImage}"/>
-                    </a>
-                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"
-                       data-type="image" th:href="${productDetails.fifthImage}">
-                        <img width="60" height="60" class="rounded-2" th:src="${productDetails.fifthImage}"/>
-                    </a>
+                    <div th:each="image : ${productDetails.images}">
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"
+                           data-type="image" th:href="${image}">
+                            <img width="60" height="60" class="rounded-2" th:src="${image}"/>
+                        </a>
+                    </div>
+                    <!--                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"-->
+                    <!--                       data-type="image" th:href="${image}">-->
+                    <!--                        <img width="60" height="60" class="rounded-2" th:src="${image}"/>-->
+                    <!--                    </a>-->
+                    <!--                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"-->
+                    <!--                       data-type="image" th:href="${image}">-->
+                    <!--                        <img width="60" height="60" class="rounded-2" th:src="${image}"/>-->
+                    <!--                    </a>-->
+                    <!--                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"-->
+                    <!--                       data-type="image" th:href="${image}">-->
+                    <!--                        <img width="60" height="60" class="rounded-2" th:src="${image}"/>-->
+                    <!--                    </a>-->
+                    <!--                    <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank"-->
+                    <!--                       data-type="image" th:href="${image}">-->
+                    <!--                        <img width="60" height="60" class="rounded-2" th:src="${image}"/>-->
+                    <!--                    </a>-->
 
                 </div>
                 <!-- thumbs-wrap.// -->
@@ -191,7 +197,8 @@
                                         Save
                                     </button>
                                 </div>
-                                <div class="text-info m-3" th:if="${toFavorite}"> <span th:text="#{product_detail_added_to_favorite}"></span></div>
+                                <div class="text-info m-3" th:if="${toFavorite}"><span
+                                        th:text="#{product_detail_added_to_favorite}"></span></div>
                             </form>
                         </div>
                     </div>
@@ -282,131 +289,130 @@
 
                 </div>
 
-
+            </main>
         </div>
 
-        </main>
-    </div>
-    <div th:each="review : ${reviewInfoDto}" class="row">
-        <div class="col-sm-12">
-            <hr/>
-            <div class="review-block">
 
-                <div class="row">
-                    <div class="col-sm-2">
-                        <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
-                        <div class="review-block-name"><a href="#"><span
-                                th:text="*{review.author.getUsername()}"> </span></a>
-                        </div>
-                        <div class="review-block-date" th:text="*{review.created}"></div>
-                    </div>
-                    <div th:switch="${review.rating}" class="col-sm-10">
-
-                        <div class="review-block-rate">
-                            <form
-                                    th:method="DELETE"
-                                    th:action="@{/products/removeReview/{id}(id = *{review.id})}"
-                            >
-                                <button
-                                        type="submit"
-                                        class="btn btn-danger shadow-0 me-1 mb-2 float-right"
-                                        sec:authorize="hasRole('ADMIN')"
-                                        th:text="#{product_detail_remove_review}"
-                                >Remove item
-                                </button>
-                                <button
-                                        type="submit"
-                                        class="btn btn-danger shadow-0 me-1 mb-2 float-right"
-                                        th:if="${currentUser.getUsername()} == *{review.getAuthor().getUsername()}"
-                                        th:text="#{product_detail_remove_review}"
-                                >Remove item
-                                </button>
-
-                            </form>
-                            <div th:case="1">
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                            </div>
-
-                            <div th:case="2" class="review-block-rate">
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                            </div>
-
-                            <div th:case="3" class="review-block-rate">
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                            </div>
-
-                            <div th:case="4" class="review-block-rate">
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-default btn-grey btn-sm"
-                                        aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                            </div>
-
-                            <div th:case="5" class="review-block-rate">
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-                                    <i class="fa fa-star"></i></button>
-                            </div>
-
-                        </div>
-
-                        <div class="review-block-title" th:text="*{review.title}"></div>
-                        <div class="review-block-description" th:text="*{review.content}"></div>
-                    </div>
-
-                </div>
+        <div th:each="review : ${reviewInfoDto}" class="row">
+            <div class="col-sm-12">
                 <hr/>
-            </div>
+                <div class="review-block">
 
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <img src="https://res.cloudinary.com/dpwynqscy/image/upload/v1722057351/borsxfthujo3whjtpgka.png" width="100" class="img-rounded">
+                            <div class="review-block-name"><a href="#"><span
+                                    th:text="*{review.author.getUsername()}"> </span></a>
+                            </div>
+                            <div class="review-block-date" th:text="*{review.created}"></div>
+                        </div>
+                        <div th:switch="${review.rating}" class="col-sm-10">
+
+                            <div class="review-block-rate">
+                                <form
+                                        th:method="DELETE"
+                                        th:action="@{/products/removeReview/{id}(id = *{review.id})}"
+                                >
+                                    <button
+                                            type="submit"
+                                            class="btn btn-danger shadow-0 me-1 mb-2 float-right"
+                                            sec:authorize="hasRole('ADMIN')"
+                                            th:text="#{product_detail_remove_review}"
+                                    >Remove item
+                                    </button>
+                                    <button
+                                            type="submit"
+                                            class="btn btn-danger shadow-0 me-1 mb-2 float-right"
+                                            th:if="${currentUser.getUsername()} == *{review.getAuthor().getUsername()}"
+                                            th:text="#{product_detail_remove_review}"
+                                    >Remove item
+                                    </button>
+
+                                </form>
+                                <div th:case="1">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                </div>
+
+                                <div th:case="2" class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                </div>
+
+                                <div th:case="3" class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                </div>
+
+                                <div th:case="4" class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-default btn-grey btn-sm"
+                                            aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                </div>
+
+                                <div th:case="5" class="review-block-rate">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <i class="fa fa-star"></i></button>
+                                </div>
+
+                            </div>
+
+                            <div class="review-block-title" th:text="*{review.title}"></div>
+                            <div class="review-block-description" th:text="*{review.content}"></div>
+                        </div>
+
+                    </div>
+                    <hr/>
+                </div>
+
+            </div>
         </div>
-    </div>
     </div>
     </div>
 </section>

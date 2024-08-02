@@ -32,6 +32,8 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    private boolean isReviewed;
+
     public OrderItem() {
     }
 

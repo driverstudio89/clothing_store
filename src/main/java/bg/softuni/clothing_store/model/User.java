@@ -62,6 +62,9 @@ public class User {
     @ManyToMany
     private Set<Product> favorites;
 
+    @ManyToMany
+    private Set<Product> reviewedProducts;
+
     public User() {
         this.cartItems = new HashSet<>();
         this.orders = new ArrayList<>();

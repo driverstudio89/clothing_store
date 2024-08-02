@@ -24,7 +24,7 @@
 <!--                                    </div>-->
                                 </div>
                                 <a th:href="@{/products/details/{id}(id = *{product.id})}">
-                                    <img th:src="${product.firstImage}" th:alt="${product.name}"
+                                    <img th:src="${product.images.getFirst()}" th:alt="${product.name}"
                                          class="img-fluid rounded thumbnail-image">
                                 </a>
 

@@ -30,21 +30,23 @@ public class ProductShortInfoDto {
 
     private Set<Color> color;
 
-    private String firstImage;
+    private List<String> images;
 
-    private String secondImage;
-
-    private String thirdImage;
-
-    private String fourthImage;
-
-    private String fifthImage;
+//    private String firstImage;
+//
+//    private String secondImage;
+//
+//    private String thirdImage;
+//
+//    private String fourthImage;
+//
+//    private String fifthImage;
 
     private Category category;
 
     private SubCategory subCategory;
 
-    private double rating;
+    private Strin rating;
 
 
 
@@ -57,11 +59,12 @@ public class ProductShortInfoDto {
         this.description = product.getDescription();
         this.size = product.getSize();
         this.color = product.getColor();
-        this.firstImage = product.getFirstImage();
-        this.secondImage = product.getSecondImage();
-        this.thirdImage = product.getThirdImage();
-        this.fourthImage = product.getFourthImage();
-        this.fifthImage = product.getFifthImage();
+        this.images = product.getImages();
+//        this.firstImage = product.getFirstImage();
+//        this.secondImage = product.getSecondImage();
+//        this.thirdImage = product.getThirdImage();
+//        this.fourthImage = product.getFourthImage();
+//        this.fifthImage = product.getFifthImage();
         this.category = product.getCategory();
         this.subCategory = product.getSubCategory();
         this.rating = product.getRating();

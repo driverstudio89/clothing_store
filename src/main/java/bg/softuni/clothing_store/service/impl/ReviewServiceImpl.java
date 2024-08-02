@@ -2,6 +2,7 @@ package bg.softuni.clothing_store.service.impl;
 
 import bg.softuni.clothing_store.data.ProductRepository;
 import bg.softuni.clothing_store.data.ReviewRepository;
+import bg.softuni.clothing_store.data.UserRepository;
 import bg.softuni.clothing_store.model.Product;
 import bg.softuni.clothing_store.model.Review;
 import bg.softuni.clothing_store.model.User;
@@ -12,6 +13,7 @@ import bg.softuni.clothing_store.web.dto.ReviewInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Set<ReviewInfoDto> getAllReviewsByProduct(long id) {
@@ -35,14 +38,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public boolean addReview(AddReviewDto addReviewDto, long productId) {
         User user = userHelperService.getUser();
         Product product = productRepository.findById(productId).get();
-
-        if (user == null) {
-            return false;
-        }
-
+        user.getReviewedProducts().add(product);
 
         Review review = modelMapper.map(addReviewDto, Review.class);
         review.setProduct(product);
@@ -55,16 +55,15 @@ public class ReviewServiceImpl implements ReviewService {
         stars += review.getRating();
         voted += 1;
 
-        double rating = product.getRating();
+        double rating = ((double) stars /voted * 1.0);
 
-        rating = ((double) stars /voted * 1.0);
-
-        product.setRating(rating);
+        product.setRating(String.format("%.2f", rating));
         product.setStars(stars);
         product.setVoted(voted);
 
         productRepository.save(product);
         reviewRepository.save(review);
+        userRepository.save(user);
         return true;
     }
 

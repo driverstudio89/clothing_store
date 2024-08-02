@@ -17,7 +17,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -113,7 +112,7 @@ public class ProductController {
     public String viewProductDetails(@PathVariable long id, Model model) {
         ProductShortInfoDto productShortInfoDto = productService.getProductDetails(id);
         Set<ReviewInfoDto> reviewInfoDto = reviewService.getAllReviewsByProduct(id);
-        double rating = productService.getRating(id);
+        String rating = productService.getRating(id);
         User user = userHelperService.getUser();
         model.addAttribute("productDetails", productShortInfoDto);
         model.addAttribute("reviewInfoDto", reviewInfoDto);

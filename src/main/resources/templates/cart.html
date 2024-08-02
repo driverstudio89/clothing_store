@@ -28,7 +28,7 @@
                                             <div class="row mb-4 d-flex justify-content-between align-items-center">
                                                 <div class="col-md-2 col-lg-2 col-xl-2">
                                                     <img
-                                                            th:src="${item.getProduct().firstImage}"
+                                                            th:src="${item.getProduct().images.getFirst()}"
                                                             th:alt="${item.getProduct().getName()}"
                                                             class="img-fluid rounded-3">
                                                 </div>
