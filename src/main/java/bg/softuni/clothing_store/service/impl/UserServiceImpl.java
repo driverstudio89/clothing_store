@@ -1,12 +1,10 @@
 package bg.softuni.clothing_store.service.impl;
 
 import bg.softuni.clothing_store.data.OrderRepository;
+import bg.softuni.clothing_store.data.ProductRepository;
 import bg.softuni.clothing_store.data.RoleRepository;
 import bg.softuni.clothing_store.data.UserRepository;
-import bg.softuni.clothing_store.model.CartItem;
-import bg.softuni.clothing_store.model.Order;
-import bg.softuni.clothing_store.model.Role;
-import bg.softuni.clothing_store.model.User;
+import bg.softuni.clothing_store.model.*;
 import bg.softuni.clothing_store.model.enums.UserRole;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.service.UserService;
@@ -32,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserHelperService userHelperService;
     private final RoleRepository roleRepository;
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public boolean register(UserRegisterDto userRegisterDto) {
@@ -173,4 +172,33 @@ public class UserServiceImpl implements UserService {
             return modelMapper.map(o, OrderInfoDto.class);
         }).toList();
     }
+
+    @Override
+    @Transactional
+    public Set<ProductShortInfoDto> getFavorites() {
+        Set<Product> favorites = userHelperService.getUser().getFavorites();
+        return favorites.stream().map(f -> {
+            return modelMapper.map(f, ProductShortInfoDto.class);
+        }).collect(Collectors.toSet());
+    }
+
+    @Override
+    @Transactional
+    public void addToFavorite(long id) {
+        Product product = productRepository.findById(id).get();
+        User user = userHelperService.getUser();
+        user.getFavorites().add(product);
+        userRepository.save(user);
+
+    }
+
+    @Override
+    @Transactional
+    public void removeFavorite(long id) {
+        Product product = productRepository.findById(id).get();
+        User user = userHelperService.getUser();
+        user.getFavorites().remove(product);
+        userRepository.save(user);
+    }
+
 }

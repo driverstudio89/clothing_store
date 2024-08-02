@@ -455,10 +455,8 @@ table.table .avatar {
     color:#FFF;
 }
 .rating-block{
-    background-color:#FAFAFA;
-    border:1px solid #EFEFEF;
     padding:15px 15px 20px 15px;
-    border-radius:3px;
+    border-radius:5px;
 }
 .bold{
     font-weight:700;

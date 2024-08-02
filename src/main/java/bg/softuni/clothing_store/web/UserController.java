@@ -2,10 +2,7 @@ package bg.softuni.clothing_store.web;
 
 import bg.softuni.clothing_store.service.OrderService;
 import bg.softuni.clothing_store.service.UserService;
-import bg.softuni.clothing_store.web.dto.OrderInfoDto;
-import bg.softuni.clothing_store.web.dto.UserLoginDto;
-import bg.softuni.clothing_store.web.dto.UserProfileDto;
-import bg.softuni.clothing_store.web.dto.UserRegisterDto;
+import bg.softuni.clothing_store.web.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,9 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -112,6 +108,27 @@ public class UserController {
         orderService.deleteOrderFromUser(id);
         return "redirect:/users/orders";
     }
+
+
+    @GetMapping("/users/favorites")
+    public String viewFavorites(Model model) {
+
+        Set<ProductShortInfoDto> favorites = userService.getFavorites();
+
+        model.addAttribute("favorites", favorites);
+        System.out.println();
+        return "favorites";
+    }
+
+    @DeleteMapping("/users/remove-favorite/{id}")
+    public String addToFavorites(@PathVariable long id) {
+
+        userService.removeFavorite(id);
+
+        System.out.println();
+        return "redirect:/users/favorites";
+    }
+
 
 
 }

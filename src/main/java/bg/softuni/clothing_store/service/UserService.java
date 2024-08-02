@@ -34,4 +34,10 @@ public interface UserService {
     void deleteOrderFromUser(long id);
 
     List<OrderInfoDto> getOrders();
+
+    Set<ProductShortInfoDto> getFavorites();
+
+    void addToFavorite(long id);
+
+    void removeFavorite(long id);
 }

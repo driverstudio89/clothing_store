@@ -8,6 +8,7 @@ import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.ProductService;
 import bg.softuni.clothing_store.service.ReviewService;
+import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.*;
@@ -39,6 +40,7 @@ public class ProductController {
     private final CartItemService cartItemService;
     private final ReviewService reviewService;
     private final UserHelperService userHelperService;
+    private final UserService userService;
 
 
     @ModelAttribute("productData")
@@ -214,6 +216,17 @@ public class ProductController {
 
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
+    }
+
+    @PostMapping("/users/add-to-favorites/{id}")
+    public String addToFavorites(@PathVariable long id, RedirectAttributes redirectAttributes) {
+
+        userService.addToFavorite(id);
+
+        redirectAttributes.addFlashAttribute("toFavorite", true);
+
+        System.out.println();
+        return "redirect:/products/details/" + id;
     }
 
 }

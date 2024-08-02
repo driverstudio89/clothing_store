@@ -59,6 +59,9 @@ public class User {
     @OneToMany(targetEntity = Order.class, mappedBy = "user")
     private List<Order> orders;
 
+    @ManyToMany
+    private Set<Product> favorites;
+
     public User() {
         this.cartItems = new HashSet<>();
         this.orders = new ArrayList<>();
