@@ -10,8 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "cart_items")
-@Getter
-@Setter
 public class CartItem {
 
     @Id
@@ -33,6 +31,62 @@ public class CartItem {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    //#################################################
+
     public CartItem() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public CartItem setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public CartItem setProduct(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public CartItem setQuantity(int quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
+    public Size getSizes() {
+        return sizes;
+    }
+
+    public CartItem setSizes(Size sizes) {
+        this.sizes = sizes;
+        return this;
+    }
+
+    public Color getColors() {
+        return colors;
+    }
+
+    public CartItem setColors(Color colors) {
+        this.colors = colors;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public CartItem setUser(User user) {
+        this.user = user;
+        return this;
     }
 }

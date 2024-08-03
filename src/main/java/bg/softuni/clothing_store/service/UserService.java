@@ -25,13 +25,12 @@ public interface UserService {
 
     void initUser();
 
-    void addUserData(ClientInfoDto clientInfoDto);
+//    void addUserData(ClientInfoDto clientInfoDto);
 
     boolean itemInCartOutOfStock();
 
     UserProfileDto getUserProfile();
 
-    void deleteOrderFromUser(long id);
 
     List<OrderInfoDto> getOrders();
 

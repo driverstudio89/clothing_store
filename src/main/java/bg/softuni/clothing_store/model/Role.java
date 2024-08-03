@@ -20,8 +20,26 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private UserRole name;
 
-    public Role(UserRole role) {
+    public Role(UserRole name) {
+        this.name = name;
+    }
+
+    public UserRole getName() {
+        return name;
+    }
+
+    public Role setName(UserRole role) {
         this.name = role;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Role setId(Long id) {
+        this.id = id;
+        return this;
     }
 
     //###################################################################

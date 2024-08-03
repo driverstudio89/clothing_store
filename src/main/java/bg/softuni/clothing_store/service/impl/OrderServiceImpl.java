@@ -41,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
     private final StatusRepository statusRepository;
-    private final OrderItemRepository orderItemRepository;
     private final CartItemService cartItemService;
     private final UserHelperService userHelperService;
     private final UserRepository userRepository;
@@ -292,7 +291,6 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderInfoDto mapRestDtoToOrderInfoDto(OrderInfoRestDto orderInfoRestDtos) {
 
-//        OrderInfoDto orderInfoDto = modelMapper.map(orderInfoRestDtos, OrderInfoDto.class);
         OrderInfoDto orderInfoDto = new OrderInfoDto();
 
         User user = userRepository.findById(orderInfoRestDtos.getUser()).get();

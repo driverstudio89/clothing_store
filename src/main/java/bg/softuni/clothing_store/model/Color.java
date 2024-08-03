@@ -8,8 +8,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "colors")
-@Getter
-@Setter
+
 @NoArgsConstructor
 public class Color {
 
@@ -23,6 +22,23 @@ public class Color {
 
     public Color(ColorName name) {
         this.colorName = name;
+    }
 
+    public long getId() {
+        return id;
+    }
+
+    public Color setId(long id) {
+        this.id = id;
+        return this;
+    }
+
+    public ColorName getColorName() {
+        return colorName;
+    }
+
+    public Color setColorName(ColorName colorName) {
+        this.colorName = colorName;
+        return this;
     }
 }

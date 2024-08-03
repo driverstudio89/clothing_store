@@ -6,18 +6,20 @@ import bg.softuni.clothing_store.data.RoleRepository;
 import bg.softuni.clothing_store.data.UserRepository;
 import bg.softuni.clothing_store.model.*;
 import bg.softuni.clothing_store.model.enums.UserRole;
-import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.service.UserService;
+import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,7 +31,6 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final RoleRepository roleRepository;
-    private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
     @Override
@@ -62,6 +63,8 @@ public class UserServiceImpl implements UserService {
         Set<CartItemInfoDto> cart = new LinkedHashSet<>();
         user.getCartItems().forEach(cartItem -> {
             CartItemInfoDto cartItemInfoDto = modelMapper.map(cartItem, CartItemInfoDto.class);
+            cartItemInfoDto.setSize(cartItem.getSizes());
+            cartItemInfoDto.setColor(cartItem.getColors());
             cart.add(cartItemInfoDto);
         });
 
@@ -70,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser() {
-        return userRepository.findById(userHelperService.getUser().getId()).get();
+        return userHelperService.getUser();
     }
 
 
@@ -120,16 +123,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    @Override
-    public void addUserData(ClientInfoDto clientInfoDto) {
-        User user = getUser();
-        user.setPhoneNumber(clientInfoDto.getPhoneNumber());
-        user.setAddress(clientInfoDto.getAddress());
-        user.setCountry(clientInfoDto.getCountry());
-        user.setCity(clientInfoDto.getCity());
-        user.setZip(clientInfoDto.getZip());
-        userRepository.save(user);
-    }
+//    @Override
+//    public void addUserData(ClientInfoDto clientInfoDto) {
+//        User user = getUser();
+//        user.setPhoneNumber(clientInfoDto.getPhoneNumber());
+//        user.setAddress(clientInfoDto.getAddress());
+//        user.setCountry(clientInfoDto.getCountry());
+//        user.setCity(clientInfoDto.getCity());
+//        user.setZip(clientInfoDto.getZip());
+//        userRepository.save(user);
+//    }
 
     @Override
     public boolean itemInCartOutOfStock() {
@@ -148,20 +151,20 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserProfileDto.class);
     }
 
-    @Override
-    @Transactional
-    public void deleteOrderFromUser(long orderId) {
-        Long userId = userHelperService.getUser().getId();
-        User user = userRepository.findById(userId).get();
-        Order order = orderRepository.findById(orderId).get();
-        List<Order> orders = user.getOrders();
-        orders.remove(order);
-        user.setOrders(orders);
-        orderRepository.delete(order);
-        orderRepository.flush();
-        userRepository.save(user);
-
-    }
+//    @Override
+//    @Transactional
+//    public void deleteOrderFromUser(long orderId) {
+//        Long userId = userHelperService.getUser().getId();
+//        User user = userRepository.findById(userId).get();
+//        Order order = orderRepository.findById(orderId).get();
+//        List<Order> orders = user.getOrders();
+//        orders.remove(order);
+//        user.setOrders(orders);
+//        orderRepository.delete(order);
+//        orderRepository.flush();
+//        userRepository.save(user);
+//
+//    }
 
     @Override
     @Transactional

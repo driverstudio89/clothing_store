@@ -9,8 +9,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "sizes")
-@Getter
-@Setter
 @NoArgsConstructor
 public class Size {
 
@@ -24,5 +22,23 @@ public class Size {
 
     public Size(SizeName name) {
         this.sizeName = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public Size setId(long id) {
+        this.id = id;
+        return this;
+    }
+
+    public SizeName getSizeName() {
+        return sizeName;
+    }
+
+    public Size setSizeName(SizeName sizeName) {
+        this.sizeName = sizeName;
+        return this;
     }
 }
