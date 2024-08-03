@@ -41,15 +41,6 @@ public class Product {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> images;
-//    private String firstImage;
-//
-//    private String secondImage;
-//
-//    private String thirdImage;
-//
-//    private String fourthImage;
-//
-//    private String fifthImage;
 
     @Column(nullable = false)
     private LocalDate created;

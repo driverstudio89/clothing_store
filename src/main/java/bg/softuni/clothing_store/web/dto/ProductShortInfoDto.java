@@ -46,7 +46,7 @@ public class ProductShortInfoDto {
 
     private SubCategory subCategory;
 
-    private Strin rating;
+    private String rating;
 
 
 

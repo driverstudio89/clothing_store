@@ -23,8 +23,9 @@ import org.springframework.web.client.RestClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -166,44 +167,85 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-//    @Override
-//    @Transactional
-//    public List<OrderInfoDto> getAllOrders(LocalDate created) {
-//
-//        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
-//                .get()
-//                .uri("/administration/orders/all-orders")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .body(new ParameterizedTypeReference<>() {
-//                });
-//
-//
-//        List<OrderInfoDto> orders = new ArrayList<>();
-//
-//        for (OrderInfoRestDto order : orderInfoRestDtos) {
-//            orders.add(mapRestDtoToOrderInfoDto(order));
-//        }
-//
-//        System.out.println();
-//        return orders;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public List<OrderInfoDto> getAllOrders(StatusType statusType) {
-//        Status status = statusRepository.findByName(statusType);
-//        List<Order> orders = orderRepository.findAllByStatus(status);
-//        return mapOrdersToDto(orders);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType) {
-//        Status status = statusRepository.findByName(statusType);
-//        List<Order> orders = orderRepository.findAllByStatusAndCreated(status, created);
-//        return mapOrdersToDto(orders);
-//    }
+    @Override
+    @Transactional
+    public List<OrderInfoDto> getAllOrders(LocalDate created) {
+
+        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
+                .get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/administration/orders/all-orders")
+                                .queryParam("created", created)
+                                .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+
+
+        List<OrderInfoDto> orders = new ArrayList<>();
+
+        for (OrderInfoRestDto order : orderInfoRestDtos) {
+            orders.add(mapRestDtoToOrderInfoDto(order));
+        }
+
+        System.out.println();
+        return orders;
+    }
+
+    @Override
+    @Transactional
+    public List<OrderInfoDto> getAllOrders(StatusType statusType) {
+        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
+                .get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/administration/orders/all-orders")
+                                .queryParam("statusType", statusType)
+                                .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+
+
+        List<OrderInfoDto> orders = new ArrayList<>();
+
+        for (OrderInfoRestDto order : orderInfoRestDtos) {
+            orders.add(mapRestDtoToOrderInfoDto(order));
+        }
+
+        System.out.println();
+        return orders;
+    }
+
+    @Override
+    @Transactional
+    public List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType) {
+        List<OrderInfoRestDto> orderInfoRestDtos = ordersRestClient
+                .get()
+                .uri(uriBuilder ->
+                        uriBuilder
+                                .path("/administration/orders/all-orders")
+                                .queryParam("created", created)
+                                .queryParam("statusType", statusType)
+                                .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {
+                });
+
+
+        List<OrderInfoDto> orders = new ArrayList<>();
+
+        for (OrderInfoRestDto order : orderInfoRestDtos) {
+            orders.add(mapRestDtoToOrderInfoDto(order));
+        }
+
+        System.out.println();
+        return orders;
+    }
 
     @Override
     @Transactional

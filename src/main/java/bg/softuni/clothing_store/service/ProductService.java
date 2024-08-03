@@ -21,7 +21,7 @@ public interface ProductService {
     ProductShortInfoDto getProductDetails(long id);
 
     void addInitialProduct(String name, String description,
-                           BigDecimal price, int quantity, String firstImage, String secondImage,
+                           BigDecimal price, int quantity, List<String> images,
                            String color, String size, String subCategory, String category);
 
     void outOfStock(long id);

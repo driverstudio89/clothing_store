@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -90,25 +91,25 @@ public class OrderController {
             @RequestParam(required = false) StatusType statusType,
             Model model) {
 
-//        if (created != null && statusType != null) {
-//            List<OrderInfoDto> allOrders = orderService.getAllOrders(created, statusType);
-//            model.addAttribute("allOrders", allOrders);
-//            model.addAttribute("statusTypes", StatusType.values());
-//            return "all-orders";
-//        }
-//        if (created != null) {
-//            List<OrderInfoDto> allOrders = orderService.getAllOrders(created);
-//            model.addAttribute("allOrders", allOrders);
-//            model.addAttribute("statusTypes", StatusType.values());
-//            return "all-orders";
-//        }
-//
-//        if (statusType != null) {
-//            List<OrderInfoDto> allOrders = orderService.getAllOrders(statusType);
-//            model.addAttribute("allOrders", allOrders);
-//            model.addAttribute("statusTypes", StatusType.values());
-//            return "all-orders";
-//        }
+        if (created != null && statusType != null) {
+            List<OrderInfoDto> allOrders = orderService.getAllOrders(created, statusType);
+            model.addAttribute("allOrders", allOrders);
+            model.addAttribute("statusTypes", StatusType.values());
+            return "all-orders";
+        }
+        if (created != null) {
+            List<OrderInfoDto> allOrders = orderService.getAllOrders(created);
+            model.addAttribute("allOrders", allOrders);
+            model.addAttribute("statusTypes", StatusType.values());
+            return "all-orders";
+        }
+
+        if (statusType != null) {
+            List<OrderInfoDto> allOrders = orderService.getAllOrders(statusType);
+            model.addAttribute("allOrders", allOrders);
+            model.addAttribute("statusTypes", StatusType.values());
+            return "all-orders";
+        }
 
         List<OrderInfoDto> allOrders = orderService.getAllOrders();
 

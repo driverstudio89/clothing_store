@@ -23,11 +23,11 @@ public interface OrderService {
 
     List<OrderInfoDto> getAllOrders();
 
-//    List<OrderInfoDto> getAllOrders(LocalDate created);
-//
-//    List<OrderInfoDto> getAllOrders(StatusType statusType);
-//
-//    List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType);
+    List<OrderInfoDto> getAllOrders(LocalDate created);
+
+    List<OrderInfoDto> getAllOrders(StatusType statusType);
+
+    List<OrderInfoDto> getAllOrders(LocalDate created, StatusType statusType);
 
     List<OrderInfoDto> allUserOrders();
 

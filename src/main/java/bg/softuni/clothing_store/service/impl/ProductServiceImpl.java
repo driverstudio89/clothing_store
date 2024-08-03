@@ -134,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addInitialProduct(String name, String description, BigDecimal price, int quantity,
-                                  String firstImage, String secondImage,
+                                  List<String> images,
                                   String color, String size, String subCategory, String category) {
 
         Product product = new Product();
@@ -150,8 +150,7 @@ public class ProductServiceImpl implements ProductService {
         if (quantity > 0) {
             product.setInStock(true);
         }
-        product.getImages().add(firstImage);
-        product.getImages().add(secondImage);
+        product.getImages().addAll(images);
         product.getColor().add((colorRepository.findByColorName(ColorName.valueOf(color.toUpperCase()))));
         product.getSize().add(sizeRepository.findBySizeName(SizeName.valueOf(size.toUpperCase())));
         product.setSubCategory(subCategoryRepository.findBySubCategory(SubCategoryType.valueOf(subCategory.toUpperCase())));
