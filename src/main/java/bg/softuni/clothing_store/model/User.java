@@ -54,8 +54,8 @@ public class User {
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    @OneToMany(targetEntity = Order.class, mappedBy = "user")
-    private List<Order> orders;
+//    @OneToMany(targetEntity = Order.class, mappedBy = "user")
+//    private List<Order> orders;
 
     @ManyToMany
     private Set<Product> favorites;
@@ -65,7 +65,7 @@ public class User {
 
     public User() {
         this.cartItems = new HashSet<>();
-        this.orders = new ArrayList<>();
+//        this.orders = new ArrayList<>();
         this.roles = new ArrayList<>();
     }
 
@@ -186,14 +186,14 @@ public class User {
         return this;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public User setOrders(List<Order> orders) {
-        this.orders = orders;
-        return this;
-    }
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public User setOrders(List<Order> orders) {
+//        this.orders = orders;
+//        return this;
+//    }
 
     public Set<Product> getFavorites() {
         return favorites;

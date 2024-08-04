@@ -7,8 +7,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "order_item")
+//@Entity
+//@Table(name = "order_item")
 @Getter
 @Setter
 public class OrderItem {

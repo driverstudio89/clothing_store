@@ -17,7 +17,7 @@ public interface OrderService {
 
     OrderInfoDto getOrderDetails(long id);
 
-    BigDecimal getOrderTotal(long id);
+//    BigDecimal getOrderTotal(long id);
 
     void changeStatus(long id, StatusType statusType);
 

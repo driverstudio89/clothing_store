@@ -1,17 +1,8 @@
 package bg.softuni.clothing_store.web.dto;
 
-
-import bg.softuni.clothing_store.model.Order;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Getter
 @Setter

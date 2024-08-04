@@ -32,7 +32,7 @@ public interface UserService {
     UserProfileDto getUserProfile();
 
 
-    List<OrderInfoDto> getOrders();
+//    List<OrderInfoDto> getOrders();
 
     Set<ProductShortInfoDto> getFavorites();
 

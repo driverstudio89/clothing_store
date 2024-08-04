@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final RestClient ordersRestClient;
     private final UserService userService;
-    private final OrderRepository orderRepository;
+//    private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
     private final StatusRepository statusRepository;
     private final CartItemService cartItemService;
@@ -114,18 +114,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    @Override
-    @Transactional
-    public BigDecimal getOrderTotal(long id) {
-        BigDecimal total = new BigDecimal(0);
-        for (OrderItem orderItem : orderRepository.findById(id).get().getOrderItems()) {
-            int quantity = orderItem.getQuantity();
-            BigDecimal price = orderItem.getProduct().getPrice();
-            total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
-        }
-        System.out.println();
-        return total;
-    }
+//    @Override
+//    @Transactional
+//    public BigDecimal getOrderTotal(long id) {
+//        BigDecimal total = new BigDecimal(0);
+//        for (OrderItem orderItem : orderRepository.findById(id).get().getOrderItems()) {
+//            int quantity = orderItem.getQuantity();
+//            BigDecimal price = orderItem.getProduct().getPrice();
+//            total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
+//        }
+//        System.out.println();
+//        return total;
+//    }
 
     @Override
     @Transactional
@@ -283,11 +283,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    private List<OrderInfoDto> mapOrdersToDto(List<Order> orders) {
-        return orders.stream().map(o -> {
-            return modelMapper.map(o, OrderInfoDto.class);
-        }).toList();
-    }
+//    private List<OrderInfoDto> mapOrdersToDto(List<Order> orders) {
+//        return orders.stream().map(o -> {
+//            return modelMapper.map(o, OrderInfoDto.class);
+//        }).toList();
+//    }
 
     private OrderInfoDto mapRestDtoToOrderInfoDto(OrderInfoRestDto orderInfoRestDtos) {
 

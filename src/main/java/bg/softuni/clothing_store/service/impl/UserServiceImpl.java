@@ -1,10 +1,12 @@
 package bg.softuni.clothing_store.service.impl;
 
-import bg.softuni.clothing_store.data.OrderRepository;
 import bg.softuni.clothing_store.data.ProductRepository;
 import bg.softuni.clothing_store.data.RoleRepository;
 import bg.softuni.clothing_store.data.UserRepository;
-import bg.softuni.clothing_store.model.*;
+import bg.softuni.clothing_store.model.CartItem;
+import bg.softuni.clothing_store.model.Product;
+import bg.softuni.clothing_store.model.Role;
+import bg.softuni.clothing_store.model.User;
 import bg.softuni.clothing_store.model.enums.UserRole;
 import bg.softuni.clothing_store.service.UserService;
 import bg.softuni.clothing_store.service.session.UserHelperService;
@@ -17,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,11 +29,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
-    private final UserHelperService userHelperService;
     private final RoleRepository roleRepository;
     private final ProductRepository productRepository;
+    private final UserHelperService userHelperService;
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     @Override
     public boolean register(UserRegisterDto userRegisterDto) {
@@ -166,15 +168,15 @@ public class UserServiceImpl implements UserService {
 //
 //    }
 
-    @Override
-    @Transactional
-    public List<OrderInfoDto> getOrders() {
-        User user = userHelperService.getUser();
-        List<Order> orders = user.getOrders();
-        return orders.stream().map(o -> {
-            return modelMapper.map(o, OrderInfoDto.class);
-        }).toList();
-    }
+//    @Override
+//    @Transactional
+//    public List<OrderInfoDto> getOrders() {
+//        User user = userHelperService.getUser();
+//        List<Order> orders = user.getOrders();
+//        return orders.stream().map(o -> {
+//            return modelMapper.map(o, OrderInfoDto.class);
+//        }).toList();
+//    }
 
     @Override
     @Transactional
@@ -188,17 +190,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void addToFavorite(long id) {
-        Product product = productRepository.findById(id).get();
+        Optional<Product> byId = productRepository.findById(id);
+        Product product = byId.get();
         User user = userHelperService.getUser();
         user.getFavorites().add(product);
         userRepository.save(user);
-
     }
 
     @Override
     @Transactional
     public void removeFavorite(long id) {
-        Product product = productRepository.findById(id).get();
+        Optional<Product> byId = productRepository.findById(id);
+        Product product = byId.get();
         User user = userHelperService.getUser();
         user.getFavorites().remove(product);
         userRepository.save(user);

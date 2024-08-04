@@ -8,8 +8,7 @@ import bg.softuni.clothing_store.model.enums.ColorName;
 import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.UserRole;
 import bg.softuni.clothing_store.service.session.UserHelperService;
-import bg.softuni.clothing_store.web.dto.CartItemInfoDto;
-import bg.softuni.clothing_store.web.dto.UserRegisterDto;
+import bg.softuni.clothing_store.web.dto.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,7 +35,6 @@ public class UserServiceImplTest {
 
     private static final String TEST_USERNAME = "test_username";
     private static final String TEST_EMAIL = "petar@mail.com";
-
 
     private UserServiceImpl toTest;
 
@@ -58,21 +58,36 @@ public class UserServiceImplTest {
     @Mock
     private ProductRepository mockProductRepository;
 
-    @Mock UserServiceImpl mockUserService;
+    @Mock
+    private Product mockProductInStock = new Product()
+            .setId(11L)
+            .setPrice(BigDecimal.valueOf(45.50))
+            .setInStock(true);
 
     @Mock
-    private Product mockProduct = new Product();
+    private Product mockProductOutOfStock = new Product()
+            .setId(11L)
+            .setInStock(false);
 
     @Mock
     private User mockUser;
 
     private final CartItem cartItem = new CartItem()
             .setId(11L)
-            .setProduct(mockProduct)
+            .setProduct(mockProductInStock)
             .setQuantity(5)
             .setSizes(new Size().setSizeName(SizeName.M))
             .setColors(new Color().setColorName(ColorName.BLUE))
             .setUser(mockUser);
+
+    private final CartItem cartItemOutOfStock = new CartItem()
+            .setProduct(mockProductOutOfStock);
+
+    private final User userWithProductOutOfStock = new User()
+            .setCartItems(Set.of(cartItemOutOfStock));
+
+    private final User userWithFavorites = new User()
+            .setFavorites(new HashSet<>());
 
     private final User testUser = new User()
             .setId(11L)
@@ -87,7 +102,14 @@ public class UserServiceImplTest {
             ))
             .setCartItems(
                     Set.of(cartItem)
-            );
+            )
+            .setPhoneNumber("123456789")
+            .setAddress("address 21")
+            .setCountry("Bulgaria")
+            .setCity("Sliven")
+            .setZip("1111")
+            .setFavorites(Set.of(mockProductInStock))
+            ;
 
     private UserRegisterDto createUserRegisterDto() {
         UserRegisterDto userRegisterDto = new UserRegisterDto()
@@ -107,11 +129,12 @@ public class UserServiceImplTest {
     void setUp() {
         toTest = new UserServiceImpl(
                 mockUserRepository,
-                mockPasswordEncoder,
-                new ModelMapper(),
-                mockUserHelperService,
                 mockRoleRepository,
-                mockProductRepository);
+                mockProductRepository,
+                mockUserHelperService,
+                mockPasswordEncoder,
+                modelMapper
+                );
 
     }
 
@@ -165,7 +188,6 @@ public class UserServiceImplTest {
     @Test
     void testUserGetCart() {
 
-//        when(mockUserService.getUser()).thenReturn(testUser);
         when(mockUserHelperService.getUser()).thenReturn(testUser);
 
         Set<CartItemInfoDto> expectedCart = toTest.getCart();
@@ -182,14 +204,172 @@ public class UserServiceImplTest {
             Assertions.assertEquals(cartItemInfoDto.getSize(), cartItem.getSizes());
             Assertions.assertEquals(cartItemInfoDto.getColor(), cartItem.getColors());
         }
-//        .setId(11L)
-//                                    .setProduct(mockProduct)
-//                                    .setQuantity(5)
-//                                    .setSizes(new Size().setSizeName(SizeName.M))
-//                                    .setColors(new Color().setColorName(ColorName.BLUE))
-//                                    .setUser(mockUser)
+    }
+
+    @Test
+    void getClientInfo() {
+
+        when(mockUserHelperService.getUser()).thenReturn(testUser);
+        ClientInfoDto clientInfoDto = toTest.getClientInfo();
+
+        Assertions.assertEquals(clientInfoDto.getId(), testUser.getId());
+        Assertions.assertEquals(clientInfoDto.getFirstName(), testUser.getFirstName());
+        Assertions.assertEquals(clientInfoDto.getLastName(), testUser.getLastName());
+        Assertions.assertEquals(clientInfoDto.getEmail(), testUser.getEmail());
+        Assertions.assertEquals(clientInfoDto.getPhoneNumber(), testUser.getPhoneNumber());
+        Assertions.assertEquals(clientInfoDto.getAddress(), testUser.getAddress());
+        Assertions.assertEquals(clientInfoDto.getCountry(), testUser.getCountry());
+        Assertions.assertEquals(clientInfoDto.getCity(), testUser.getCity());
+        Assertions.assertEquals(clientInfoDto.getZip(), testUser.getZip());
 
     }
+
+    @Test
+    void getCartTotal() {
+
+        when(mockUserHelperService.getUser()).thenReturn(testUser);
+
+        BigDecimal  actualTotal= toTest.getCartTotal();
+
+        BigDecimal expectedTotal = new BigDecimal(0);
+
+        for (CartItem cartItem : testUser.getCartItems()) {
+            BigDecimal price = cartItem.getProduct().getPrice();
+            BigDecimal total = price.multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+            expectedTotal = expectedTotal.add(total);
+        }
+        Assertions.assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    void initAdmin() {
+
+        when(mockRoleRepository.findByName(UserRole.ADMIN)).thenReturn(new Role().setName(UserRole.ADMIN));
+        when(mockPasswordEncoder.encode("123456")).thenReturn("123456");
+
+        toTest.initAdmin();
+
+        verify(mockUserRepository).save(userCaptor.capture());
+
+        User actualUser = userCaptor.getValue();
+
+        Assertions.assertEquals("admin", actualUser.getUsername());
+        Assertions.assertEquals(mockPasswordEncoder.encode("123456"), actualUser.getPassword());
+        Assertions.assertEquals("admin@mail.bg", actualUser.getEmail());
+        Assertions.assertEquals("Admin", actualUser.getFirstName());
+        Assertions.assertEquals("Adminov", actualUser.getLastName());
+        actualUser.getRoles().forEach(role -> {
+            Assertions.assertEquals(UserRole.ADMIN, role.getName());
+        });
+    }
+
+    @Test
+    void initUser() {
+
+        when(mockRoleRepository.findByName(UserRole.USER)).thenReturn(new Role().setName(UserRole.USER));
+        when(mockPasswordEncoder.encode("123456")).thenReturn("123456");
+
+        toTest.initUser();
+
+        verify(mockUserRepository).save(userCaptor.capture());
+
+        User actualUser = userCaptor.getValue();
+
+        Assertions.assertEquals("username", actualUser.getUsername());
+        Assertions.assertEquals(mockPasswordEncoder.encode("123456"), actualUser.getPassword());
+        Assertions.assertEquals("mail@mail.bg", actualUser.getEmail());
+        Assertions.assertEquals("Petar", actualUser.getFirstName());
+        Assertions.assertEquals("Petrov", actualUser.getLastName());
+        actualUser.getRoles().forEach(role -> {
+            Assertions.assertEquals(UserRole.USER, role.getName());
+        });
+    }
+
+    @Test
+    void itemInCartOutOfStock_isInStock() {
+        when(mockUserHelperService.getUser()).thenReturn(testUser);
+
+        boolean actual = toTest.itemInCartOutOfStock();
+
+        testUser.getCartItems().forEach(c -> {
+            Assertions.assertTrue(c.getProduct().isInStock());
+        });
+    }
+
+    @Test
+    void itemInCartOutOfStock_isOutOfStock() {
+        when(mockUserHelperService.getUser()).thenReturn(userWithProductOutOfStock);
+
+
+        boolean actual = toTest.itemInCartOutOfStock();
+
+        userWithProductOutOfStock.getCartItems().forEach(c -> {
+            Assertions.assertFalse(c.getProduct().isInStock());
+        });
+    }
+
+    @Test
+    void getUserProfile() {
+        when(mockUserHelperService.getUser()).thenReturn(testUser);
+
+        UserProfileDto userProfileDto = toTest.getUserProfile();
+
+        Assertions.assertEquals(userProfileDto.getUsername(), testUser.getUsername());
+        Assertions.assertEquals(userProfileDto.getEmail(), testUser.getEmail());
+        Assertions.assertEquals(userProfileDto.getFirstName(), testUser.getFirstName());
+        Assertions.assertEquals(userProfileDto.getLastName(), testUser.getLastName());
+        Assertions.assertEquals(userProfileDto.getPhoneNumber(), testUser.getPhoneNumber());
+        Assertions.assertEquals(userProfileDto.getAddress(), testUser.getAddress());
+        Assertions.assertEquals(userProfileDto.getCountry(), testUser.getCountry());
+        Assertions.assertEquals(userProfileDto.getCity(), testUser.getCity());
+        Assertions.assertEquals(userProfileDto.getZip(), testUser.getZip());
+    }
+
+    @Test
+    void getFavorites() {
+        when(mockUserHelperService.getUser()).thenReturn(testUser);
+
+        Set<ProductShortInfoDto> actualFavorites = toTest.getFavorites();
+        Set<Product> expectedFavorites = testUser.getFavorites();
+
+        Assertions.assertEquals(expectedFavorites.size(), actualFavorites.size());
+        expectedFavorites.forEach(p -> {
+            Assertions.assertEquals(p.getId(), actualFavorites.iterator().next().getId());
+        });
+
+    }
+
+    @Test
+    void addToFavorites() {
+        Long id = mockProductInStock.getId();
+        Product expectedProduct = new Product().setId(11L);
+
+        when(mockUserHelperService.getUser()).thenReturn(userWithFavorites);
+        when(mockProductRepository.findById(id)).thenReturn(Optional.ofNullable(expectedProduct));
+
+        toTest.addToFavorite(id);
+
+        verify(mockUserRepository).save(userCaptor.capture());
+
+        User actualUser = userCaptor.getValue();
+        Assertions.assertEquals(expectedProduct, actualUser.getFavorites().stream().findFirst().get());
+    }
+
+    @Test
+    void removeFavorite() {
+        Long id = mockProductInStock.getId();
+        userWithFavorites.getFavorites().add(mockProductInStock);
+        when(mockProductRepository.findById(id)).thenReturn(Optional.ofNullable(mockProductInStock));
+
+        when(mockUserHelperService.getUser()).thenReturn(userWithFavorites);
+        toTest.removeFavorite(id);
+
+        verify(mockUserRepository).save(userCaptor.capture());
+        User actualUser = userCaptor.getValue();
+        Assertions.assertFalse(userWithFavorites.getFavorites().contains(mockProductInStock));
+    }
+
+
 
 
 }
