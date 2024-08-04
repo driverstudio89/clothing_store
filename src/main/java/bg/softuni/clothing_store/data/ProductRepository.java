@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -19,4 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Set<Product> findAllByCategory(Category category);
 
     Set<Product> findAllByCategoryAndSubCategory(Category category, SubCategory subCategory);
+
+    Optional<Product> findByName(String name);
 }

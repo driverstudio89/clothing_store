@@ -98,7 +98,6 @@ public class UserController {
 
         List<OrderInfoDto> allOrders = orderService.allUserOrders();
 
-
         model.addAttribute("allOrders", allOrders);
         System.out.println();
         return "user-orders";

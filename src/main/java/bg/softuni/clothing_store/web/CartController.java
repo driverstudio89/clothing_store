@@ -28,7 +28,6 @@ import java.util.Set;
 public class CartController {
     private final CartItemService cartItemService;
     private final UserService userService;
-    private final OrderService orderService;
 
     @ModelAttribute("addToCartData")
     public AddToCartDto addToCartData() {

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: clothing_store
+
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: false
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+
+
+
+#########################

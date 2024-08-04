@@ -25,7 +25,7 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "VARCHAR(1000)")
     private String description;
 
     @ManyToMany(targetEntity = Size.class, fetch = FetchType.EAGER)

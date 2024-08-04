@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -125,17 +124,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-//    @Override
-//    public void addUserData(ClientInfoDto clientInfoDto) {
-//        User user = getUser();
-//        user.setPhoneNumber(clientInfoDto.getPhoneNumber());
-//        user.setAddress(clientInfoDto.getAddress());
-//        user.setCountry(clientInfoDto.getCountry());
-//        user.setCity(clientInfoDto.getCity());
-//        user.setZip(clientInfoDto.getZip());
-//        userRepository.save(user);
-//    }
-
     @Override
     public boolean itemInCartOutOfStock() {
         boolean isInStock = true;
@@ -152,31 +140,6 @@ public class UserServiceImpl implements UserService {
         User user = userHelperService.getUser();
         return modelMapper.map(user, UserProfileDto.class);
     }
-
-//    @Override
-//    @Transactional
-//    public void deleteOrderFromUser(long orderId) {
-//        Long userId = userHelperService.getUser().getId();
-//        User user = userRepository.findById(userId).get();
-//        Order order = orderRepository.findById(orderId).get();
-//        List<Order> orders = user.getOrders();
-//        orders.remove(order);
-//        user.setOrders(orders);
-//        orderRepository.delete(order);
-//        orderRepository.flush();
-//        userRepository.save(user);
-//
-//    }
-
-//    @Override
-//    @Transactional
-//    public List<OrderInfoDto> getOrders() {
-//        User user = userHelperService.getUser();
-//        List<Order> orders = user.getOrders();
-//        return orders.stream().map(o -> {
-//            return modelMapper.map(o, OrderInfoDto.class);
-//        }).toList();
-//    }
 
     @Override
     @Transactional

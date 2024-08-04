@@ -10,8 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sub_category")
-@Getter
-@Setter
 @NoArgsConstructor
 public class SubCategory {
 
@@ -22,7 +20,7 @@ public class SubCategory {
     @Enumerated(EnumType.STRING)
     private SubCategoryType subCategory;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "VARCHAR(1000)")
     private String description;
 
     @OneToMany(targetEntity = Product.class, mappedBy = "subCategory")
@@ -33,4 +31,39 @@ public class SubCategory {
         this.description = description;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public SubCategory setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public SubCategoryType getSubCategory() {
+        return subCategory;
+    }
+
+    public SubCategory setSubCategory(SubCategoryType subCategory) {
+        this.subCategory = subCategory;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public SubCategory setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public SubCategory setProducts(Set<Product> products) {
+        this.products = products;
+        return this;
+    }
 }

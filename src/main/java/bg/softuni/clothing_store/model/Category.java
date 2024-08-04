@@ -10,8 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categories")
-@Getter
-@Setter
 @NoArgsConstructor
 public class Category {
 
@@ -22,7 +20,7 @@ public class Category {
     @Enumerated(EnumType.STRING)
     private CategoryType category;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "VARCHAR(1000)")
     private String description;
 
     @OneToMany(targetEntity = Product.class, mappedBy = "category")
@@ -31,6 +29,42 @@ public class Category {
     public Category(CategoryType categoryType, String description) {
         this.category = categoryType;
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Category setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public CategoryType getCategory() {
+        return category;
+    }
+
+    public Category setCategory(CategoryType category) {
+        this.category = category;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Category setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public Category setProducts(Set<Product> products) {
+        this.products = products;
+        return this;
     }
 
     //##########################################################

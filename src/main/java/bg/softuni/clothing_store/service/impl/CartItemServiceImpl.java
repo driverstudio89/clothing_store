@@ -5,13 +5,10 @@ import bg.softuni.clothing_store.data.ColorRepository;
 import bg.softuni.clothing_store.data.ProductRepository;
 import bg.softuni.clothing_store.data.SizeRepository;
 import bg.softuni.clothing_store.model.*;
-import bg.softuni.clothing_store.model.enums.ColorName;
-import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.service.CartItemService;
 import bg.softuni.clothing_store.service.session.UserHelperService;
 import bg.softuni.clothing_store.web.dto.AddToCartDto;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

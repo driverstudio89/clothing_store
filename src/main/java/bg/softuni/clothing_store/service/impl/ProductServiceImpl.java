@@ -2,12 +2,8 @@ package bg.softuni.clothing_store.service.impl;
 
 import bg.softuni.clothing_store.data.*;
 import bg.softuni.clothing_store.model.*;
-import bg.softuni.clothing_store.model.enums.CategoryType;
-import bg.softuni.clothing_store.model.enums.ColorName;
-import bg.softuni.clothing_store.model.enums.SizeName;
-import bg.softuni.clothing_store.model.enums.SubCategoryType;
-import bg.softuni.clothing_store.service.CloudinaryService;
-import bg.softuni.clothing_store.service.ProductService;
+import bg.softuni.clothing_store.model.enums.*;
+import bg.softuni.clothing_store.service.*;
 import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.web.dto.AddProductDto;
 import bg.softuni.clothing_store.web.dto.ProductShortInfoDto;
@@ -66,12 +62,6 @@ public class ProductServiceImpl implements ProductService {
             colorRepository.save(color);
         }
 
-
-
-//        for (Map.Entry<String, MultipartFile> stringMultipartFileEntry : toUpload.entrySet()) {
-//            String imageUrl = cloudinaryService.uploadFile(stringMultipartFileEntry.getValue());
-//        }
-
         System.out.println();
         if (!toUpload.get("firstImage").isEmpty()) {
             String firstImage = cloudinaryService.uploadFile(toUpload.get("firstImage"));
@@ -98,23 +88,18 @@ public class ProductServiceImpl implements ProductService {
             product.getImages().add(fifthImage);
         }
 
-
         product.setCategory(byCategory);
         product.setSubCategory(bySubCategory);
 
         System.out.println();
 
         productRepository.saveAndFlush(product);
-
-
     }
 
     @Override
     public Set<ProductShortInfoDto> getLastProducts() {
         Set<Product> products = productRepository.findTop12OrderByCreatedAfter(LocalDate.now().minusWeeks(1));
         return mapProductsToDto(products);
-
-
     }
 
 
