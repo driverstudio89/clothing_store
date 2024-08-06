@@ -7,11 +7,13 @@ import bg.softuni.clothing_store.model.enums.ColorName;
 import bg.softuni.clothing_store.model.enums.SizeName;
 import bg.softuni.clothing_store.model.enums.SubCategoryType;
 import bg.softuni.clothing_store.service.CloudinaryService;
+import bg.softuni.clothing_store.service.exception.ObjectNotFoundException;
 import bg.softuni.clothing_store.service.session.UserHelperService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 public class ProductControllerIT {
 
     @Autowired
@@ -200,8 +203,6 @@ public class ProductControllerIT {
         Product product = productRepository.findByName("testProduct").get();
         Long id = product.getId();
 
-        Product product1 = new Product();
-
         User user = userRepository.findByUsername("testUsername").get();
 
         when(mockUserHelperService.getUser()).thenReturn(user);
@@ -214,12 +215,66 @@ public class ProductControllerIT {
                 ).andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
 
-        for (CartItem cartItem : user.getCartItems()) {
-            Assertions.assertEquals(product.getId(), cartItem.getProduct().getId());//todo is not checking anything, always return success
-        }
+        CartItem cartItem = userRepository.findByUsername("testUsername").get().getCartItems().stream().findFirst().get();
+        Assertions.assertEquals(product.getId(), cartItem.getProduct().getId());
+        Assertions.assertEquals(product.getName(), cartItem.getProduct().getName());
+        Assertions.assertEquals(product.getPrice(), cartItem.getProduct().getPrice());
+
+        Assertions.assertEquals(product.getColor().stream().findFirst().get().getColorName(), cartItem.getProduct().getColor().stream().findFirst().get().getColorName());
+        Assertions.assertEquals(product.getSize().stream().findFirst().get().getSizeName(), cartItem.getProduct().getSize().stream().findFirst().get().getSizeName());
+
+        Assertions.assertEquals(product.getDescription(), cartItem.getProduct().getDescription());
+
+        Assertions.assertEquals(product.getCategory().getCategory(), cartItem.getProduct().getCategory().getCategory());
+        Assertions.assertEquals(product.getSubCategory().getSubCategory(), cartItem.getProduct().getSubCategory().getSubCategory());
+
+        Assertions.assertEquals(product.getRating(), cartItem.getProduct().getRating());
+        Assertions.assertEquals(product.getStars(), cartItem.getProduct().getStars());
+        Assertions.assertEquals(product.getVoted(), cartItem.getProduct().getVoted());
+        Assertions.assertEquals(product.getCreated(), cartItem.getProduct().getCreated());
+
+        Assertions.assertEquals(product.getQuantity(), cartItem.getProduct().getQuantity());
+    }
+
+    @Test
+    @WithMockUser(username = "testUsername", roles = {"USER"})
+    void testProductAddToCart_ValidationErrors() throws Exception {
+        Product product = productRepository.findByName("testProduct").get();
+        Long id = product.getId();
+
+        User user = userRepository.findByUsername("testUsername").get();
+
+        when(mockUserHelperService.getUser()).thenReturn(user);
+
+        mockMvc.perform(post("/products/add-to-cart/" + id)
+                        .param("quantity", "-1")
+                        .param("size", "")
+                        .param("color", "")
+                        .with(csrf())
+                ).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/products/details/" + id));
+
+        Optional<CartItem> optionalCartItem = userRepository.findByUsername("testUsername").get().getCartItems().stream().findAny();
+        Assertions.assertTrue(optionalCartItem.isEmpty());
 
     }
 
+    @Test()
+    @WithMockUser(username = "testUsername", roles = {"USER"})
+    void testProductAddToCart_AddingFailed() throws Exception {
+        Product product = productRepository.findByName("testProduct").get();
+        long id = product.getId();
 
+        mockMvc.perform(post("/products/add-to-cart/" + id)
+                        .param("quantity", "2")
+                        .param("size", "M")
+                        .param("color", "BLUE")
+                        .with(csrf())
+                ).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/products/details/" + id));
+
+        Optional<CartItem> optionalCartItem = userRepository.findByUsername("testUsername").get().getCartItems().stream().findAny();
+        Assertions.assertTrue(optionalCartItem.isEmpty());
+    }
 
 }

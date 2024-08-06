@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,8 +40,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public boolean addReview(AddReviewDto addReviewDto, long productId) {
+        if (userHelperService.getUser() == null) {
+            return false;
+        }
         User user = userHelperService.getUser();
-        Product product = productRepository.findById(productId).get();
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isEmpty()) {
+            return false;
+        }
+        Product product = optionalProduct.get();
         user.getReviewedProducts().add(product);
 
         Review review = modelMapper.map(addReviewDto, Review.class);

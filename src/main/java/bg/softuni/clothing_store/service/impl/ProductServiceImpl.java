@@ -145,11 +145,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void outOfStock(long id) {
-        Product product = productRepository.findById(id).get();
-        product.setInStock(false);
-        product.setPrice(BigDecimal.valueOf(0));
-        productRepository.save(product);
-        System.out.println();
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new ObjectNotFoundException("product not found", id);
+        }
+            Product product = optionalProduct.get();
+            product.setInStock(false);
+            product.setPrice(BigDecimal.valueOf(0));
+            productRepository.save(product);
+            System.out.println();
     }
 
     @Override
@@ -182,12 +186,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String getProductImage(long id) {
-        return productRepository.findById(id).get().getImages().getFirst();
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new ObjectNotFoundException("product not found", id);
+        }
+         return optionalProduct.get().getImages().getFirst();
     }
 
     @Override
     public String getRating(long id) {
-        return productRepository.findById(id).get().getRating();
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new ObjectNotFoundException("product not found", id);
+        }
+        return optionalProduct.get().getRating();
     }
 
 

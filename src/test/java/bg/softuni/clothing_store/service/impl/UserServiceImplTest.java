@@ -135,7 +135,6 @@ public class UserServiceImplTest {
                 mockPasswordEncoder,
                 modelMapper
                 );
-
     }
 
     @Test

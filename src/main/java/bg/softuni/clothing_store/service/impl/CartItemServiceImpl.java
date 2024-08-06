@@ -26,7 +26,10 @@ public class CartItemServiceImpl implements CartItemService {
     public boolean addProduct(long productId, AddToCartDto addToCartDto) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         if (optionalProduct.isEmpty()) {
-            throw new RuntimeException("Product with ID: " + productId + "not found");
+            throw new RuntimeException("Product with ID: " + productId + " not found");
+        }
+        if (userHelperService.getUser() == null) {
+            return false;
         }
         Long userId = userHelperService.getUser().getId();
         Product product = optionalProduct.get();
