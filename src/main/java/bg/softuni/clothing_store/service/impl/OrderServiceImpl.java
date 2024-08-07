@@ -39,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
     private final ModelMapper modelMapper;
     private final StatusRepository statusRepository;
     private final CartItemService cartItemService;
-    private final UserHelperService userHelperService;
     private final UserRepository userRepository;
 
 
@@ -47,10 +46,35 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public boolean createOrder(ClientInfoDto clientInfoDto) {
 
+        OrderRestDto orderRestDto = createOrderRestDto(clientInfoDto);
+
+        System.out.println();
+
+        LOGGER.info("Creating new order...");
+        RestClient.ResponseSpec retrieve = ordersRestClient
+                .post()
+                .uri("/administration/orders/add-order")
+                .body(orderRestDto)
+                .retrieve();
+
+        removeItemsFromUserCart();
+        System.out.println();
+        return true;
+
+    }
+
+    private void removeItemsFromUserCart() {
+        for (CartItem cartItem : userService.getUser().getCartItems()) {
+            cartItemService.removeFromCart(cartItem.getId());
+        }
+    }
+
+    private OrderRestDto createOrderRestDto(ClientInfoDto clientInfoDto) {
         OrderRestDto orderRestDto = new OrderRestDto();
         modelMapper.map(clientInfoDto, orderRestDto);
+        User user = userService.getUser();
 
-        List<OrderItemDto> cart = userService.getUser().getCartItems()
+        List<OrderItemDto> cart = user.getCartItems()
                 .stream().map(c -> {
                             OrderItemDto orderItemDto = modelMapper.map(c, OrderItemDto.class);
                             orderItemDto.setProductId(c.getProduct().getId());
@@ -60,7 +84,6 @@ public class OrderServiceImpl implements OrderService {
                         }
                 ).toList();
 
-        User user = userHelperService.getUser();
         orderRestDto.setOrderItemsRest(cart);
         orderRestDto.setUser(user.getId());
         orderRestDto.setTotal(userService.getCartTotal());
@@ -72,22 +95,7 @@ public class OrderServiceImpl implements OrderService {
         user.setCountry(clientInfoDto.getCountry());
         user.setCity(clientInfoDto.getCity());
         user.setZip(clientInfoDto.getZip());
-
-        System.out.println();
-
-        LOGGER.info("Creating new order...");
-        ordersRestClient
-                .post()
-                .uri("/administration/orders/add-order")
-                .body(orderRestDto)
-                .retrieve();
-
-        for (CartItem cartItem : userService.getUser().getCartItems()) {
-            cartItemService.removeFromCart(cartItem.getId());
-        }
-        System.out.println();
-        return true;
-
+        return orderRestDto;
     }
 
 

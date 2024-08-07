@@ -25,14 +25,9 @@ public interface UserService {
 
     void initUser();
 
-//    void addUserData(ClientInfoDto clientInfoDto);
-
     boolean itemInCartOutOfStock();
 
     UserProfileDto getUserProfile();
-
-
-//    List<OrderInfoDto> getOrders();
 
     Set<ProductShortInfoDto> getFavorites();
 
