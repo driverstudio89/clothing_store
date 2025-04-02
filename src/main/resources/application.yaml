@@ -49,6 +49,6 @@ cloudinary:
 
 orders:
   api:
-    baseUrl: "http://localhost:8081"
+    baseUrl: ${ORDERS_BASE_URL}
 
 
