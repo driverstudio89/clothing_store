@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'clothing-store'
           slot-name: 'Production'
-          package: '*.jar'
+          package: 'java-app.jar'
           
