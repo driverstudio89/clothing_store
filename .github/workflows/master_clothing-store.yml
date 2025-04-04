@@ -26,18 +26,9 @@ jobs:
 
       - name: Build with Gradle
         run: gradle clean build
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/build/libs/*.jar'
-      
+        
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'clothing-store'
-          slot-name: 'Production'
-          package: 'java-app.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_868CC4CE96E8463B9172192B1C63FA32 }}
