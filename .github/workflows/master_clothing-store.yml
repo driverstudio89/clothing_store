@@ -24,14 +24,14 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
-      - name: Build with Gradle
-        run: gradle clean build
+      - name: Build with Maven
+        run: mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/build/libs/*.jar'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,28 +39,18 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-  
+      
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E1E88BE35EB0433BBBBA33A8CC7C5956 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_872B0808164349CB9CCE980A7E489D85 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E4B34512D31B4AB788BF4D9552A55323 }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'clothing-store'
           slot-name: 'Production'
-          package: 'java-app.jar'
-          
+          package: '*.jar'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_868CC4CE96E8463B9172192B1C63FA32 }}
