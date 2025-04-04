@@ -31,4 +31,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
+          app-name: 'clothing-store'
+          package: '${{ github.workspace }}/build/libs/*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_868CC4CE96E8463B9172192B1C63FA32 }}
