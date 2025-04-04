@@ -32,19 +32,6 @@ jobs:
         with:
           name: java-app
           path: '${{ github.workspace }}/build/libs/*.jar'
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-      
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: java-app
       
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -52,5 +39,5 @@ jobs:
         with:
           app-name: 'clothing-store'
           slot-name: 'Production'
-          package: '*app.jar'
+          package: 'java-app.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_868CC4CE96E8463B9172192B1C63FA32 }}
